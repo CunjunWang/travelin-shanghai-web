@@ -4,7 +4,8 @@
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": "上海出行-首页"
+        "navigationBarTitleText": "上海出行-首页",
+        "enablePullDownRefresh": true
       }
     },
     {
@@ -27,34 +28,40 @@
         "navigationBarTitleText": "我的",
         "enablePullDownRefresh": false
       }
+    },
+    {
+      "path": "pages/line_direction_detail/line_direction_detail",
+      "style": {
+        "navigationBarTitleText": "线路详情",
+        "enablePullDownRefresh": false
+      }
     }
-      ,{
-            "path" : "pages/bus_direction_detail/bus_direction_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "公交详情",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+  ],
   "tabBar": {
     "list": [
       {
         "text": "首页",
-        "pagePath": "pages/index/index"
+        "pagePath": "pages/index/index",
+        "iconPath": "static/home-tab.png",
+        "selectedIconPath": "static/home-tab-active.png"
       },
       {
         "text": "公交",
-        "pagePath": "pages/bus/bus"
+        "pagePath": "pages/bus/bus",
+        "iconPath": "static/bus-tab.png",
+        "selectedIconPath": "static/bus-tab.png"
       },
       {
         "text": "地铁",
-        "pagePath": "pages/metro/metro"
+        "pagePath": "pages/metro/metro",
+        "iconPath": "static/metro-tab.png",
+        "selectedIconPath": "static/metro-tab-active.png"
       },
       {
         "text": "我的",
-        "pagePath": "pages/my/my"
+        "pagePath": "pages/my/my",
+        "iconPath": "static/my-tab.png",
+        "selectedIconPath": "static/my-tab.png"
       }
     ]
   },
