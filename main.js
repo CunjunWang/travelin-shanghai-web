@@ -12,22 +12,23 @@ app.$mount()
 
 
 // 全局接口链接
-let busBaseUrl = "http://localhost:9090/api/bus"
-let metroBaseUrl = "http://localhost:9091/api/metro"
+let host = "169.254.61.163"
+let busBaseUrl = `http://${host}:9090/api/bus`
+let metroBaseUrl = `http://${host}:9091/api/metro`
 Vue.prototype.url = {
     busStationsNear: busBaseUrl + "/query/stations/nearby",
-    metroStationsNear: metroBaseUrl + "/query/stations/nearby"
+    metroStationsNear: metroBaseUrl + "/query/stations/nearby",
+    busLineDirectionTime: busBaseUrl + "/query/basic/",
+    metroLineDirectionTime: metroBaseUrl + "/query/basic/"
 }
 
 // 全局ajax方法
 Vue.prototype.ajax = function (url, method, data, fun) {
     uni.request({
-        "url": url,
-        "method": method,
+        url, method, data,
         // "header": {
         //     token: uni.getStorageSync("token")
         // },
-        "data": data,
         success: function (resp) {
             fun(resp)
             // if (resp.statusCode === 401) {

@@ -1,5 +1,6 @@
 <template>
   <view class="page">
+    <view>TODO: 搜索栏</view>
     <view v-if="buses.length !== 0" class="info-container">
       <view class="title-container">
         <image src="../../static/bus-station-1.png" mode="widthFix" class="icon-big"></image>
@@ -17,7 +18,7 @@
           <view class="lines">
             <image src="../../static/bus-1.png" mode="widthFix" class="icon"></image>
             <text class="desc">本站线路:</text>
-            <span class="bus-line" v-for="l in b.lines" @tap="directionDetail(l, 'bus')">{{ l.name }}</span>
+            <div class="bus-line" v-for="l in b.lines" @tap="directionDetail(l, 'bus')">{{ l.name }}</div>
           </view>
         </view>
       </view>
@@ -69,7 +70,6 @@ export default {
           that.buses = resp.data.data;
         })
         that.ajax(metroUrl, "GET", null, function (resp) {
-          console.log(resp)
           that.metros = resp.data.data;
         })
       }
@@ -77,8 +77,6 @@ export default {
   },
   methods: {
     directionDetail: function (line, type) {
-      console.log(line)
-      console.log(type)
       uni.navigateTo({
         url: `../line_direction_detail/line_direction_detail?name=${line.name}&type=${type}`
       });
