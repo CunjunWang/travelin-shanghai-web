@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App'
+import bus from "./pages/bus/bus";
 
 Vue.config.productionTip = false
 
@@ -18,8 +19,9 @@ let metroBaseUrl = `http://${host}:9091/api/metro`
 Vue.prototype.url = {
     busStationsNear: busBaseUrl + "/query/stations/nearby",
     metroStationsNear: metroBaseUrl + "/query/stations/nearby",
-    busLineDirectionTime: busBaseUrl + "/query/basic/",
-    metroLineDirectionTime: metroBaseUrl + "/query/basic/"
+    busLineDirectionTime: busBaseUrl + "/query/basic/{}",
+    metroLineDirectionTime: metroBaseUrl + "/query/schedule",
+    busLineDirectionStations: busBaseUrl + "/query/stations/{}/{}"
 }
 
 // 全局ajax方法
@@ -52,3 +54,10 @@ Vue.prototype.ajax = function (url, method, data, fun) {
         }
     });
 }
+
+String.prototype.format = function () {
+    let i = 0, args = arguments;
+    return this.replace(/{}/g, function () {
+        return typeof args[i] != 'undefined' ? args[i++] : '';
+    });
+};

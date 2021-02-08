@@ -6,7 +6,7 @@
       <text class="desc">线路详情</text>
     </view>
     <view class="direction-container">
-      <view class="direction-info" v-for="d in directions">
+      <view class="direction-info" v-for="d in directions" @tap="lineDirectionDetail(name, d)">
         <view class="line-and-direction">
           <text class="line-name">{{ name }}</text>
           <text class="line-direction">{{ d.direction }} 方向</text>
@@ -24,11 +24,11 @@
           </view>
           <view class="row station-row">
             <span class="small-text origin">起</span>
-            <text class="small-content">{{ d.origin }}</text>
+            <text class="small-content station" @tap.stop="stationDetail(d.origin, $event)">{{ d.origin }}</text>
           </view>
           <view class="row station-row">
             <span class="small-text dest">终</span>
-            <text class="small-content">{{ d.dest }}</text>
+            <text class="small-content station" @tap.stop="stationDetail(d.dest, $event)">{{ d.dest }}</text>
           </view>
         </view>
       </view>
@@ -67,10 +67,9 @@ export default {
     that.name = name;
     let url;
     if (type === "bus") {
-      url = that.url.busLineDirectionTime;
+      url = that.url.busLineDirectionTime.format(name);
     } else if (type === "metro")
-      url = that.url.metroLineDirectionTime;
-    url = url + name
+      url = that.url.metroLineDirectionTime + `?`;
     that.ajax(url, "GET", null, function (resp) {
       console.log(resp.data.data.data);
       let dir = [];
@@ -92,7 +91,18 @@ export default {
       that.directions = dir;
     })
   },
-  methods: {}
+  methods: {
+    lineDirectionDetail: function (name, data) {
+      uni.navigateTo({
+        url: `../line_direction_stations/line_direction_stations?name=${name}&dir=${data.direction}`
+      });
+    },
+    stationDetail: function (stationName) {
+      uni.navigateTo({
+        url: `../station_detail/station_detail?stationName=${stationName}`
+      });
+    }
+  }
 }
 </script>
 
