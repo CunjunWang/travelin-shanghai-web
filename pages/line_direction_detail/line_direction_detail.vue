@@ -6,40 +6,30 @@
       <text class="desc">线路详情</text>
     </view>
     <view class="direction-container">
-      <view class="direction-info" v-for="d in directions" @tap="lineDirectionDetail(name, d)">
-        <view class="line-and-direction">
-          <text class="line-name">{{ name }}</text>
-          <text class="line-direction">{{ d.direction }} 方向</text>
-        </view>
-        <view class="direction-detail">
-          <view class="row time-row">
-            <view>
-              <span class="small-text first">首</span>
-              <text class="small-content">{{ d.first }}</text>
-            </view>
-            <view>
-              <span class="small-text last">末</span>
-              <text class="small-content">{{ d.last }}</text>
-            </view>
-          </view>
-          <view class="row station-row">
-            <span class="small-text origin">起</span>
-            <text class="small-content station" @tap.stop="stationDetail(d.origin, $event)">{{ d.origin }}</text>
-          </view>
-          <view class="row station-row">
-            <span class="small-text dest">终</span>
-            <text class="small-content station" @tap.stop="stationDetail(d.dest, $event)">{{ d.dest }}</text>
-          </view>
-        </view>
-      </view>
+      <direction
+          v-for="d in directions"
+          @tap="lineDirectionDetail(name, d)"
+          :line-name="name"
+          :direction="d.direction"
+          :first="d.first"
+          :last="d.last"
+          :origin="d.origin"
+          :dest="d.dest"
+          :border="true"
+          :stationActive="true">
+      </direction>
     </view>
   </view>
 </template>
 
 <script>
 import {constant} from "../../common/constant";
+import Direction from "../../components/direction/direction"
 
 export default {
+  components: {
+    Direction
+  },
   data() {
     return {
       name: "",
@@ -84,11 +74,6 @@ export default {
       let dataStr = JSON.stringify(data);
       uni.navigateTo({
         url: `../line_direction_stations/line_direction_stations?name=${name}&type=${this.type}&data=${dataStr}`
-      });
-    },
-    stationDetail: function (stationName) {
-      uni.navigateTo({
-        url: `../station_detail/station_detail?stationName=${stationName}`
       });
     }
   }

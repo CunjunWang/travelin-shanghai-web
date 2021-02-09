@@ -1,32 +1,13 @@
 <template>
   <view class="page">
     TODO: 引入地图在地图上展示线路
-    <view class="direction-info">
-      <view class="line-and-direction">
-        <text class="line-name">{{ name }}</text>
-        <text class="line-direction">{{ data.direction }} 方向</text>
-      </view>
-      <view class="direction-detail">
-        <view class="row time-row">
-          <view>
-            <span class="small-text first">首</span>
-            <text class="small-content">{{ data.first }}</text>
-          </view>
-          <view>
-            <span class="small-text last">末</span>
-            <text class="small-content">{{ data.last }}</text>
-          </view>
-        </view>
-        <view class="row station-row">
-          <span class="small-text origin">起</span>
-          <text class="small-content">{{ data.origin }}</text>
-        </view>
-        <view class="row station-row">
-          <span class="small-text dest">终</span>
-          <text class="small-content">{{ data.dest }}</text>
-        </view>
-      </view>
-    </view>
+    <direction :line-name="name"
+               :direction="data.direction"
+               :first="data.first"
+               :last="data.last"
+               :origin="data.origin"
+               :dest="data.dest">
+    </direction>
     <view class="title">站点列表</view>
     <view class="station-list" v-if="stations.length !== 0">
       <view class="station-container" v-for="(s, i) in stations" @tap="stationDetail(s.stationName)">
@@ -76,8 +57,12 @@
 
 <script>
 import {constant} from "common/constant";
+import Direction from "../../components/direction/direction"
 
 export default {
+  components: {
+    Direction
+  },
   data() {
     return {
       name: "",
