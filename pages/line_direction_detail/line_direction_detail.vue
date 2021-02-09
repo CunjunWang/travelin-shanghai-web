@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       name: "",
+      type: "",
       directions: []
     }
   },
@@ -50,6 +51,7 @@ export default {
     let type = data.type;
 
     that.name = name;
+    that.type = type;
     let url;
     if (type === "bus") {
       url = that.url.busLineDirectionTime.format(name);
@@ -79,7 +81,7 @@ export default {
     lineDirectionDetail: function (name, data) {
       let dataStr = JSON.stringify(data);
       uni.navigateTo({
-        url: `../line_direction_stations/line_direction_stations?name=${name}&data=${dataStr}`
+        url: `../line_direction_stations/line_direction_stations?name=${name}&type=${this.type}&data=${dataStr}`
       });
     },
     stationDetail: function (stationName) {

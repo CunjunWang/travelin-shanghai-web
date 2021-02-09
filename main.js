@@ -21,7 +21,8 @@ Vue.prototype.url = {
     metroStationsNear: metroBaseUrl + "/query/stations/nearby",
     busLineDirectionTime: busBaseUrl + "/query/basic/{}",
     metroLineDirectionTime: metroBaseUrl + "/query/schedule",
-    busLineDirectionStations: busBaseUrl + "/query/stations/{}/{}"
+    busLineDirectionStations: busBaseUrl + "/query/stations/{}/{}",
+    busRealtime: busBaseUrl + "/query/realtime"
 }
 
 // 全局ajax方法

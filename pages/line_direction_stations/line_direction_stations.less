@@ -97,10 +97,13 @@
     flex-direction: column;
     justify-content: space-between;
 
+    .row {
+      margin-bottom: 10rpx;
+    }
+
     .station-row {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 5rpx;
 
       .station-seq {
         margin-right: 10rpx;
@@ -119,9 +122,9 @@
       }
     }
 
-    .row {
+    .location-row {
       font-size: 24rpx;
-      color: #c8c7cc;
+      color: darkgray;
 
       .city {
         margin-right: 10rpx;
@@ -132,6 +135,45 @@
         height: 24rpx;
         margin-top: 4rpx;
         margin-right: 10rpx;
+      }
+    }
+
+    .realtime-row {
+      color: darkgray;
+      font-size: 24rpx;
+
+      .realtime-loading {
+
+        .loading {
+          width: 24rpx;
+          height: 24rpx;
+          margin-right: 10rpx;
+
+          @keyframes rotation{
+            from {-webkit-transform: rotate(0deg);}
+            to {-webkit-transform: rotate(360deg);}
+          }
+          transform: rotate(360deg);
+          animation: rotation 3s linear infinite;
+        }
+      }
+
+      .realtime-data {
+        display: grid;
+        grid-template-rows: 50% 50%;
+        grid-template-columns: 50% 50%;
+
+        .data-block {
+          color: #808080;
+          margin-bottom: 10rpx;
+
+          .icon {
+            width: 14px;
+            height: 14px;
+            margin-right: 12rpx;
+            vertical-align: -10%;
+          }
+        }
       }
     }
 
