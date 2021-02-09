@@ -1,0 +1,139 @@
+@import url("../../style.less");
+
+.page {
+  background-color: @backgroundColor;
+}
+
+.direction-info {
+  display: grid;
+  grid-template-columns: 28% 70%;
+  grid-column-gap: 2rpx;
+
+  background-color: #fff;
+  margin-bottom: 5rpx;
+  padding: 8rpx;
+
+  .line-and-direction {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    background-color: @backgroundColor;
+    border-radius: 8rpx;
+
+    .line-name {
+      display: block;
+      font-size: 36rpx;
+      font-weight: bold;
+    }
+
+    .line-direction {
+      display: block;
+      color: #555555;
+    }
+  }
+
+  .direction-detail {
+    margin-left: 20rpx;
+    padding-top: 10rpx;
+    padding-bottom: 10rpx;
+
+    .row {
+      margin-bottom: 8rpx;
+
+      .small-text {
+        margin-right: 15rpx;
+        padding: 3rpx;
+        color: #ffffff;
+        border-radius: 10rpx;
+        font-size: 30rpx;
+      }
+
+      .small-content {
+        font-size: 28rpx;
+        color: #555555;
+      }
+
+      .first {
+        background-color: red;
+      }
+
+      .last {
+        background-color: blue;
+      }
+
+      .origin {
+        background-color: #4cd964;
+      }
+
+      .dest {
+        background-color: #4cd964;
+      }
+    }
+
+    .time-row {
+      display: grid;
+      grid-template-columns: 50% 50%;
+    }
+  }
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
+  margin-left: 15rpx;
+}
+
+.station-list {
+  padding: 5rpx;
+
+  .station-container {
+    background-color: #fff;
+    padding: 5rpx 15rpx;
+    border: solid 1rpx #c8c7cc;
+    border-radius: 5rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .station-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5rpx;
+
+      .station-seq {
+        margin-right: 10rpx;
+        font-size: 30rpx;
+      }
+
+      .station-name {
+        font-size: 30rpx;
+        color: #333333;
+      }
+
+      .realtime {
+        font-size: 25rpx;
+        text-decoration: underline;
+        color: #333333;
+      }
+    }
+
+    .row {
+      font-size: 24rpx;
+      color: #c8c7cc;
+
+      .city {
+        margin-right: 10rpx;
+      }
+
+      .icon {
+        width: 24rpx;
+        height: 24rpx;
+        margin-top: 4rpx;
+        margin-right: 10rpx;
+      }
+    }
+
+  }
+}

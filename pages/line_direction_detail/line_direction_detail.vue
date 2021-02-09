@@ -40,23 +40,8 @@
 export default {
   data() {
     return {
-      // name: "21路",
       name: "",
       directions: []
-        // {
-        //   direction: "下行",
-        //   origin: "胶州路愚园路",
-        //   dest: "广粤路丰镇路",
-        //   first: "05:30",
-        //   last: "22:50"
-        // },
-        // {
-        //   direction: "上行",
-        //   origin: "广粤路丰镇路",
-        //   dest: "胶州路愚园路",
-        //   first: "05:40",
-        //   last: "23:10"
-        // }
     }
   },
   onLoad: function (data) {
@@ -71,7 +56,6 @@ export default {
     } else if (type === "metro")
       url = that.url.metroLineDirectionTime + `?`;
     that.ajax(url, "GET", null, function (resp) {
-      console.log(resp.data.data.data);
       let dir = [];
       for (let ldt of resp.data.data.data) {
         let d = {
@@ -93,8 +77,9 @@ export default {
   },
   methods: {
     lineDirectionDetail: function (name, data) {
+      let dataStr = JSON.stringify(data);
       uni.navigateTo({
-        url: `../line_direction_stations/line_direction_stations?name=${name}&dir=${data.direction}`
+        url: `../line_direction_stations/line_direction_stations?name=${name}&data=${dataStr}`
       });
     },
     stationDetail: function (stationName) {
