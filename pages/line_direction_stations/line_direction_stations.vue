@@ -72,65 +72,18 @@
       </view>
     </view>
   </view>
-  </view>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      name: "123路",
-      type: "bus",
-      data: {
-        direction: "上行",
-        origin: "大柏树",
-        dest: "东体育会路",
-        first: "05:30",
-        last: "23:30"
-      },
-      stations: [
-        {
-          busName: "21路",
-          city: "上海市",
-          direction: "上行",
-          district: "虹口区",
-          lat: "123",
-          lon: "456",
-          stationSeq: 1,
-          stationName: "大柏树",
-          realtimeShow: false
-        },
-        {
-          busName: "21路",
-          city: "上海市",
-          direction: "上行",
-          district: "虹口区",
-          lat: "123",
-          lon: "456",
-          stationSeq: 2,
-          stationName: "甘河路",
-          realtimeShow: false
-        },
-        {
-          busName: "21路",
-          city: "上海市",
-          direction: "上行",
-          district: "虹口区",
-          lat: "123",
-          lon: "456",
-          stationSeq: 3,
-          stationName: "东体育会路",
-          realtimeShow: false
-        }
-      ],
+      name: "",
+      type: "",
+      data: {},
+      realtimeData: {},
+      stations: [],
       realtimeLoading: false,
-      realtimeData: {
-        // message: null,
-        // distanceKM: "2.5公里",
-        // timeMinutes: "约5分40秒",
-        // plateNumber: "沪D-98448",
-        // stops: 8,
-      }
     }
   },
   onLoad: function (data) {
