@@ -37,6 +37,8 @@
 </template>
 
 <script>
+import {constant} from "../../common/constant";
+
 export default {
   data() {
     return {
@@ -53,22 +55,22 @@ export default {
     that.name = name;
     that.type = type;
     let url;
-    if (type === "bus") {
+    if (type === constant.TRAVEL_TYPE_BUS) {
       url = that.url.busLineDirectionTime.format(name);
-    } else if (type === "metro")
+    } else if (type === constant.TRAVEL_TYPE_METRO)
       url = that.url.metroLineDirectionTime + `?`;
-    that.ajax(url, "GET", null, function (resp) {
+    that.ajax(url, constant.HTTP_METHOD_GET, null, function (resp) {
       let dir = [];
-      for (let ldt of resp.data.data.data) {
+      for (let ldt of resp.data.result.data) {
         let d = {
           direction: ldt.direction,
           origin: ldt.origin,
           dest: ldt.dest,
         }
-        if (type === "bus") {
+        if (type === constant.TRAVEL_TYPE_BUS) {
           d.first = ldt.firstBus;
           d.last = ldt.lastBus;
-        } else if (type === "metro") {
+        } else if (type === constant.TRAVEL_TYPE_METRO) {
           d.first = ldt.firstMetro;
           d.last = ldt.lastMetro;
         }

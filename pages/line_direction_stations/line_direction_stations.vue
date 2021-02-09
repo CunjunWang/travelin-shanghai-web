@@ -75,6 +75,8 @@
 </template>
 
 <script>
+import {constant} from "common/constant";
+
 export default {
   data() {
     return {
@@ -92,8 +94,8 @@ export default {
     that.type = data.type;
     that.data = JSON.parse(data.data);
     let url = that.url.busLineDirectionStations.format(that.name, that.data.direction);
-    that.ajax(url, "GET", null, function (res) {
-      that.stations = res.data.data;
+    that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
+      that.stations = res.data.list;
       for (let s of that.stations)
         s.realtimeShow = false;
     });
@@ -107,21 +109,19 @@ export default {
     realtimeInfo: function (s, i) {
       let that = this;
       that.toggleRealtimeShow(i);
-      console.log("seq: " + (i + 1) + ", realtime: " + s.realtimeShow);
       // 如果当前点击打开了实时信息行 再去请求接口
       if (s.realtimeShow) {
         that.realtimeLoading = true;
         let url = that.url.busRealtime + `?routeName=${s.busName}&direction=${s.direction}&station=${s.stationSeq}`
-        that.ajax(url, "GET", null, function (res) {
+        that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
           let r = {};
-          r.message = res.data.data.message;
-          r.distanceKM = res.data.data.distanceKM;
-          r.timeMinutes = res.data.data.timeMinutes;
-          r.plateNumber = res.data.data.plateNumber;
-          r.stops = res.data.data.stops;
+          r.message = res.data.result.message;
+          r.distanceKM = res.data.result.distanceKM;
+          r.timeMinutes = res.data.result.timeMinutes;
+          r.plateNumber = res.data.result.plateNumber;
+          r.stops = res.data.result.stops;
           that.realtimeData = r;
           that.realtimeLoading = false;
-          console.log(that.realtimeData);
         });
       }
     },

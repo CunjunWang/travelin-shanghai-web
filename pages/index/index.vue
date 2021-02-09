@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import {constant} from "common/constant";
+
 export default {
   data() {
     return {
@@ -60,17 +62,19 @@ export default {
   onLoad: function () {
     let that = this;
     uni.getLocation({
-      type: "gps",
+      type: constant.LOCATION_TYPE_GPS,
       success: function (resp) {
         let lat = resp.latitude;
         let lon = resp.longitude;
         let busUrl = `${that.url.busStationsNear}?curLat=${lat}&curLon=${lon}`;
         let metroUrl = `${that.url.metroStationsNear}?curLat=${lat}&curLon=${lon}`;
-        that.ajax(busUrl, "GET", null, function (resp) {
-          that.buses = resp.data.data;
+        that.ajax(busUrl, constant.HTTP_METHOD_GET, null, function (resp) {
+          console.log(resp);
+          that.buses = resp.data.list;
         })
-        that.ajax(metroUrl, "GET", null, function (resp) {
-          that.metros = resp.data.data;
+        that.ajax(metroUrl, constant.HTTP_METHOD_GET, null, function (resp) {
+          console.log(resp);
+          that.metros = resp.data.list;
         })
       }
     })
