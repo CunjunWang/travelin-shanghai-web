@@ -19,8 +19,9 @@ Vue.prototype.url = {
     busStationsNear: busBaseUrl + "/query/stations/nearby",
     metroStationsNear: metroBaseUrl + "/query/stations/nearby",
     busLineDirectionTime: busBaseUrl + "/query/basic/{}",
-    metroLineDirectionTime: metroBaseUrl + "/query/schedule",
+    metroLineDirectionTime: metroBaseUrl + "/query/basic/{}",
     busLineDirectionStations: busBaseUrl + "/query/stations/{}/{}",
+    metroLineDirectionStations: metroBaseUrl + "/query/stations/{}/{}",
     busRealtime: busBaseUrl + "/query/realtime"
 }
 

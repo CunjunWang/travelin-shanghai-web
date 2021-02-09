@@ -69,11 +69,9 @@ export default {
         let busUrl = `${that.url.busStationsNear}?curLat=${lat}&curLon=${lon}`;
         let metroUrl = `${that.url.metroStationsNear}?curLat=${lat}&curLon=${lon}`;
         that.ajax(busUrl, constant.HTTP_METHOD_GET, null, function (resp) {
-          console.log(resp);
           that.buses = resp.data.list;
         })
         that.ajax(metroUrl, constant.HTTP_METHOD_GET, null, function (resp) {
-          console.log(resp);
           that.metros = resp.data.list;
         })
       }

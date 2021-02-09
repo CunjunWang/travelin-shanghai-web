@@ -9,7 +9,21 @@
       <direction
           v-for="d in directions"
           @tap="lineDirectionDetail(name, d)"
-          :line-name="name"
+          :name="name"
+          :direction="d.direction"
+          :first="d.first"
+          :last="d.last"
+          :origin="d.origin"
+          :dest="d.dest"
+          :border="true"
+          :stationActive="true">
+      </direction>
+      <view v-if="type === 'metro' && intervals.length !== 0" class="interval">区间线</view>
+      <direction
+          v-if="type === 'metro'"
+          v-for="d in intervals"
+          @tap="lineDirectionDetail(name, d)"
+          :name="name"
           :direction="d.direction"
           :first="d.first"
           :last="d.last"
@@ -34,7 +48,8 @@ export default {
     return {
       name: "",
       type: "",
-      directions: []
+      directions: [],
+      intervals: [],
     }
   },
   onLoad: function (data) {
@@ -48,21 +63,24 @@ export default {
     if (type === constant.TRAVEL_TYPE_BUS) {
       url = that.url.busLineDirectionTime.format(name);
     } else if (type === constant.TRAVEL_TYPE_METRO)
-      url = that.url.metroLineDirectionTime + `?`;
+      url = that.url.metroLineDirectionTime.format(name);
     that.ajax(url, constant.HTTP_METHOD_GET, null, function (resp) {
       let dir = [];
-      for (let ldt of resp.data.result.data) {
+      for (let ldt of resp.data.result) {
         let d = {
           direction: ldt.direction,
           origin: ldt.origin,
           dest: ldt.dest,
+          first: ldt.first,
+          last: ldt.last,
         }
-        if (type === constant.TRAVEL_TYPE_BUS) {
-          d.first = ldt.firstBus;
-          d.last = ldt.lastBus;
-        } else if (type === constant.TRAVEL_TYPE_METRO) {
-          d.first = ldt.firstMetro;
-          d.last = ldt.lastMetro;
+        if (that.type === constant.TRAVEL_TYPE_METRO) {
+          d.color = ldt.color;
+          d.isInterval = ldt.isInterval;
+          if (ldt.isInterval === 1) {
+            that.intervals.push(d);
+            continue;
+          }
         }
         dir.push(d);
       }
@@ -72,6 +90,7 @@ export default {
   methods: {
     lineDirectionDetail: function (name, data) {
       let dataStr = JSON.stringify(data);
+      console.log(name);
       uni.navigateTo({
         url: `../line_direction_stations/line_direction_stations?name=${name}&type=${this.type}&data=${dataStr}`
       });

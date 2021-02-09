@@ -2,8 +2,8 @@
   <view class="direction-info">
     <!-- TODO: 设置条件样式 :style="border ? borderStyle : {}">-->
     <view class="line-and-direction">
-      <text class="line-name">{{ lineName }}</text>
-      <text class="line-direction">{{ direction }} 方向</text>
+      <text class="line-name">{{ name }}</text>
+      <text class="line-direction">{{ direction }}</text>
     </view>
     <view class="direction-detail">
       <view class="row time-row">
@@ -33,7 +33,7 @@
 <script>
 export default {
   props: {
-    lineName: {
+    name: {
       type: String,
       default: ""
     },

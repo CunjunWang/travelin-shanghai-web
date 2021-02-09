@@ -1,7 +1,7 @@
 <template>
   <view class="page">
     TODO: 引入地图在地图上展示线路
-    <direction :line-name="name"
+    <direction :name="name"
                :direction="data.direction"
                :first="data.first"
                :last="data.last"
@@ -78,11 +78,17 @@ export default {
     that.name = data.name;
     that.type = data.type;
     that.data = JSON.parse(data.data);
-    let url = that.url.busLineDirectionStations.format(that.name, that.data.direction);
+    let url
+    if (that.type === constant.TRAVEL_TYPE_BUS)
+      url = that.url.busLineDirectionStations.format(that.name, that.data.direction);
+    else if (that.type === constant.TRAVEL_TYPE_METRO)
+      url = that.url.metroLineDirectionStations.format(that.name, that.data.direction) +
+          `?origin=${that.data.origin}&dest=${that.data.dest}`;
     that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
       that.stations = res.data.list;
-      for (let s of that.stations)
-        s.realtimeShow = false;
+      if (that.type === constant.TRAVEL_TYPE_BUS)
+        for (let s of that.stations)
+          s.realtimeShow = false;
     });
   },
   methods: {
