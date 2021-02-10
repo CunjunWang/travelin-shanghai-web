@@ -1,0 +1,39 @@
+@import url("../../style.less");
+
+.realtime-loading {
+  color: #808080;
+  margin-bottom: 10rpx;
+  font-size: 24rpx;
+
+  .loading {
+    width: 24rpx;
+    height: 24rpx;
+    margin-right: 10rpx;
+
+    @keyframes rotation{
+      from {-webkit-transform: rotate(0deg);}
+      to {-webkit-transform: rotate(360deg);}
+    }
+    transform: rotate(360deg);
+    animation: rotation 3s linear infinite;
+  }
+}
+
+.realtime-data {
+  display: grid;
+  grid-template-rows: 50% 50%;
+  grid-template-columns: 50% 50%;
+
+  color: #808080;
+  margin-bottom: 10rpx;
+  font-size: 24rpx;
+
+  .data-block {
+    .icon {
+      width: 14px;
+      height: 14px;
+      margin-right: 12rpx;
+      vertical-align: -10%;
+    }
+  }
+}

@@ -2,11 +2,14 @@
   <view class="page">
     TODO: 引入地图在地图上展示线路
     <direction :name="name"
+               :type="type"
                :direction="data.direction"
                :first="data.first"
                :last="data.last"
                :origin="data.origin"
-               :dest="data.dest">
+               :dest="data.dest"
+               :border="false"
+               :station-active="false">
     </direction>
     <view class="title">站点列表</view>
     <view class="station-list" v-if="stations.length !== 0">
@@ -24,31 +27,10 @@
           <span class="desc district">{{ s.district }}</span>
         </view>
         <view class="row realtime-row" v-if="s.realtimeShow">
-          <view class="realtime-loading" v-if="realtimeLoading">
-            <image src="../../static/loading-1.png" mode="widthFix" class="loading"></image>
-            <text>实时公交信息请求中...</text>
-          </view>
-          <view class="realtime-container" v-else>
-            <text v-if="realtimeData.message === '等待发车'">暂无在途车辆, 等待起点站发车</text>
-            <view v-else class="realtime-data">
-              <view class="data-block">
-                <image src="../../static/station-1.png" mode="widthFix" class="icon"></image>
-                <span>还有 {{ realtimeData.stops }} 站</span>
-              </view>
-              <view class="data-block">
-                <image src="../../static/distance-1.png" mode="widthFix" class="icon"></image>
-                <span>{{ realtimeData.distanceKM }}</span>
-              </view>
-              <view class="data-block">
-                <image src="../../static/time-1.png" mode="widthFix" class="icon"></image>
-                <span>{{ realtimeData.timeMinutes }}</span>
-              </view>
-              <view class="data-block">
-                <image src="../../static/plate-1.png" mode="widthFix" class="icon"></image>
-                <span>{{ realtimeData.plateNumber }}</span>
-              </view>
-            </view>
-          </view>
+          <realtime-card
+              :loading="realtimeLoading"
+              :data="realtimeData">
+          </realtime-card>
         </view>
       </view>
     </view>
@@ -58,10 +40,12 @@
 <script>
 import {constant} from "common/constant";
 import Direction from "../../components/direction/direction"
+import RealtimeCard from "../../components/realtime_card/realtime_card"
 
 export default {
   components: {
-    Direction
+    Direction,
+    RealtimeCard
   },
   data() {
     return {
@@ -94,7 +78,7 @@ export default {
   methods: {
     stationDetail: function (stationName) {
       uni.navigateTo({
-        url: `../station_detail/station_detail?stationName=${stationName}`
+        url: `../station_detail/station_detail?stationName=${stationName}&type=${this.type}`
       });
     },
     realtimeInfo: function (s, i) {
