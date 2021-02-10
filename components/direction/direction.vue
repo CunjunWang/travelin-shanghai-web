@@ -37,6 +37,10 @@ export default {
       type: String,
       default: ""
     },
+    type: {
+      type: String,
+      default: ""
+    },
     direction: {
       type: String,
       default: ""
@@ -78,7 +82,7 @@ export default {
   methods: {
     stationDetail: function (stationName) {
       uni.navigateTo({
-        url: `../station_detail/station_detail?stationName=${stationName}`
+        url: `../station_detail/station_detail?stationName=${stationName}&type=${this.type}`
       });
     },
   },

@@ -10,13 +10,14 @@
           v-for="d in directions"
           @tap="lineDirectionDetail(name, d)"
           :name="name"
+          :type="type"
           :direction="d.direction"
           :first="d.first"
           :last="d.last"
           :origin="d.origin"
           :dest="d.dest"
           :border="true"
-          :stationActive="true">
+          :station-active="true">
       </direction>
       <view v-if="type === 'metro' && intervals.length !== 0" class="interval">区间线</view>
       <direction
@@ -24,6 +25,7 @@
           v-for="d in intervals"
           @tap="lineDirectionDetail(name, d)"
           :name="name"
+          :type="type"
           :direction="d.direction"
           :first="d.first"
           :last="d.last"
@@ -56,9 +58,9 @@ export default {
     let that = this;
     let name = data.name;
     let type = data.type;
-
     that.name = name;
     that.type = type;
+    console.log(that.type);
     let url;
     if (type === constant.TRAVEL_TYPE_BUS) {
       url = that.url.busLineDirectionTime.format(name);

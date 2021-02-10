@@ -42,17 +42,15 @@
         "navigationBarTitleText": "站点列表",
         "enablePullDownRefresh": false
       }
+    },
+    {
+      "path": "pages/station_detail/station_detail",
+      "style": {
+        "navigationBarTitleText": "站点详情",
+        "enablePullDownRefresh": false
+      }
     }
-      ,{
-            "path" : "pages/station_detail/station_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+  ],
   "tabBar": {
     "list": [
       {
