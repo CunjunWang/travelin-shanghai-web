@@ -1,11 +1,17 @@
 <template>
-  <view>
+  <view class="page">
+    <search-bar></search-bar>
     公交查询
   </view>
 </template>
 
 <script>
+import SearchBar from "../../components/search_bar/search_bar";
+
 export default {
+  components: {
+    SearchBar
+  },
   data() {
     return {}
   },

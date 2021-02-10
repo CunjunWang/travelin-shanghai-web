@@ -1,6 +1,6 @@
 <template>
   <view class="page">
-    <view>TODO: 搜索栏</view>
+    <search-bar></search-bar>
     <view v-if="buses.length !== 0" class="info-container">
       <title
           :title="'附近的公交站:'"
@@ -51,14 +51,18 @@
 
 <script>
 import {constant} from "common/constant";
+
+import SearchBar from "../../components/search_bar/search_bar";
 import Title from "../../components/title/title";
 
 export default {
   components: {
+    SearchBar,
     Title
   },
   data() {
     return {
+      keyword: "",
       buses: [],
       metros: []
     }

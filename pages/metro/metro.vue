@@ -1,22 +1,24 @@
 <template>
-	<view>
+  <view class="page">
+    <search-bar></search-bar>
     地铁查询
-	</view>
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
+import SearchBar from "../../components/search_bar/search_bar";
 
-			}
-		},
-		methods: {
-
-		}
-	}
+export default {
+  components: {
+    SearchBar
+  },
+  data() {
+    return {}
+  },
+  methods: {}
+}
 </script>
 
-<style>
-
+<style lang="less">
+@import url("metro.less");
 </style>
