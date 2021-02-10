@@ -2,10 +2,10 @@
   <view class="page">
     <view>TODO: 搜索栏</view>
     <view v-if="buses.length !== 0" class="info-container">
-      <view class="title-container">
-        <image src="../../static/bus-station-1.png" mode="widthFix" class="icon-big"></image>
-        <text class="title">附近的公交站:</text>
-      </view>
+      <title
+          :title="'附近的公交站:'"
+          :icon="'../../static/bus-station-1.png'">
+      </title>
       <view class="station-container">
         <view v-for="b in buses" class="station-info">
           <view class="station-distance">
@@ -24,10 +24,10 @@
       </view>
     </view>
     <view v-if="metros.length !== 0" class="info-container">
-      <view class="title-container">
-        <image src="../../static/sh-metro-1.png" mode="widthFix" class="icon-big"></image>
-        <text class="title">附近的地铁站:</text>
-      </view>
+      <title
+          :title="'附近的地铁站:'"
+          :icon="'../../static/sh-metro-1.png'">
+      </title>
       <view class="station-container">
         <view v-for="m in metros" class="station-info">
           <view class="station-distance">
@@ -51,8 +51,12 @@
 
 <script>
 import {constant} from "common/constant";
+import Title from "../../components/title/title";
 
 export default {
+  components: {
+    Title
+  },
   data() {
     return {
       buses: [],

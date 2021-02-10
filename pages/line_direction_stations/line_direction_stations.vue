@@ -1,16 +1,18 @@
 <template>
   <view class="page">
     TODO: 引入地图在地图上展示线路
-    <direction :name="name"
-               :type="type"
-               :direction="data.direction"
-               :first="data.first"
-               :last="data.last"
-               :origin="data.origin"
-               :dest="data.dest"
-               :border="false"
-               :station-active="false">
-    </direction>
+    <view class="direction-container">
+      <direction :name="name"
+                 :type="type"
+                 :direction="data.direction"
+                 :first="data.first"
+                 :last="data.last"
+                 :origin="data.origin"
+                 :dest="data.dest"
+                 :border="false"
+                 :station-active="false">
+      </direction>
+    </view>
     <view class="title">站点列表</view>
     <view class="station-list" v-if="stations.length !== 0">
       <view class="station-container" v-for="(s, i) in stations" @tap="stationDetail(s.stationName)">

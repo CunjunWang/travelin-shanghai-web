@@ -1,18 +1,12 @@
 <template>
   <view class="page">
     TODO: 在地图上显示站点
-    <view class="title-container">
-      <view class="title">
-        <image src="../../static/bus-station-1.png" mode="widthFix" class="icon-big"></image>
-        <span class="station-name">{{ stationName }}</span>
-        <span class="desc">{{ type === 'bus' ? '公交' : '地铁' }}站</span>
-      </view>
-      <view class="location">
-        <image src="../../static/location-1.png" mode="widthFix" class="icon"></image>
-        <span class="desc city">{{ stationInfo.city }}</span>
-        <span class="desc district">{{ stationInfo.district }}</span>
-      </view>
-    </view>
+    <title
+        :title="stationName"
+        :icon="'../../static/bus-station-1.png'"
+        :desc="type === 'bus' ? '公交站' : '地铁站'"
+        :location="stationInfo">
+    </title>
     <view class="lines-container">
       <view v-for="(l, i) in lines" class="line-info-container">
         <view class="info-row">
@@ -36,10 +30,12 @@
 
 <script>
 import {constant} from "common/constant";
+import Title from "../../components/title/title";
 import RealtimeCard from "../../components/realtime_card/realtime_card";
 
 export default {
   components: {
+    Title,
     RealtimeCard
   },
   data() {

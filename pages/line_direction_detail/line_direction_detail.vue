@@ -1,10 +1,11 @@
 <template>
   <view class="page">
     TODO: 引入地图在地图上展示线路
-    <view class="title">
-      <text class="line-name">{{ name }}</text>
-      <text class="desc">线路详情</text>
-    </view>
+    <title
+        :icon="'../../static/line-1.png'"
+        :title="name"
+        :desc="'线路详情'">
+    </title>
     <view class="direction-container">
       <direction
           v-for="d in directions"
@@ -40,10 +41,13 @@
 
 <script>
 import {constant} from "../../common/constant";
+
+import Title from "../../components/title/title"
 import Direction from "../../components/direction/direction"
 
 export default {
   components: {
+    Title,
     Direction
   },
   data() {
