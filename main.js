@@ -12,11 +12,12 @@ const app = new Vue({
 app.$mount()
 
 // 全局接口链接
-let host = "192.168.1.4"
+let host = "172.20.10.3"
 let busBaseUrl = `http://${host}:9090/api/bus`
 let metroBaseUrl = `http://${host}:9091/api/metro`
 Vue.prototype.url = {
     busStationBasicInfo: busBaseUrl + "/query/station/{}",
+    metroStationBasicInfo: metroBaseUrl + "/query/station/{}",
     busStationsNear: busBaseUrl + "/query/stations/nearby",
     metroStationsNear: metroBaseUrl + "/query/stations/nearby",
     busLineDirectionTime: busBaseUrl + "/query/basic/{}",
@@ -24,7 +25,8 @@ Vue.prototype.url = {
     busLineDirectionStations: busBaseUrl + "/query/stations/{}/{}",
     metroLineDirectionStations: metroBaseUrl + "/query/stations/{}/{}",
     busRealtime: busBaseUrl + "/query/realtime",
-    busRealtimeStationLines: busBaseUrl + "/query/realtime/station/{}"
+    busRealtimeStationLines: busBaseUrl + "/query/realtime/station/{}",
+    metroStationLines: metroBaseUrl + "/query/{}/lines"
 }
 
 // 全局ajax方法
