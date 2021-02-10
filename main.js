@@ -12,10 +12,11 @@ const app = new Vue({
 app.$mount()
 
 // 全局接口链接
-let host = "172.20.10.3"
+let host = "192.168.1.4"
 let busBaseUrl = `http://${host}:9090/api/bus`
 let metroBaseUrl = `http://${host}:9091/api/metro`
 Vue.prototype.url = {
+    busStationBasicInfo: busBaseUrl + "/query/station/{}",
     busStationsNear: busBaseUrl + "/query/stations/nearby",
     metroStationsNear: metroBaseUrl + "/query/stations/nearby",
     busLineDirectionTime: busBaseUrl + "/query/basic/{}",
@@ -34,25 +35,25 @@ Vue.prototype.ajax = function (url, method, data, fun) {
         //     token: uni.getStorageSync("token")
         // },
         success: function (resp) {
-            fun(resp)
             // if (resp.statusCode === 401) {
             //     uni.redirectTo({
             //         url: '../login/login'
             //     });
-            // } else if (resp.statusCode === 200 && resp.data.code === 200) {
-            //     let data = resp.data;
-            //     if (data.hasOwnProperty("token")) {
-            //         console.log(resp.data);
-            //         let token = data.token;
-            //         uni.setStorageSync("token", token);
-            //     }
-            //     fun(resp);
-            // } else {
-            //     uni.showToast({
-            //         icon: "none",
-            //         title: resp.data
-            //     });
-            // }
+            // } else
+            if (resp.statusCode === 200 && resp.data.code === 200) {
+                let data = resp.data;
+                // if (data.hasOwnProperty("token")) {
+                //     console.log(resp.data);
+                    // let token = data.token;
+                    // uni.setStorageSync("token", token);
+                // }
+                fun(resp);
+            } else {
+                uni.showToast({
+                    icon: "none",
+                    title: "请求失败, 请稍后重试"
+                });
+            }
         }
     });
 }

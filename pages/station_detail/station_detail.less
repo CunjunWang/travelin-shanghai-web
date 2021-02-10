@@ -4,14 +4,47 @@
   background-color: @backgroundColor;
 }
 
-.title {
-  padding: 5rpx;
-  margin-bottom: 10rpx;
+.title-container {
+  padding: 10rpx;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  position: sticky;
+  top: 1rpx;
 
-  .station-name {
-    font-size: 40rpx;
-    font-weight: bold;
-    margin-right: 10rpx;
+  .title {
+    margin-bottom: 15rpx;
+
+    .icon-big {
+      width: 40rpx;
+      height: 40rpx;
+      margin-right: 10rpx;
+      margin-top: 9rpx;
+      vertical-align: -12%;
+    }
+
+    .station-name {
+      font-size: 40rpx;
+      font-weight: bold;
+      margin-right: 15rpx;
+    }
+  }
+
+  .location {
+    font-size: 26rpx;
+    color: darkgray;
+    margin-top: 20rpx;
+
+    .city {
+      margin-right: 10rpx;
+    }
+
+    .icon {
+      width: 24rpx;
+      height: 24rpx;
+      margin-top: 4rpx;
+      margin-right: 10rpx;
+    }
   }
 }
 
@@ -28,7 +61,7 @@
     .info-row {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 10rpx;
+      margin-bottom: 20rpx;
 
       .line-direction {
         .line-name {
@@ -38,6 +71,11 @@
 
         .direction {
           font-size: 28rpx;
+          margin-right: 10rpx;
+        }
+
+        .underline {
+          text-decoration: underline;
         }
       }
 
@@ -47,6 +85,5 @@
         text-decoration: underline;
       }
     }
-
   }
 }

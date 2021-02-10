@@ -1,16 +1,27 @@
 <template>
   <view class="page">
     TODO: 在地图上显示站点
-    <view class="title">
-      <span class="station-name">{{ stationName }}</span>
-      <span class="desc">{{ type === 'bus' ? '公交' : '地铁' }}站</span>
+    <view class="title-container">
+      <view class="title">
+        <image src="../../static/bus-station-1.png" mode="widthFix" class="icon-big"></image>
+        <span class="station-name">{{ stationName }}</span>
+        <span class="desc">{{ type === 'bus' ? '公交' : '地铁' }}站</span>
+      </view>
+      <view class="location">
+        <image src="../../static/location-1.png" mode="widthFix" class="icon"></image>
+        <span class="desc city">{{ stationInfo.city }}</span>
+        <span class="desc district">{{ stationInfo.district }}</span>
+      </view>
     </view>
     <view class="lines-container">
       <view v-for="(l, i) in lines" class="line-info-container">
         <view class="info-row">
           <view class="line-direction">
             <text class="line-name">{{ l.name }}</text>
-            <text class="direction">开往: {{ l.dest }}</text>
+            <text class="direction">开往:</text>
+            <text :class="['direction', underline(l.dest)]"
+                  @tap="stationDetail(l.dest)">{{ l.dest }}
+            </text>
           </view>
           <span class="update" @tap.stop="updateRealtime(i)">更新</span>
         </view>
@@ -35,6 +46,7 @@ export default {
     return {
       stationName: "",
       type: "",
+      stationInfo: {},
       lines: [],
     }
   },
@@ -42,13 +54,22 @@ export default {
     let that = this;
     that.stationName = data.stationName;
     that.type = data.type;
-    let url;
-    if (that.type === constant.TRAVEL_TYPE_BUS)
-      url = that.url.busRealtimeStationLines.format(that.stationName);
-    that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
+    let infoUrl, linesUrl;
+    if (that.type === constant.TRAVEL_TYPE_BUS) {
+      infoUrl = that.url.busStationBasicInfo.format(that.stationName);
+      linesUrl = that.url.busRealtimeStationLines.format(that.stationName);
+    } else if (that.type === constant.TRAVEL_TYPE_METRO) {
+      infoUrl = "";
+      linesUrl = "";
+    }
+    that.ajax(linesUrl, constant.HTTP_METHOD_GET, null, function (res) {
       that.lines = res.data.result;
       for (let l of that.lines)
         l.realtimeLoading = false;
+    })
+    that.ajax(infoUrl, constant.HTTP_METHOD_GET, null, function (res) {
+      console.log(res);
+      that.stationInfo = res.data.result;
     })
   },
   methods: {
@@ -75,8 +96,18 @@ export default {
         l.realtimeLoading = false;
         that.$set(that.lines, i, l);
       });
-    }
-  }
+    },
+    underline: function (dest) {
+      return this.stationName !== dest ? 'underline' : '';
+    },
+    stationDetail: function (stationName) {
+      if (this.stationName !== stationName)
+        uni.navigateTo({
+          url: `../station_detail/station_detail?stationName=${stationName}&type=${this.type}`
+        });
+    },
+  },
+  computed: {}
 }
 </script>
 
