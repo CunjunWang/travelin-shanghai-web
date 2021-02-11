@@ -6,45 +6,14 @@
           :title="'附近的公交站:'"
           :icon="'../../static/bus-station-1.png'">
       </title>
-      <view class="station-container">
-        <view v-for="b in buses" class="station-info">
-          <view class="station-distance">
-            <text class="station-name">{{ b.stationName }}</text>
-            <view class="distance-container">
-              <image src="../../static/walk-1.png" mode="widthFix" class="distance-icon"></image>
-              <text class="distance">{{ b.distance }}</text>
-            </view>
-          </view>
-          <view class="lines">
-            <image src="../../static/bus-1.png" mode="widthFix" class="icon"></image>
-            <text class="desc">本站线路:</text>
-            <div class="bus-line" v-for="l in b.lines" @tap="directionDetail(l, 'bus')">{{ l.name }}</div>
-          </view>
-        </view>
-      </view>
+      <station :data="buses" :type="'bus'"></station>
     </view>
     <view v-if="metros.length !== 0" class="info-container">
       <title
           :title="'附近的地铁站:'"
           :icon="'../../static/sh-metro-1.png'">
       </title>
-      <view class="station-container">
-        <view v-for="m in metros" class="station-info">
-          <view class="station-distance">
-            <text class="station-name">{{ m.stationName }}</text>
-            <view class="distance-container">
-              <image src="../../static/walk-1.png" mode="widthFix" class="distance-icon"></image>
-              <text class="distance">{{ m.distance }}</text>
-            </view>
-          </view>
-          <view class="lines">
-            <image src="../../static/metro-1.png" mode="widthFix" class="icon"></image>
-            <text class="desc">本站线路:</text>
-            <span class="metro-line" v-for="l in m.lines" @tap="directionDetail(l, 'metro')"
-                  :style="{backgroundColor: '#' + l.lineColor}">{{ l.name }}</span>
-          </view>
-        </view>
-      </view>
+      <station :data="metros" :type="'metro'"></station>
     </view>
   </view>
 </template>
@@ -54,11 +23,13 @@ import {constant} from "common/constant";
 
 import SearchBar from "../../components/search_bar/search_bar";
 import Title from "../../components/title/title";
+import Station from "../../components/station/station";
 
 export default {
   components: {
     SearchBar,
-    Title
+    Title,
+    Station
   },
   data() {
     return {
