@@ -11,10 +11,12 @@
       <view class="lines">
         <image src="../../static/bus-1.png" mode="widthFix" class="icon"></image>
         <text class="desc">本站线路:</text>
-        <div v-if="type === 'bus'" class="bus-line" v-for="l in d.lines" @tap="directionDetail(l, 'bus')">
+        <div v-if="type === 'bus'" class="bus-line" v-for="l in d.lines"
+             @tap="directionDetail(l, 'bus')">
           {{ l.name }}
         </div>
-        <span v-if="type === 'metro'" class="metro-line" v-for="l in d.lines" @tap="directionDetail(l, 'metro')"
+        <span v-if="type === 'metro'" class="metro-line" v-for="l in d.lines"
+              @tap="directionDetail(l, 'metro')"
               :style="{backgroundColor: '#' + l.lineColor}">
         {{ l.name }}
       </span>
@@ -34,6 +36,13 @@ export default {
       type: String,
       default: ""
     }
+  },
+  methods: {
+    directionDetail: function (line, type) {
+      uni.navigateTo({
+        url: `../line_direction_detail/line_direction_detail?name=${line.name}&type=${type}`
+      });
+    },
   }
 }
 </script>

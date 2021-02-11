@@ -56,13 +56,7 @@ export default {
       }
     })
   },
-  methods: {
-    directionDetail: function (line, type) {
-      uni.navigateTo({
-        url: `../line_direction_detail/line_direction_detail?name=${line.name}&type=${type}`
-      });
-    },
-  }
+  methods: {}
 }
 </script>
 
