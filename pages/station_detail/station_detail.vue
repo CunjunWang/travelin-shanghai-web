@@ -3,7 +3,7 @@
     TODO: 在地图上显示站点
     <title
         :title="stationName"
-        :icon="'../../static/bus-station-1.png'"
+        :icon="type === 'bus' ? '../../static/bus-station-1.png' : '../../static/sh-metro-1.png'"
         :desc="type === 'bus' ? '公交站' : '地铁站'"
         :location="stationInfo">
     </title>
@@ -16,6 +16,12 @@
             :type="type"
             @update-line="onLineUpdate($event, i)">
         </bus-station-line>
+        <metro-station-line
+            v-if="type === 'metro'"
+            :data="l"
+            :station-name="stationName"
+            :type="type">
+        </metro-station-line>
       </view>
     </view>
   </view>
@@ -25,10 +31,12 @@
 import {constant} from "common/constant";
 import Title from "../../components/title/title";
 import BusStationLine from "../../components/bus_station_line/bus_station_line";
+import MetroStationLine from "../../components/metro_station_line/metro_station_line";
 
 export default {
   components: {
     BusStationLine,
+    MetroStationLine,
     Title,
   },
   data() {
@@ -56,6 +64,7 @@ export default {
       if (that.type === constant.TRAVEL_TYPE_BUS)
         for (let l of that.lines)
           l.realtimeLoading = false;
+      console.log(that.lines);
     })
     that.ajax(infoUrl, constant.HTTP_METHOD_GET, null, function (res) {
       that.stationInfo = res.data.result;

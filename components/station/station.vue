@@ -9,14 +9,15 @@
         </view>
       </view>
       <view class="lines">
-        <image src="../../static/bus-1.png" mode="widthFix" class="icon"></image>
+        <image v-if="type === 'bus'" src="../../static/bus-1.png" mode="widthFix" class="icon"></image>
+        <image v-if="type === 'metro'" src="../../static/metro-1.png" mode="widthFix" class="icon"></image>
         <text class="desc">本站线路:</text>
         <div v-if="type === 'bus'" class="bus-line" v-for="l in d.lines"
-             @tap="directionDetail(l, 'bus')">
+             @tap.stop="directionDetail(l, 'bus')">
           {{ l.name }}
         </div>
         <span v-if="type === 'metro'" class="metro-line" v-for="l in d.lines"
-              @tap="directionDetail(l, 'metro')"
+              @tap.stop="directionDetail(l, 'metro')"
               :style="{backgroundColor: '#' + l.lineColor}">
         {{ l.name }}
       </span>
