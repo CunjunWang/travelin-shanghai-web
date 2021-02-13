@@ -2,6 +2,7 @@
   <view class="line-info-container">
     <view class="info-row">
       <view class="line-direction">
+        <image src="../../static/bus-1.png" mode="widthFix" class="icon"></image>
         <text class="line-name">{{ data.name }}</text>
         <text class="direction">开往:</text>
         <text :class="['direction', underline(data.dest)]"

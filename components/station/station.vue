@@ -1,6 +1,6 @@
 <template>
   <view class="station-container">
-    <view v-for="d in data" class="station-info">
+    <view v-for="d in data" class="station-info" @tap="stationDetail(d.stationName)">
       <view class="station-distance">
         <text class="station-name">{{ d.stationName }}</text>
         <view class="distance-container">
@@ -43,6 +43,11 @@ export default {
         url: `../line_direction_detail/line_direction_detail?name=${line.name}&type=${type}`
       });
     },
+    stationDetail: function (stationName) {
+      uni.navigateTo({
+        url: `../station_detail/station_detail?stationName=${stationName}&type=${this.type}`
+      });
+    }
   }
 }
 </script>

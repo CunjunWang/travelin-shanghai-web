@@ -63,7 +63,6 @@ export default {
   },
   methods: {
     onLineUpdate: function (e, i) {
-      console.log(e);
       // 把添加完 realtimeLoading 属性的新对象set()进数据中
       this.$set(this.lines, i, e);
     }
