@@ -5,7 +5,7 @@
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "上海出行-首页",
-        "enablePullDownRefresh": true
+        "enablePullDownRefresh": false
       }
     },
     {

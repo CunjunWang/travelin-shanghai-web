@@ -4,7 +4,8 @@
     <title
         :icon="'../../static/line-1.png'"
         :title="name"
-        :desc="'线路详情'">
+        :desc="'线路详情'"
+        :stick-height="1">
     </title>
     <view class="direction-container">
       <direction

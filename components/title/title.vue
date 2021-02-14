@@ -1,5 +1,6 @@
 <template>
-  <view class="title-container">
+  <view class="title-container"
+        :style="`top: ${stickHeight}rpx;`">
     <view class="title-row">
       <view class="title-block">
         <image v-if="icon !== ''" :src="icon" mode="widthFix" class="icon-big"></image>
@@ -37,6 +38,10 @@ export default {
     location: {
       type: Object,
       default: {}
+    },
+    stickHeight: {
+      type: Number,
+      default: 1
     }
   }
 }
