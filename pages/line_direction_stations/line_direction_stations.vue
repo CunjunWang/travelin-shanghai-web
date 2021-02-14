@@ -22,6 +22,11 @@
             <text class="station-name">{{ s.stationName }}</text>
           </view>
           <view class="realtime" v-if="type === 'bus'" @tap.stop="realtimeInfo(s, i)">实时</view>
+          <view class="transfer" v-if="type === 'metro'">
+            <span v-for="(t, j) in s.transfers" class="transfer-line"
+                  :style="{backgroundColor: `#${t.lineColor}`}"
+                  @tap.stop="directionDetail(t.lineName, 'metro')">{{ t.lineName }}</span>
+          </view>
         </view>
         <view class="row location-row">
           <image src="../../static/location-1.png" mode="widthFix" class="icon"></image>
@@ -75,12 +80,18 @@ export default {
       if (that.type === constant.TRAVEL_TYPE_BUS)
         for (let s of that.stations)
           s.realtimeShow = false;
+      console.log(that.stations);
     });
   },
   methods: {
     stationDetail: function (stationName) {
       uni.navigateTo({
         url: `../station_detail/station_detail?stationName=${stationName}&type=${this.type}`
+      });
+    },
+    directionDetail: function (line, type) {
+      uni.navigateTo({
+        url: `../line_direction_detail/line_direction_detail?name=${line}&type=${type}`
       });
     },
     realtimeInfo: function (s, i) {
