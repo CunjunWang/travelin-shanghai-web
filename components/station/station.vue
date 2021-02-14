@@ -9,13 +9,16 @@
           <text class="distance">{{ d.distance }}</text>
         </view>
       </view>
+      <view v-if="type === 'metro'" class="english-name">
+        {{ d.englishName }}
+      </view>
       <view class="lines">
         <image v-if="type === 'bus'" src="../../static/bus-1.png" mode="widthFix" class="icon"></image>
         <image v-if="type === 'metro'" src="../../static/metro-1.png" mode="widthFix" class="icon"></image>
         <text class="desc">本站线路:</text>
         <div v-if="type === 'bus'" class="bus-line" v-for="(l, j) in d.lines" :key="j"
              @tap.stop="directionDetail(l, 'bus')">
-          {{ l.name }}
+          {{ l.name.replace("路", "") }}
         </div>
         <span v-if="type === 'metro'" class="metro-line" v-for="(l, j) in d.lines" :key="j"
               @tap.stop="directionDetail(l, 'metro')"
