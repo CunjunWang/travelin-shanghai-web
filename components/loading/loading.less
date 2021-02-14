@@ -1,0 +1,34 @@
+@import url("../../style.less");
+
+.container {
+  width: 100%;
+  padding: 30rpx;
+
+  display: block;
+  vertical-align: center;
+  text-align: center;
+
+  background-color: #fff;
+
+  .loading {
+    display: block;
+    width: 32rpx;
+    height: 32rpx;
+    margin-bottom: 10rpx;
+    margin-left: auto;
+    margin-right: auto;
+
+    @keyframes rotation{
+      from {-webkit-transform: rotate(0deg);}
+      to {-webkit-transform: rotate(360deg);}
+    }
+    transform: rotate(360deg);
+    animation: rotation 3s linear infinite;
+  }
+
+  .title {
+    font-size: 26rpx;
+    color: #c8c7cc;
+  }
+
+}

@@ -6,20 +6,22 @@
     <view class="map">
       <travel-map :location="location"></travel-map>
     </view>
+    <loading v-if="buses.length === 0" :title="'附近的公交站列表载入中'"></loading>
     <view v-if="buses.length !== 0" class="info-container">
       <title
           :title="'附近的公交站:'"
           :icon="'../../static/bus-station-1.png'">
       </title>
     </view>
-    <station :data="buses" :type="'bus'"></station>
+    <station v-if="buses.length !== 0" :data="buses" :type="'bus'"></station>
+    <loading v-if="metros.length === 0" :title="'附近的地铁站列表载入中'"></loading>
     <view v-if="metros.length !== 0" class="info-container">
       <title
           :title="'附近的地铁站:'"
           :icon="'../../static/sh-metro-1.png'">
       </title>
     </view>
-    <station :data="metros" :type="'metro'"></station>
+    <station v-if="metros.length !== 0" :data="metros" :type="'metro'"></station>
   </view>
 </template>
 
@@ -28,6 +30,7 @@ import {constant} from "common/constant";
 
 import SearchBar from "../../components/search_bar/search_bar";
 import TravelMap from "../../components/travel_map/travel_map";
+import Loading from "../../components/loading/loading";
 import Title from "../../components/title/title";
 import Station from "../../components/station/station";
 
@@ -35,6 +38,7 @@ export default {
   components: {
     TravelMap,
     SearchBar,
+    Loading,
     Title,
     Station
   },
@@ -54,8 +58,8 @@ export default {
         let lat = resp.latitude;
         let lon = resp.longitude;
         that.location = {lat, lon};
-        let busUrl = `${that.url.busStationsNear}?curLat=${lat}&curLon=${lon}&limit=10`;
-        let metroUrl = `${that.url.metroStationsNear}?curLat=${lat}&curLon=${lon}&limit=10`;
+        let busUrl = `${that.url.busStationsNear}?curLat=${lat}&curLon=${lon}`;
+        let metroUrl = `${that.url.metroStationsNear}?curLat=${lat}&curLon=${lon}`;
         that.ajax(busUrl, constant.HTTP_METHOD_GET, null, function (resp) {
           that.buses = resp.data.list;
         })
