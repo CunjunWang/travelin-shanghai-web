@@ -2,13 +2,22 @@
 
 .page {
   background-color: @backgroundColor;
+
+  .search {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .map {
+    position: sticky;
+    top: 70rpx;
+    z-index: 100;
+  }
 }
 
 .info-container {
   padding: 5rpx;
-
-  .title {
-    position: sticky;
-    top: 500rpx !important;
-  }
+  position: sticky;
+  top: 370rpx;
 }

@@ -3,7 +3,7 @@
     <map class="map"
          :longitude="location.lon"
          :latitude="location.lat"
-         scale='16'
+         scale='15'
          show-location>
     </map>
   </view>

@@ -1,7 +1,7 @@
 <template>
   <view class="search-bar">
     <image src="../../static/search-1.png" mode="widthFix" class="icon"></image>
-    <input class="search" type="text" v-model="keyword" placeholder="输入您想搜索的内容"/>
+    <input class="search" type="text" v-model="keyword" placeholder="输入您想搜索的站点, 线路等..."/>
   </view>
 </template>
 

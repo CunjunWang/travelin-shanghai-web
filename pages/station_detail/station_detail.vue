@@ -5,8 +5,7 @@
         :title="stationName"
         :icon="type === 'bus' ? '../../static/bus-station-1.png' : '../../static/sh-metro-1.png'"
         :desc="type === 'bus' ? '公交站' : '地铁站'"
-        :location="stationInfo"
-        :stick-height="1">
+        :location="stationInfo">
     </title>
     <view class="lines-container">
       <view v-for="(l, i) in lines" :key="i">

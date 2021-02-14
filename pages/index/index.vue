@@ -1,25 +1,25 @@
 <template>
   <view class="page">
-    <travel-map :location="location"></travel-map>
-    <search-bar></search-bar>
+    <view class="search">
+      <search-bar></search-bar>
+    </view>
+    <view class="map">
+      <travel-map :location="location"></travel-map>
+    </view>
     <view v-if="buses.length !== 0" class="info-container">
       <title
-          class="title"
           :title="'附近的公交站:'"
-          :icon="'../../static/bus-station-1.png'"
-          :stick-height="575">
+          :icon="'../../static/bus-station-1.png'">
       </title>
-      <station :data="buses" :type="'bus'"></station>
     </view>
+    <station :data="buses" :type="'bus'"></station>
     <view v-if="metros.length !== 0" class="info-container">
       <title
-          class="title"
           :title="'附近的地铁站:'"
-          :icon="'../../static/sh-metro-1.png'"
-          :stick-height="575">
+          :icon="'../../static/sh-metro-1.png'">
       </title>
-      <station :data="metros" :type="'metro'"></station>
     </view>
+    <station :data="metros" :type="'metro'"></station>
   </view>
 </template>
 
