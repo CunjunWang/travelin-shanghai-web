@@ -9,7 +9,8 @@
     </title>
     <view class="direction-container">
       <direction
-          v-for="d in directions"
+          v-for="(d, i) in directions"
+          :key="i"
           @tap="lineDirectionDetail(name, d)"
           :name="name"
           :type="type"
@@ -24,7 +25,8 @@
       <view v-if="type === 'metro' && intervals.length !== 0" class="interval">区间线</view>
       <direction
           v-if="type === 'metro'"
-          v-for="d in intervals"
+          v-for="(d, i) in intervals"
+          :key="i"
           @tap="lineDirectionDetail(name, d)"
           :name="name"
           :type="type"

@@ -1,6 +1,7 @@
 <template>
   <view class="station-container">
-    <view v-for="d in data" class="station-info" @tap="stationDetail(d.stationName)">
+    <view v-for="(d, i) in data" :key="i" class="station-info"
+          @tap="stationDetail(d.stationName)">
       <view class="station-distance">
         <text class="station-name">{{ d.stationName }}</text>
         <view class="distance-container">
@@ -12,11 +13,11 @@
         <image v-if="type === 'bus'" src="../../static/bus-1.png" mode="widthFix" class="icon"></image>
         <image v-if="type === 'metro'" src="../../static/metro-1.png" mode="widthFix" class="icon"></image>
         <text class="desc">本站线路:</text>
-        <div v-if="type === 'bus'" class="bus-line" v-for="l in d.lines"
+        <div v-if="type === 'bus'" class="bus-line" v-for="(l, j) in d.lines" :key="j"
              @tap.stop="directionDetail(l, 'bus')">
           {{ l.name }}
         </div>
-        <span v-if="type === 'metro'" class="metro-line" v-for="l in d.lines"
+        <span v-if="type === 'metro'" class="metro-line" v-for="(l, j) in d.lines" :key="j"
               @tap.stop="directionDetail(l, 'metro')"
               :style="{backgroundColor: '#' + l.lineColor}">
         {{ l.name }}

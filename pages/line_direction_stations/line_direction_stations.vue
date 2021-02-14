@@ -25,7 +25,7 @@
           <view class="realtime" v-if="type === 'bus'" @tap.stop="realtimeInfo(s, i)">实时</view>
           <view class="transfer" v-if="type === 'metro'">
             <span v-for="(t, j) in s.transfers" class="transfer-line"
-                  :style="{backgroundColor: `#${t.lineColor}`}"
+                  :key="j" :style="{backgroundColor: `#${t.lineColor}`}"
                   @tap.stop="directionDetail(t.lineName, 'metro')">
               {{ t.lineName.replace("号线", "") }}
             </span>

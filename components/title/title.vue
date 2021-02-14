@@ -1,6 +1,6 @@
 <template>
   <view class="title-container"
-        :style="`top: ${stickHeight}rpx;`">
+        :style="'top: ' + stickHeight + 'rpx;'">
     <view class="title-row">
       <view class="title-block">
         <image v-if="icon !== ''" :src="icon" mode="widthFix" class="icon-big"></image>
