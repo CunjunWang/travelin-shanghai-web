@@ -3,28 +3,28 @@
     <!-- TODO: 设置条件样式 :style="border ? borderStyle : {}">-->
     <view class="line-and-direction">
       <text class="line-name">{{ name }}</text>
-      <text class="line-direction">{{ direction }}</text>
+      <text class="line-direction">{{ data.direction }}</text>
     </view>
     <view class="direction-detail">
       <view class="row time-row">
         <view>
           <span class="small-text first">首</span>
-          <text class="small-content">{{ first }}</text>
+          <text class="small-content">{{ data.first }}</text>
         </view>
         <view>
           <span class="small-text last">末</span>
-          <text class="small-content">{{ last }}</text>
+          <text class="small-content">{{ data.last }}</text>
         </view>
       </view>
       <view class="row station-row">
         <span class="small-text origin">起</span>
-        <text v-if="!stationActive" class="small-content">{{ origin }}</text>
-        <text v-else class="small-content station" @tap.stop="stationDetail(origin, $event)">{{ origin }}</text>
+        <text v-if="!stationActive" class="small-content">{{ data.origin }}</text>
+        <text v-else class="small-content station" @tap.stop="stationDetail(data.origin, $event)">{{ data.origin }}</text>
       </view>
       <view class="row station-row">
         <span class="small-text dest">终</span>
-        <text v-if="!stationActive" class="small-content">{{ dest }}</text>
-        <text v-else class="small-content station" @tap.stop="stationDetail(dest, $event)">{{ dest }}</text>
+        <text v-if="!stationActive" class="small-content">{{ data.dest }}</text>
+        <text v-else class="small-content station" @tap.stop="stationDetail(data.dest, $event)">{{ data.dest }}</text>
       </view>
     </view>
   </view>
@@ -41,25 +41,9 @@ export default {
       type: String,
       default: ""
     },
-    direction: {
-      type: String,
-      default: ""
-    },
-    first: {
-      type: String,
-      default: ""
-    },
-    last: {
-      type: String,
-      default: ""
-    },
-    origin: {
-      type: String,
-      default: ""
-    },
-    dest: {
-      type: String,
-      default: ""
+    data: {
+      type: Object,
+      default: {}
     },
     border: {
       type: Boolean,

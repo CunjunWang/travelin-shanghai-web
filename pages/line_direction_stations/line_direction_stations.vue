@@ -1,14 +1,9 @@
 <template>
   <view class="page">
-    TODO: 引入地图在地图上展示线路
     <view class="direction-container">
       <direction :name="name"
                  :type="type"
-                 :direction="data.direction"
-                 :first="data.first"
-                 :last="data.last"
-                 :origin="data.origin"
-                 :dest="data.dest"
+                 :data="data"
                  :border="false"
                  :station-active="false">
       </direction>
@@ -106,11 +101,7 @@ export default {
         let url = that.url.busRealtime + `?routeName=${s.busName}&direction=${s.direction}&station=${s.stationSeq}`
         that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
           let r = {};
-          r.message = res.data.result.message;
-          r.distanceKM = res.data.result.distanceKM;
-          r.timeMinutes = res.data.result.timeMinutes;
-          r.plateNumber = res.data.result.plateNumber;
-          r.stops = res.data.result.stops;
+          Object.assign(r, res.data.result);
           that.realtimeData = r;
           that.realtimeLoading = false;
         });

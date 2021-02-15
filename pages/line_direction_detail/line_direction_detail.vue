@@ -1,6 +1,5 @@
 <template>
   <view class="page">
-    TODO: 引入地图在地图上展示线路
     <title
         :icon="'../../static/line-1.png'"
         :title="name"
@@ -8,34 +7,13 @@
     </title>
     <view class="direction-container">
       <direction
-          v-for="(d, i) in directions"
-          :key="i"
+          v-for="(d, i) in directions" :key="i"
           @tap="lineDirectionDetail(name, d)"
           :name="name"
           :type="type"
-          :direction="d.direction"
-          :first="d.first"
-          :last="d.last"
-          :origin="d.origin"
-          :dest="d.dest"
+          :data="d"
           :border="true"
           :station-active="true">
-      </direction>
-      <view v-if="type === 'metro' && intervals.length !== 0" class="interval">区间线</view>
-      <direction
-          v-if="type === 'metro'"
-          v-for="(d, i) in intervals"
-          :key="i"
-          @tap="lineDirectionDetail(name, d)"
-          :name="name"
-          :type="type"
-          :direction="d.direction"
-          :first="d.first"
-          :last="d.last"
-          :origin="d.origin"
-          :dest="d.dest"
-          :border="true"
-          :stationActive="true">
       </direction>
     </view>
   </view>
@@ -46,6 +24,7 @@ import {constant} from "../../common/constant";
 
 import Title from "../../components/title/title"
 import Direction from "../../components/direction/direction"
+import {secret} from "../../common/secret";
 
 export default {
   components: {
@@ -57,7 +36,6 @@ export default {
       name: "",
       type: "",
       directions: [],
-      intervals: [],
     }
   },
   onLoad: function (data) {
@@ -66,7 +44,6 @@ export default {
     let type = data.type;
     that.name = name;
     that.type = type;
-    console.log(that.type);
     let url;
     if (type === constant.TRAVEL_TYPE_BUS) {
       url = that.url.busLineDirectionTime.format(name);
@@ -75,25 +52,16 @@ export default {
     that.ajax(url, constant.HTTP_METHOD_GET, null, function (resp) {
       let dir = [];
       for (let ldt of resp.data.result) {
-        let d = {
-          direction: ldt.direction,
-          origin: ldt.origin,
-          dest: ldt.dest,
-          first: ldt.first,
-          last: ldt.last,
-        }
-        if (that.type === constant.TRAVEL_TYPE_METRO) {
+        let d = {}
+        Object.assign(d, ldt);
+        if (that.type === constant.TRAVEL_TYPE_METRO)
           d.color = ldt.color;
-          d.isInterval = ldt.isInterval;
-          if (ldt.isInterval === 1) {
-            that.intervals.push(d);
-            continue;
-          }
-        }
         dir.push(d);
       }
       that.directions = dir;
     })
+  },
+  onShow() {
   },
   methods: {
     lineDirectionDetail: function (name, data) {
