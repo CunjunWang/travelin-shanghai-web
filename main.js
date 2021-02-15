@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App'
-import bus from "./pages/bus/bus";
+import txMap from './libs/qqmap-wx-jssdk.min';
 
 Vue.config.productionTip = false
 
@@ -12,7 +12,7 @@ const app = new Vue({
 app.$mount()
 
 // 全局接口链接
-let host = "192.168.1.4"
+let host = "172.20.10.3"
 let busBaseUrl = `http://${host}:9090/api/bus`
 let metroBaseUrl = `http://${host}:9091/api/metro`
 Vue.prototype.url = {
@@ -28,6 +28,8 @@ Vue.prototype.url = {
     busRealtimeStationLines: busBaseUrl + "/query/realtime/station/{}",
     metroStationLines: metroBaseUrl + "/query/{}/lines"
 }
+
+Vue.prototype.txMap = txMap;
 
 // 全局ajax方法
 Vue.prototype.ajax = function (url, method, data, fun) {

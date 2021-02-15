@@ -18,7 +18,7 @@
         <text class="desc">本站线路:</text>
         <div v-if="type === 'bus'" class="bus-line" v-for="(l, j) in d.lines" :key="j"
              @tap.stop="directionDetail(l, 'bus')">
-          {{ l.name.replace("路", "") }}
+          {{ l.name }}
         </div>
         <span v-if="type === 'metro'" class="metro-line" v-for="(l, j) in d.lines" :key="j"
               @tap.stop="directionDetail(l, 'metro')"
