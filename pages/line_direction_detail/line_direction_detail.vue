@@ -51,8 +51,9 @@ export default {
       type: "",
       lat: "",
       lon: "",
+      curOrigin: "",
+      curDest: "",
       scale: 16,
-      curDirection: "",
       originLocation: {},
       destLocation: {},
       directions: [],
@@ -94,41 +95,18 @@ export default {
     });
   },
   methods: {
-    getStationInfo: function (d) {
-      let that = this;
-      that.curDirection = d.direction;
-      let stationInfoUrl;
-      if (that.type === constant.TRAVEL_TYPE_BUS)
-        stationInfoUrl = that.url.busStationBasicInfo;
-      else if (that.type === constant.TRAVEL_TYPE_METRO)
-        stationInfoUrl = that.url.metroStationBasicInfo;
-
-      let originInfoUrl = stationInfoUrl.format(d.origin);
-      that.ajax(originInfoUrl, constant.HTTP_METHOD_GET, null, function (resp) {
-        that.originLocation.latitude = resp.data.result.lat;
-        that.originLocation.longitude = resp.data.result.lon;
-      });
-      let destInfoUrl = stationInfoUrl.format(d.dest);
-      that.ajax(destInfoUrl, constant.HTTP_METHOD_GET, null, function (resp) {
-        that.destLocation.latitude = resp.data.result.lat;
-        that.destLocation.longitude = resp.data.result.lon;
-      });
-    },
+    // TODO: 这里有选择线路的bug
     showRoute: function (d) {
       let that = this;
-      console.log(that.originLocation);
-      console.log(that.destLocation);
-      if (d.direction !== that.curDirection) {
+      if (d.origin !== that.curOrigin && d.dest !== that.curDest) {
         that.curDirection = d.direction;
-        let t = that.originLocation;
-        that.originLocation = that.destLocation;
-        that.destLocation = t;
+        that.getStationInfo(d);
       }
       map.direction({
         mode: 'transit',
         from: that.originLocation,
         to: that.destLocation,
-        policy: 'LEAST_TRANSFER,NO_BUS',
+        policy: 'LEAST_TRANSFER',
         success: function (res) {
           let route = res.result.routes[0];
           let steps = route.steps;
@@ -165,7 +143,30 @@ export default {
           console.log(err);
         }
       });
-    }
+    },
+    getStationInfo: async function (d) {
+      let that = this;
+      // return new Promise(function (resolve, reject) {
+      let stationInfoUrl;
+      if (that.type === constant.TRAVEL_TYPE_BUS)
+        stationInfoUrl = that.url.busStationBasicInfo;
+      else if (that.type === constant.TRAVEL_TYPE_METRO)
+        stationInfoUrl = that.url.metroStationBasicInfo;
+
+      let originInfoUrl = stationInfoUrl.format(d.origin);
+      that.ajax(originInfoUrl, constant.HTTP_METHOD_GET, null, function (resp) {
+        that.curOrigin = d.origin;
+        that.originLocation.latitude = resp.data.result.lat;
+        that.originLocation.longitude = resp.data.result.lon;
+      });
+      let destInfoUrl = stationInfoUrl.format(d.dest);
+      that.ajax(destInfoUrl, constant.HTTP_METHOD_GET, null, function (resp) {
+        that.curDest = d.dest;
+        that.destLocation.latitude = resp.data.result.lat;
+        that.destLocation.longitude = resp.data.result.lon;
+      });
+      // });
+    },
   }
 }
 </script>

@@ -3,3 +3,92 @@
 .page {
   background-color: @backgroundColor;
 }
+
+.search-bar {
+  position: sticky;
+  top: 0;
+  margin-bottom: 5rpx;
+}
+
+.lines-container {
+  padding: 2rpx;
+  background-color: #fff;
+
+  .line-container {
+    padding: 8rpx;
+    border-radius: 5rpx;
+    margin-bottom: 5rpx;
+    border: solid 3rpx #808080;
+
+    .row {
+
+    }
+
+    .name-row {
+      margin-bottom: 10rpx;
+      display: flex;
+      justify-content: space-between;
+
+      .name-block {
+        .icon {
+          width: 36rpx;
+          height: 36rpx;
+          margin-right: 15rpx;
+          vertical-align: -10%;
+        }
+
+        .line-name {
+          font-size: 36rpx;
+          font-weight: bold;
+          margin-right: 15rpx;
+        }
+
+        .english-name {
+          font-size: 28rpx;
+        }
+      }
+
+      .desc-block {
+        font-size: 22rpx;
+        color: #808080;
+        margin-top: 10rpx;
+        margin-right: 20rpx;
+
+        .underline {
+          text-decoration: underline;
+        }
+
+        .detail {
+          margin-right: 20rpx;
+        }
+      }
+
+    }
+
+    .direction-row {
+      font-size: 26rpx;
+      color: #808080;
+
+      .origin {
+        margin-right: 10rpx;
+      }
+
+      .dest {
+        margin-left: 10rpx;
+      }
+    }
+
+    .direction-english-row {
+      font-size: 24rpx;
+      color: #808080;
+
+      .origin {
+        margin-right: 10rpx;
+      }
+
+      .dest {
+        margin-left: 10rpx;
+      }
+    }
+  }
+}

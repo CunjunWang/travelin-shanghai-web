@@ -26,7 +26,8 @@ Vue.prototype.url = {
     metroLineDirectionStations: metroBaseUrl + "/query/stations/{}/{}",
     busRealtime: busBaseUrl + "/query/realtime",
     busRealtimeStationLines: busBaseUrl + "/query/realtime/station/{}",
-    metroStationLines: metroBaseUrl + "/query/{}/lines"
+    metroStationLines: metroBaseUrl + "/query/{}/lines",
+    metroLinesList: metroBaseUrl + "/query/lines"
 }
 
 Vue.prototype.txMap = txMap;
