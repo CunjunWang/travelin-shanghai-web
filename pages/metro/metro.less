@@ -11,11 +11,11 @@
 }
 
 .lines-container {
-  padding: 2rpx;
+  padding: 5rpx;
   background-color: #fff;
 
   .line-container {
-    padding: 8rpx;
+    padding: 10rpx;
     border-radius: 5rpx;
     margin-bottom: 5rpx;
     border: solid 3rpx #808080;
@@ -51,8 +51,8 @@
       .desc-block {
         font-size: 22rpx;
         color: #808080;
-        margin-top: 10rpx;
-        margin-right: 20rpx;
+        margin-top: 5rpx;
+        margin-right: 10rpx;
 
         .underline {
           text-decoration: underline;
@@ -88,6 +88,63 @@
 
       .dest {
         margin-left: 10rpx;
+      }
+    }
+
+    .stations-block {
+      margin-top: 15rpx;
+
+      .stations-container {
+        background-color: #eeeef4;
+        border-radius: 8rpx;
+
+        .station-item {
+          padding: 20rpx;
+          color: #808080;
+
+          .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10rpx;
+
+            .seq-and-name {
+              font-weight: bold;
+              font-size: 26rpx;
+
+              .station-seq {
+                margin-right: 10rpx;
+              }
+              
+              .station-name {
+                text-decoration: underline;
+              }
+            }
+
+            .location {
+              font-size: 20rpx;
+              color: #808080;;
+
+              .location-icon {
+                width: 20rpx;
+                height: 20rpx;
+                margin-right: 15rpx;
+                vertical-align: -10%;
+              }
+
+              .city {
+                margin-right: 5rpx;
+              }
+            }
+          }
+
+          .station-english-row {
+            font-size: 26rpx;
+          }
+
+          &:not(:last-child) {
+            border-bottom: solid 1rpx #808080;;
+          }
+        }
       }
     }
   }
