@@ -1,19 +1,28 @@
 <template>
   <view class="page">
+    <!--    v-if="polyline.length !== 0"-->
+    <map class="map-container"
+         :longitude="lon"
+         :latitude="lat"
+         :scale='scale'
+         :polyline="polyline"
+         :include-points="includePoints"
+         show-location>
+    </map>
     <title
         :icon="'../../static/line-1.png'"
         :title="name"
-        :desc="'线路详情'">
+        :desc="'线路详情(点击方向查看线路走向)'">
     </title>
     <view class="direction-container">
       <direction
           v-for="(d, i) in directions" :key="i"
-          @tap="lineDirectionDetail(name, d)"
           :name="name"
           :type="type"
           :data="d"
           :border="true"
-          :station-active="true">
+          :station-active="true"
+          @tap="showRoute(d)">
       </direction>
     </view>
   </view>
@@ -21,10 +30,15 @@
 
 <script>
 import {constant} from "../../common/constant";
+import {secret} from "../../common/secret";
 
 import Title from "../../components/title/title"
 import Direction from "../../components/direction/direction"
-import {secret} from "../../common/secret";
+
+let txMap = require('../../libs/qqmap-wx-jssdk.min')
+let map = new txMap({
+  key: secret.WX_MAP_KEY,
+});
 
 export default {
   components: {
@@ -35,11 +49,28 @@ export default {
     return {
       name: "",
       type: "",
+      lat: "",
+      lon: "",
+      scale: 16,
+      curDirection: "",
+      originLocation: {},
+      destLocation: {},
       directions: [],
+      polyline: [],
+      includePoints: []
     }
   },
   onLoad: function (data) {
     let that = this;
+
+    uni.getLocation({
+      type: constant.LOCATION_TYPE_GPS,
+      success: function (resp) {
+        that.lat = resp.latitude;
+        that.lon = resp.longitude;
+      }
+    });
+
     let name = data.name;
     let type = data.type;
     that.name = name;
@@ -59,16 +90,80 @@ export default {
         dir.push(d);
       }
       that.directions = dir;
-    })
-  },
-  onShow() {
+      that.getStationInfo(dir[0]);
+    });
   },
   methods: {
-    lineDirectionDetail: function (name, data) {
-      let dataStr = JSON.stringify(data);
-      console.log(name);
-      uni.navigateTo({
-        url: `../line_direction_stations/line_direction_stations?name=${name}&type=${this.type}&data=${dataStr}`
+    getStationInfo: function (d) {
+      let that = this;
+      that.curDirection = d.direction;
+      let stationInfoUrl;
+      if (that.type === constant.TRAVEL_TYPE_BUS)
+        stationInfoUrl = that.url.busStationBasicInfo;
+      else if (that.type === constant.TRAVEL_TYPE_METRO)
+        stationInfoUrl = that.url.metroStationBasicInfo;
+
+      let originInfoUrl = stationInfoUrl.format(d.origin);
+      that.ajax(originInfoUrl, constant.HTTP_METHOD_GET, null, function (resp) {
+        that.originLocation.latitude = resp.data.result.lat;
+        that.originLocation.longitude = resp.data.result.lon;
+      });
+      let destInfoUrl = stationInfoUrl.format(d.dest);
+      that.ajax(destInfoUrl, constant.HTTP_METHOD_GET, null, function (resp) {
+        that.destLocation.latitude = resp.data.result.lat;
+        that.destLocation.longitude = resp.data.result.lon;
+      });
+    },
+    showRoute: function (d) {
+      let that = this;
+      console.log(that.originLocation);
+      console.log(that.destLocation);
+      if (d.direction !== that.curDirection) {
+        that.curDirection = d.direction;
+        let t = that.originLocation;
+        that.originLocation = that.destLocation;
+        that.destLocation = t;
+      }
+      map.direction({
+        mode: 'transit',
+        from: that.originLocation,
+        to: that.destLocation,
+        policy: 'LEAST_TRANSFER,NO_BUS',
+        success: function (res) {
+          let route = res.result.routes[0];
+          let steps = route.steps;
+          let lines = [];
+          for (let step of steps)
+            if (step.mode === 'TRANSIT') {
+              lines = step.lines;
+              break;
+            }
+          console.log(lines);
+          let coors = lines[0].polyline;
+          let pl = [];
+          // 坐标解压（返回的点串坐标，通过前向差分进行压缩）
+          let kr = 1000000;
+          for (let i = 2; i < coors.length; i++)
+            coors[i] = Number(coors[i - 2]) + Number(coors[i]) / kr;
+          // 将解压后的坐标放入点串数组pl中
+          for (let i = 0; i < coors.length; i += 2)
+            pl.push({latitude: coors[i], longitude: coors[i + 1]});
+          that.polyline = [
+            {
+              points: pl,
+              color: '#555555',
+              width: 4
+            }
+          ]
+          let bounds = route.bounds.split(',');
+          let pts = [];
+          for (let i = 0; i < bounds.length; i += 2)
+            pts.push({latitude: bounds[i], longitude: bounds[i + 1]});
+          that.includePoints = pts;
+        },
+        fail: function (err) {
+          console.log(err);
+        }
       });
     }
   }

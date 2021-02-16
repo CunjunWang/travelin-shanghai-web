@@ -2,6 +2,7 @@
 
 export const constant = {
     LOCATION_TYPE_GPS: "gps",
+    LOCATION_TYPE_GCJ02: "gcj02",
 
     HTTP_METHOD_GET: "GET",
     HTTP_METHOD_POST: "POST",

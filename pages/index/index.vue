@@ -53,7 +53,7 @@ export default {
   onLoad: function () {
     let that = this;
     uni.getLocation({
-      type: constant.LOCATION_TYPE_GPS,
+      type: constant.LOCATION_TYPE_GCJ02,
       success: function (resp) {
         let lat = resp.latitude;
         let lon = resp.longitude;
@@ -67,7 +67,7 @@ export default {
           that.metros = resp.data.list;
         })
       }
-    })
+    });
   },
   methods: {}
 }

@@ -3,7 +3,8 @@
     <!-- TODO: 设置条件样式 :style="border ? borderStyle : {}">-->
     <view class="line-and-direction">
       <text class="line-name">{{ name }}</text>
-      <text class="line-direction">{{ data.direction }}</text>
+      <text class="line-direction"
+            @tap.stop="lineDirectionDetail(name, data)">{{ data.direction }}</text>
     </view>
     <view class="direction-detail">
       <view class="row time-row">
@@ -64,6 +65,13 @@ export default {
     }
   },
   methods: {
+    lineDirectionDetail: function (name, data) {
+      let dataStr = JSON.stringify(data);
+      console.log(name);
+      uni.navigateTo({
+        url: `../line_direction_stations/line_direction_stations?name=${name}&type=${this.type}&data=${dataStr}`
+      });
+    },
     stationDetail: function (stationName) {
       uni.navigateTo({
         url: `../station_detail/station_detail?stationName=${stationName}&type=${this.type}`
