@@ -78,7 +78,6 @@ export default {
       if (that.type === constant.TRAVEL_TYPE_BUS)
         for (let s of that.stations)
           s.realtimeShow = false;
-      console.log(that.stations);
     });
   },
   methods: {

@@ -27,12 +27,11 @@
             :type="type"
             @update-line="onLineUpdate($event, i)">
         </bus-station-line>
-        <metro-station-line
+        <metro-line-card
             v-if="type === 'metro'"
-            :data="l"
-            :station-name="stationName"
-            :type="type">
-        </metro-station-line>
+            :line="l"
+            :show-station-list="false">
+        </metro-line-card>
       </view>
     </view>
     <view v-if="type === 'metro'" class="exit-container">
@@ -53,14 +52,14 @@ import Title from "../../components/title/title";
 import Loading from "../../components/loading/loading";
 import TravelMap from "../../components/travel_map/travel_map"
 import BusStationLine from "../../components/bus_station_line/bus_station_line";
-import MetroStationLine from "../../components/metro_station_line/metro_station_line";
+import MetroLineCard from "../../components/metro_line_card/metro_line_card";
 
 export default {
   components: {
     TravelMap,
     Loading,
     BusStationLine,
-    MetroStationLine,
+    MetroLineCard,
     Title,
   },
   data() {
@@ -89,6 +88,7 @@ export default {
       if (that.type === constant.TRAVEL_TYPE_BUS)
         for (let l of that.lines)
           l.realtimeLoading = false;
+      console.log(that.lines);
     });
     that.ajax(infoUrl, constant.HTTP_METHOD_GET, null, function (res) {
       that.stationInfo = res.data.result;

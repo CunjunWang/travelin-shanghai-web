@@ -9,11 +9,13 @@
          :include-points="includePoints"
          show-location>
     </map>
-    <title
-        :icon="'../../static/line-1.png'"
-        :title="name"
-        :desc="'线路详情(点击方向查看线路走向)'">
-    </title>
+    <view class="title-container">
+      <title
+          :icon="'../../static/line-1.png'"
+          :title="name"
+          :desc="'线路详情(点击方向查看线路走向)'">
+      </title>
+    </view>
     <view class="direction-container">
       <direction
           v-for="(d, i) in directions" :key="i"
@@ -146,7 +148,6 @@ export default {
     },
     getStationInfo: async function (d) {
       let that = this;
-      // return new Promise(function (resolve, reject) {
       let stationInfoUrl;
       if (that.type === constant.TRAVEL_TYPE_BUS)
         stationInfoUrl = that.url.busStationBasicInfo;
@@ -165,7 +166,6 @@ export default {
         that.destLocation.latitude = resp.data.result.lat;
         that.destLocation.longitude = resp.data.result.lon;
       });
-      // });
     },
   }
 }

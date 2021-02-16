@@ -6,22 +6,22 @@
     <view class="map">
       <travel-map :location="location"></travel-map>
     </view>
-    <loading v-if="buses.length === 0" :title="'附近的公交站列表载入中'"></loading>
-    <view v-if="buses.length !== 0" class="info-container">
+    <view class="info-container">
       <title
           :title="'附近的公交站:'"
           :icon="'../../static/bus-station-1.png'">
       </title>
     </view>
-    <station v-if="buses.length !== 0" :data="buses" :type="'bus'"></station>
-    <loading v-if="metros.length === 0" :title="'附近的地铁站列表载入中'"></loading>
-    <view v-if="metros.length !== 0" class="info-container">
+    <loading v-if="buses.length === 0" :title="'附近的公交站列表载入中'"></loading>
+    <station v-else :data="buses" :type="'bus'"></station>
+    <view class="info-container">
       <title
           :title="'附近的地铁站:'"
           :icon="'../../static/sh-metro-1.png'">
       </title>
     </view>
-    <station v-if="metros.length !== 0" :data="metros" :type="'metro'"></station>
+    <loading v-if="metros.length === 0" :title="'附近的地铁站列表载入中'"></loading>
+    <station v-else :data="metros" :type="'metro'"></station>
   </view>
 </template>
 
