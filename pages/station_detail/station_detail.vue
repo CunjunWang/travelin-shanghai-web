@@ -56,19 +56,19 @@ import MetroLineCard from "../../components/metro_line_card/metro_line_card";
 
 export default {
   components: {
+    Title,
     TravelMap,
     Loading,
     BusStationLine,
     MetroLineCard,
-    Title,
   },
   data() {
     return {
-      stationName: "",
-      type: "",
-      stationInfo: {},
       lines: [],
-      latLon: {}
+      type: "",
+      stationName: "",
+      latLon: {},
+      stationInfo: {},
     }
   },
   onLoad: function (data) {
