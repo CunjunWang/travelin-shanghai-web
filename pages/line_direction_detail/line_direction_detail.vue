@@ -65,6 +65,10 @@ export default {
   },
   onLoad: function (data) {
     let that = this;
+    let name = data.name;
+    let type = data.type;
+    that.name = name;
+    that.type = type;
 
     uni.getLocation({
       type: constant.LOCATION_TYPE_GPS,
@@ -74,10 +78,6 @@ export default {
       }
     });
 
-    let name = data.name;
-    let type = data.type;
-    that.name = name;
-    that.type = type;
     let url;
     if (type === constant.TRAVEL_TYPE_BUS) {
       url = that.url.busLineDirectionTime.format(name);
@@ -93,57 +93,29 @@ export default {
         dir.push(d);
       }
       that.directions = dir;
-      that.getStationInfo(dir[0]);
+      // that.getStationInfo(dir[0]);
     });
   },
   methods: {
-    // TODO: 这里有选择线路的bug
     showRoute: function (d) {
       let that = this;
-      if (d.origin !== that.curOrigin && d.dest !== that.curDest) {
-        that.curDirection = d.direction;
-        that.getStationInfo(d);
-      }
-      map.direction({
-        mode: 'transit',
-        from: that.originLocation,
-        to: that.destLocation,
-        policy: 'LEAST_TRANSFER',
-        success: function (res) {
-          let route = res.result.routes[0];
-          let steps = route.steps;
-          let lines = [];
-          for (let step of steps)
-            if (step.mode === 'TRANSIT') {
-              lines = step.lines;
-              break;
-            }
-          console.log(lines);
-          let coors = lines[0].polyline;
-          let pl = [];
-          // 坐标解压（返回的点串坐标，通过前向差分进行压缩）
-          let kr = 1000000;
-          for (let i = 2; i < coors.length; i++)
-            coors[i] = Number(coors[i - 2]) + Number(coors[i]) / kr;
-          // 将解压后的坐标放入点串数组pl中
-          for (let i = 0; i < coors.length; i += 2)
-            pl.push({latitude: coors[i], longitude: coors[i + 1]});
-          that.polyline = [
-            {
-              points: pl,
-              color: '#555555',
-              width: 4
-            }
-          ]
-          let bounds = route.bounds.split(',');
-          let pts = [];
-          for (let i = 0; i < bounds.length; i += 2)
-            pts.push({latitude: bounds[i], longitude: bounds[i + 1]});
-          that.includePoints = pts;
-        },
-        fail: function (err) {
-          console.log(err);
-        }
+      let url = `${that.url.metroDirectionPolylineUrl.format(that.name)}?origin=${d.origin}&dest=${d.dest}`
+      that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
+        let data = res.data.result;
+        that.polyline = [
+          {
+            points: JSON.parse(data.polyline),
+            color: `#${data.color}`,
+            width: 4,
+            borderColor: '#000',
+            borderWidth: 1
+          }
+        ]
+        let bounds = data.bounds.split(',');
+        let pts = [];
+        for (let i = 0; i < bounds.length; i += 2)
+          pts.push({latitude: bounds[i], longitude: bounds[i + 1]});
+        that.includePoints = pts;
       });
     },
     getStationInfo: async function (d) {
