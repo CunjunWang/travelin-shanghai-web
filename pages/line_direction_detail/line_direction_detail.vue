@@ -1,6 +1,5 @@
 <template>
   <view class="page">
-    <!--    v-if="polyline.length !== 0"-->
     <map class="map-container"
          :longitude="lon"
          :latitude="lat"
@@ -17,15 +16,18 @@
       </title>
     </view>
     <view class="direction-container">
-      <direction
-          v-for="(d, i) in directions" :key="i"
-          :name="name"
-          :type="type"
-          :data="d"
-          :border="true"
-          :station-active="true"
-          @tap="showRoute(d)">
-      </direction>
+      <loading v-if="directions.length === 0"
+               :title="'方向信息载入中...'">
+      </loading>
+      <view v-for="(d, i) in directions" :key="i">
+        <direction :name="name"
+                   :type="type"
+                   :data="d"
+                   :border="true"
+                   :station-active="true"
+                   @tap="showRoute(d)">
+        </direction>
+      </view>
     </view>
   </view>
 </template>
@@ -35,6 +37,7 @@ import {constant} from "../../common/constant";
 import {secret} from "../../common/secret";
 
 import Title from "../../components/title/title"
+import Loading from "../../components/loading/loading"
 import Direction from "../../components/direction/direction"
 
 let txMap = require('../../libs/qqmap-wx-jssdk.min')
@@ -45,6 +48,7 @@ let map = new txMap({
 export default {
   components: {
     Title,
+    Loading,
     Direction
   },
   data() {
@@ -71,7 +75,7 @@ export default {
     that.type = type;
 
     uni.getLocation({
-      type: constant.LOCATION_TYPE_GPS,
+      type: constant.LOCATION_TYPE_GCJ02,
       success: function (resp) {
         that.lat = resp.latitude;
         that.lon = resp.longitude;
@@ -106,7 +110,7 @@ export default {
           {
             points: JSON.parse(data.polyline),
             color: `#${data.color}`,
-            width: 4,
+            width: 6,
             borderColor: '#000',
             borderWidth: 1
           }

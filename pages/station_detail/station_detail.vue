@@ -1,12 +1,11 @@
 <template>
   <view class="page">
-    <view class="map">
-      <travel-map v-if="Object.keys(latLon).length !== 0"
-                  :location="latLon"
-                  :title="`${stationName}[${type}]`"
-                  :scale="18">
-      </travel-map>
-    </view>
+    <map class="map-container"
+         :scale='18'
+         :longitude="latLon.lon"
+         :latitude="latLon.lat"
+         show-location>
+    </map>
     <view class="title-container">
       <title
           :title="stationName"

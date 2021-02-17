@@ -3,16 +3,22 @@
     <view class="search">
       <search-bar></search-bar>
     </view>
-    <view class="map">
-      <travel-map :location="location"></travel-map>
-    </view>
+    <map class="map-container"
+         :scale='16'
+         :longitude="location.lon"
+         :latitude="location.lat"
+         show-location>
+    </map>
     <view class="info-container">
       <title
           :title="'附近的公交站:'"
           :icon="'../../static/bus-station-1.png'">
       </title>
     </view>
-    <loading v-if="buses.length === 0" :title="'附近的公交站列表载入中'"></loading>
+    <loading class="loading-block"
+             v-if="buses.length === 0"
+             :title="'附近的公交站列表载入中'">
+    </loading>
     <station v-else :data="buses" :type="'bus'"></station>
     <view class="info-container">
       <title

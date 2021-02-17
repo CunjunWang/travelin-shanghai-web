@@ -44,16 +44,6 @@ export default {
     });
   },
   methods: {
-    directionDetail: function (line) {
-      uni.navigateTo({
-        url: `../line_direction_detail/line_direction_detail?name=${line}&type=metro`
-      });
-    },
-    stationDetail: function (stationName) {
-      uni.navigateTo({
-        url: `../station_detail/station_detail?stationName=${stationName}&type=metro`
-      });
-    },
     onToggleStationList: function (e, i) {
       let that = this;
       that.$set(that.lines, i, e);

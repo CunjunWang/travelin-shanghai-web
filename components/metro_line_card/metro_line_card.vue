@@ -43,7 +43,8 @@
           <view class="info-row">
             <view class="seq-and-name">
               <text class="station-seq">{{ j + 1 }}.</text>
-              <text class="station-name">{{ s.stationName }}
+              <text class="station-name" @tap.stop="stationDetail(s.stationName)">
+                {{ s.stationName }}
               </text>
             </view>
             <view class="location">
@@ -95,6 +96,11 @@ export default {
     directionDetail: function (line) {
       uni.navigateTo({
         url: `../line_direction_detail/line_direction_detail?name=${line}&type=metro`
+      });
+    },
+    stationDetail: function (stationName) {
+      uni.navigateTo({
+        url: `../station_detail/station_detail?stationName=${stationName}&type=metro`
       });
     },
     toggleStationList: function () {
