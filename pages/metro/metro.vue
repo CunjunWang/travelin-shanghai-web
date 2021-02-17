@@ -55,7 +55,14 @@ export default {
       });
     },
     onToggleStationList: function (e, i) {
-      this.$set(this.lines, i, e);
+      let that = this;
+      that.$set(that.lines, i, e);
+      for (let k = 0; k < that.lines.length; k++)
+        if (k !== i) {
+          let l = that.lines[k];
+          l.stationsShow = false;
+          that.$set(that.lines, k, l);
+        }
     }
   }
 }
