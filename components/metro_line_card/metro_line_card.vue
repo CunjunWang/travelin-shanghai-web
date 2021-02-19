@@ -14,7 +14,7 @@
         <text v-if="showWashroomList"
               class="washrooms underline"
               @tap.stop="toggleWashroomList()">
-          {{ line.showWashroomList ? '收起' : '洗手间' }}
+          {{ line.washroomShow ? '收起' : '洗手间' }}
         </text>
         <text class="detail underline"
               @tap.stop="directionDetail(line.name)">
@@ -66,7 +66,7 @@
     </view>
     <view class="washrooms-block" v-if="line.washroomShow">
       <loading :title="`${line.name}洗手间信息载入中...`"
-               v-if="line.stationsLoading">
+               v-if="line.washroomsLoading">
       </loading>
       <view v-else class="washrooms-container">
         <view class="subtitle">
@@ -77,7 +77,7 @@
         </view>
         <view v-for="(w, j) in washrooms" :key="j" class="washroom-item">
           <image :src="getIconPath(w)" mode="widthFix" class="icon"></image>
-          <text class="desc">{{ w.description }}</text>
+          <text class="desc">{{ `${w.type}  ${w.description}` }}</text>
         </view>
       </view>
     </view>
