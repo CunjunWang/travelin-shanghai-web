@@ -10,7 +10,7 @@
     </map>
     <view class="title-container">
       <title
-          :icon="'../../static/line-1.png'"
+          :icon="type === 'bus' ? '../../static/line-1.png' : '../../static/sh-metro-1.png'"
           :title="name"
           :desc="'线路详情(点击方向查看线路走向)'">
       </title>

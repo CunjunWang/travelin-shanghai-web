@@ -12,7 +12,7 @@ const app = new Vue({
 app.$mount()
 
 // 全局接口链接
-let host = "172.20.10.3"
+let host = "192.168.1.5"
 let busBaseUrl = `http://${host}:9090/api/bus`
 let metroBaseUrl = `http://${host}:9091/api/metro`
 Vue.prototype.url = {
@@ -29,7 +29,9 @@ Vue.prototype.url = {
     metroStationLines: metroBaseUrl + "/query/{}/lines",
     metroLinesList: metroBaseUrl + "/query/lines",
     metroLineStationList: metroBaseUrl + "/query/stations/{}",
-    metroDirectionPolylineUrl: metroBaseUrl + "/query/polyline/{}"
+    metroDirectionPolylineUrl: metroBaseUrl + "/query/polyline/{}",
+    metroStationWashroomsUrl: metroBaseUrl + "/query/station/{}/washrooms",
+    metroStationLineWashroomsUrl: metroBaseUrl + "/query/station/{}/washrooms/line/{}"
 }
 
 Vue.prototype.txMap = txMap;
@@ -51,8 +53,8 @@ Vue.prototype.ajax = function (url, method, data, fun) {
                 let data = resp.data;
                 // if (data.hasOwnProperty("token")) {
                 //     console.log(resp.data);
-                    // let token = data.token;
-                    // uni.setStorageSync("token", token);
+                // let token = data.token;
+                // uni.setStorageSync("token", token);
                 // }
                 fun(resp);
             } else {

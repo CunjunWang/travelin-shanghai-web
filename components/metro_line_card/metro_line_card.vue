@@ -11,6 +11,11 @@
         </text>
       </view>
       <view class="desc-block">
+        <text v-if="showWashroomList"
+              class="washrooms underline"
+              @tap.stop="toggleWashroomList()">
+          {{ line.showWashroomList ? '收起' : '洗手间' }}
+        </text>
         <text class="detail underline"
               @tap.stop="directionDetail(line.name)">
           线路详情
@@ -59,6 +64,23 @@
         </view>
       </view>
     </view>
+    <view class="washrooms-block" v-if="line.washroomShow">
+      <loading :title="`${line.name}洗手间信息载入中...`"
+               v-if="line.stationsLoading">
+      </loading>
+      <view v-else class="washrooms-container">
+        <view class="subtitle">
+          <text class="content">图例: </text>
+          <text class="position both">付费区外</text>
+          <text class="position in">付费区内</text>
+          <text class="position no">无卫生设施</text>
+        </view>
+        <view v-for="(w, j) in washrooms" :key="j" class="washroom-item">
+          <image :src="getIconPath(w)" mode="widthFix" class="icon"></image>
+          <text class="desc">{{ w.description }}</text>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -76,7 +98,15 @@ export default {
       type: Object,
       default: {}
     },
+    stationName: {
+      type: String,
+      default: ""
+    },
     showStationList: {
+      type: Boolean,
+      default: false
+    },
+    showWashroomList: {
       type: Boolean,
       default: false
     }
@@ -85,6 +115,7 @@ export default {
     return {
       stationsLoading: false,
       stations: [],
+      washrooms: {},
       lineStations: []
     }
   },
@@ -120,6 +151,47 @@ export default {
         });
       }
     },
+    toggleWashroomList: function () {
+      let l = this.line;
+      let that = this;
+      l.washroomShow = !l.washroomShow;
+      that.$emit("toggle-washroom-list", l);
+
+      if (l.washroomShow) {
+        l.washroomsLoading = true;
+        let washroomsUrl = that.url.metroStationLineWashroomsUrl.format(that.stationName, l.name);
+        that.ajax(washroomsUrl, constant.HTTP_METHOD_GET, null, function (res) {
+          that.washrooms = res.data.list;
+          l.washroomsLoading = false;
+          that.$emit("toggle-washroom-list", l);
+        })
+      }
+    },
+    getIconPath: function (w) {
+      console.log(w);
+      let type;
+      if (w.type === '普通洗手间')
+        type = 'normal'
+      else
+        type = 'inability';
+
+      if (type === 'normal')
+        if (w.position === '费区外' || w.position === '费区内外')
+          return '../../static/washroom-both-1.png';
+        else if (w.position === '费区内')
+          return '../../static/washroom-in-1.png';
+        else
+          return '../../static/washroom-no-1.png';
+      else if (type === 'inability')
+        if (w.position === '费区外' || w.position === '费区内外')
+          return '../../static/inability-both-1.png';
+        else if (w.position === '费区内')
+          return '../../static/inability-in-1.png';
+        else
+          return '../../static/inability-no-1.png';
+      else
+        return null;
+    }
   }
 }
 </script>
