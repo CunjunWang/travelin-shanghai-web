@@ -11,8 +11,10 @@
     <view class="title-container">
       <title
           :icon="type === 'bus' ? '../../static/line-1.png' : '../../static/sh-metro-1.png'"
-          :title="name"
-          :desc="'线路详情(点击方向查看线路走向)'">
+          :title="buildLineName()"
+          :title-color="line.color"
+          :desc="'线路详情' + (line.status !== 0 ? '' : '(点击卡片查看走向)')"
+          :location="line">
       </title>
     </view>
     <view class="direction-container">
@@ -57,11 +59,8 @@ export default {
       type: "",
       lat: "",
       lon: "",
-      curOrigin: "",
-      curDest: "",
+      line: {},
       scale: 16,
-      originLocation: {},
-      destLocation: {},
       directions: [],
       polyline: [],
       includePoints: []
@@ -97,12 +96,28 @@ export default {
         dir.push(d);
       }
       that.directions = dir;
-      // that.getStationInfo(dir[0]);
     });
+
+    if (type === constant.TRAVEL_TYPE_METRO) {
+      url = that.url.metroLineBasicInfo.format(name);
+      that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
+        // color: "6c6602" line: "14号线" lineEnglishName: "Line 14" status: 1
+        that.line = res.data.result;
+        that.line.englishName = that.line.lineEnglishName;
+      });
+    }
   },
   methods: {
+    buildLineName: function () {
+      let that = this;
+      let lineName = that.name + (that.line.status === 1 ? '(建设中)' : '');
+      console.log('line: ' + lineName);
+      return lineName;
+    },
     showRoute: function (d) {
       let that = this;
+      if (that.line.status !== 0)
+        return;
       let url = `${that.url.metroDirectionPolylineUrl.format(that.name)}?origin=${d.origin}&dest=${d.dest}`
       that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
         let data = res.data.result;
@@ -120,27 +135,6 @@ export default {
         for (let i = 0; i < bounds.length; i += 2)
           pts.push({latitude: bounds[i], longitude: bounds[i + 1]});
         that.includePoints = pts;
-      });
-    },
-    getStationInfo: async function (d) {
-      let that = this;
-      let stationInfoUrl;
-      if (that.type === constant.TRAVEL_TYPE_BUS)
-        stationInfoUrl = that.url.busStationBasicInfo;
-      else if (that.type === constant.TRAVEL_TYPE_METRO)
-        stationInfoUrl = that.url.metroStationBasicInfo;
-
-      let originInfoUrl = stationInfoUrl.format(d.origin);
-      that.ajax(originInfoUrl, constant.HTTP_METHOD_GET, null, function (resp) {
-        that.curOrigin = d.origin;
-        that.originLocation.latitude = resp.data.result.lat;
-        that.originLocation.longitude = resp.data.result.lon;
-      });
-      let destInfoUrl = stationInfoUrl.format(d.dest);
-      that.ajax(destInfoUrl, constant.HTTP_METHOD_GET, null, function (resp) {
-        that.curDest = d.dest;
-        that.destLocation.latitude = resp.data.result.lat;
-        that.destLocation.longitude = resp.data.result.lon;
       });
     },
   }

@@ -3,17 +3,22 @@
     <view class="title-row">
       <view class="title-block">
         <image v-if="icon !== ''" :src="icon" mode="widthFix" class="icon-big"></image>
-        <span class="title">{{ title }}</span>
+        <span class="title" :style="titleColor !== '' ? `color: #${titleColor};` : ''">
+          {{ title }}
+        </span>
         <span class="desc">{{ desc }}</span>
       </view>
-      <view v-if="Object.keys(location).length !== 0" class="location">
+      <view v-if="Object.keys(location).length !== 0 && location.city && location.district"
+            class="location">
         <image src="../../static/location-1.png" mode="widthFix" class="icon"></image>
         <span class="desc city">{{ location.city }}</span>
         <span class="desc district">{{ location.district }}</span>
       </view>
     </view>
     <view v-if="Object.keys(location).length !== 0 && location.englishName !== null
-                  && location.englishName !== undefined" class="subtitle">
+                  && location.englishName !== undefined"
+          class="subtitle"
+          :style="titleColor !== '' ? `color: #${titleColor};` : ''">
       {{ location.englishName }}
     </view>
   </view>
@@ -23,6 +28,10 @@
 export default {
   props: {
     title: {
+      type: String,
+      default: ""
+    },
+    titleColor: {
       type: String,
       default: ""
     },
@@ -37,10 +46,6 @@ export default {
     location: {
       type: Object,
       default: {}
-    },
-    stick: {
-      type: Boolean,
-      default: true
     }
   }
 }

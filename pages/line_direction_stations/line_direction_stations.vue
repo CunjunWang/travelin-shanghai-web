@@ -14,7 +14,7 @@
         <view class="row station-row">
           <view class="station-info">
             <text class="station-seq">{{ s.stationSeq }}.</text>
-            <text class="station-name">{{ s.stationName }}</text>
+            <text class="station-name">{{ buildStationName(s.stationName, s.status) }}</text>
             <text class="english-name">{{ s.stationEnglishName }}</text>
           </view>
           <view class="realtime" v-if="type === 'bus'" @tap.stop="realtimeInfo(s, i)">实时</view>
@@ -22,11 +22,12 @@
             <span v-for="(t, j) in s.transfers" class="transfer-line"
                   :key="j" :style="{backgroundColor: `#${t.lineColor}`}"
                   @tap.stop="directionDetail(t.lineName, 'metro')">
-              {{ t.lineName.replace("号线", "") }}
+              {{ buildStationName(t.lineName.replace("号线", ""), t.status) }}
             </span>
           </view>
         </view>
-        <view class="row location-row">
+        <view class="row location-row"
+              v-if="type === 'bus' || (type === 'metro' && s.status === 0)">
           <image src="../../static/location-1.png" mode="widthFix" class="icon"></image>
           <span class="desc city">{{ s.city }}</span>
           <span class="desc district">{{ s.district }}</span>
@@ -78,9 +79,21 @@ export default {
       if (that.type === constant.TRAVEL_TYPE_BUS)
         for (let s of that.stations)
           s.realtimeShow = false;
+      console.log(that.stations);
     });
   },
   methods: {
+    buildStationName: function (name, status) {
+      let that = this;
+      if (that.type === 'bus')
+        return name;
+      if (status === 1)
+        return name + '(建设中)';
+      else if (status === 2)
+        return name + '(规划中)';
+      else
+        return name;
+    },
     stationDetail: function (stationName) {
       uni.navigateTo({
         url: `../station_detail/station_detail?stationName=${stationName}&type=${this.type}`

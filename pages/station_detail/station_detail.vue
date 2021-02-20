@@ -10,7 +10,7 @@
       <title
           :title="stationName"
           :icon="type === 'bus' ? '../../static/bus-station-1.png' : '../../static/sh-metro-1.png'"
-          :desc="type === 'bus' ? '公交站' : '地铁站'"
+          :desc="getStationType(type)"
           :location="stationInfo">
       </title>
     </view>
@@ -97,6 +97,15 @@ export default {
         lat: that.stationInfo.lat,
         lon: that.stationInfo.lon
       }
+      if (!that.latLon.lat || !that.latLon.lon) {
+        uni.getLocation({
+          type: constant.LOCATION_TYPE_GCJ02,
+          success: function (resp) {
+            that.latLon.lat = resp.latitude;
+            that.latLon.lon = resp.longitude;
+          }
+        });
+      }
     });
 
   },
@@ -107,6 +116,22 @@ export default {
     },
     onToggleWashroomList: function (e, i) {
       this.$set(this.lines, i, e);
+    },
+    getStationType: function (t) {
+      let that = this;
+      if (t === 'bus')
+        return '公交站';
+      else if (t === 'metro') {
+        let s = '地铁站';
+        let status = that.stationInfo.status;
+        if (status === 1)
+          return `${s}(建设中)`;
+        else if (status === 2)
+          return `${s}(规划中)`;
+        else
+          return s;
+      } else
+        return null;
     }
   }
 }

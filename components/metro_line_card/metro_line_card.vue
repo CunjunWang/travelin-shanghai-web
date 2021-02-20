@@ -4,7 +4,7 @@
       <view class="line-name">
         <image src="../../static/sh-metro-1.png" mode="widthFix" class="icon"></image>
         <text class="name" :style="{color: '#' + line.color + ';'}">
-          {{ line.name }}
+          {{ line.name + (line.status === 1 ? '(建设中)' : '') }}
         </text>
         <text class="english-name" :style="{color: '#' + line.color + ';'}">
           {{ line.englishName }}
@@ -20,7 +20,7 @@
               @tap.stop="directionDetail(line.name)">
           线路详情
         </text>
-        <text v-if="showStationList"
+        <text v-if="showStationList && line.status === 0"
               class="stations underline"
               @tap.stop="toggleStationList()">
           {{ line.stationsShow ? '收起' : '站点列表' }}
@@ -70,7 +70,7 @@
       </loading>
       <view v-else class="washrooms-container">
         <view class="subtitle">
-          <text class="content">图例: </text>
+          <text class="content">图例:</text>
           <text class="position both">付费区外</text>
           <text class="position in">付费区内</text>
           <text class="position no">无卫生设施</text>
