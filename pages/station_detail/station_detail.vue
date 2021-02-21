@@ -13,7 +13,17 @@
           :desc="getStationType(type)"
           :location="stationInfo">
       </title>
+      <view v-if="type === 'metro'" class="exit-container">
+        <view class="content">
+          <image src="../../static/exit-1.png" mode="widthFix" class="icon"></image>
+          <text class="text">出入口信息 Exits</text>
+        </view>
+        <view class="arrow" @tap.stop="exitDetail(stationName)">
+          <image src="../../static/right-arrow-1.png" mode="widthFix" class="icon"></image>
+        </view>
+      </view>
     </view>
+
     <view class="lines-container">
       <loading v-if="lines.length === 0"
                :title="'线路列表载入中...'">
@@ -35,9 +45,6 @@
             @toggle-washroom-list="onToggleWashroomList($event, i)">
         </metro-line-card>
       </view>
-    </view>
-    <view v-if="type === 'metro'" class="exit-container">
-      TODO: 出口信息
     </view>
     <view class="bus-transfer-container">
       TODO: {{ type === 'metro' ? '公交' : '地铁' }} 换乘信息
@@ -132,6 +139,11 @@ export default {
           return s;
       } else
         return null;
+    },
+    exitDetail: function (stationName) {
+      uni.navigateTo({
+        url: `../exit/exit?stationName=${stationName}`
+      });
     }
   }
 }
