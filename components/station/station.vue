@@ -23,7 +23,7 @@
         <span v-if="type === 'metro'" class="metro-line" v-for="(l, j) in d.lines" :key="j"
               @tap.stop="directionDetail(l, 'metro')"
               :style="{backgroundColor: '#' + l.lineColor}">
-        {{ l.name }}
+        {{ buildMetroLineName(l)  }}
       </span>
       </view>
     </view>
@@ -43,6 +43,16 @@ export default {
     }
   },
   methods: {
+    buildMetroLineName: function (l) {
+      let name = l.name;
+      let status = l.status;
+      if (status === 1)
+        return name + '(建)';
+      else if (status === 2)
+        return name + '(规)';
+      else
+        return name;
+    },
     directionDetail: function (line, type) {
       uni.navigateTo({
         url: `../line_direction_detail/line_direction_detail?name=${line.name}&type=${type}`

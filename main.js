@@ -9,10 +9,10 @@ App.mpType = 'app'
 const app = new Vue({
     ...App
 })
-app.$mount()
+app.$mount();
 
 // 全局接口链接
-let host = "192.168.1.5"
+let host = "169.254.179.173"
 let busBaseUrl = `http://${host}:9090/api/bus`
 let metroBaseUrl = `http://${host}:9091/api/metro`
 Vue.prototype.url = {
