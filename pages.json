@@ -49,17 +49,15 @@
         "navigationBarTitleText": "站点详情",
         "enablePullDownRefresh": false
       }
+    },
+    {
+      "path": "pages/exit/exit",
+      "style": {
+        "navigationBarTitleText": "出入口详情",
+        "enablePullDownRefresh": false
+      }
     }
-      ,{
-            "path" : "pages/exit/exit",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+  ],
   "tabBar": {
     "list": [
       {

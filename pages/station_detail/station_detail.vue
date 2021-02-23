@@ -141,8 +141,10 @@ export default {
         return null;
     },
     exitDetail: function (stationName) {
+      let that = this;
       uni.navigateTo({
-        url: `../exit/exit?stationName=${stationName}`
+        url: `../exit/exit?stationName=${stationName}&stationInfo=${JSON.stringify(that.stationInfo)}
+              &latLon=${JSON.stringify(that.latLon)}`
       });
     }
   }

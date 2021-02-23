@@ -1,1 +1,86 @@
 @import url("../../style.less");
+
+.page {
+  background-color: #fff;
+}
+
+.map-container {
+  width: 100%;
+  height: 500rpx;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.title-container {
+  position: sticky;
+  top: 500rpx;
+}
+
+.exits-container {
+  padding: 10rpx;
+
+  .exit-item {
+    padding: 10rpx;
+    margin-bottom: 20rpx;
+    border: solid 2rpx #8a8a8a;
+    border-radius: 15rpx;
+
+    .exit-name-row {
+      margin-bottom: 10rpx;
+
+      .exit-icon {
+        width: 28rpx;
+        height: 28rpx;
+        margin-right: 15rpx;
+        vertical-align: -10%;
+      }
+
+      .exit-name {
+        font-size: 30rpx;
+        font-weight: bold;
+      }
+    }
+
+    .item-container {
+      margin-bottom: 5rpx;
+      padding: 5rpx;
+
+      &:not(:last-child) {
+        border-bottom: solid 1rpx #adadad;
+      }
+
+      .item-name-row {
+        display: flex;
+        justify-content: space-between;
+
+        .item-name {
+          font-size: 24rpx;
+          color: #222222;
+        }
+
+        .item-type {
+          font-size: 20rpx;
+          color: #fff;
+          padding: 5rpx;
+          background-color: #007aff;
+          border-radius: 10rpx;
+        }
+      }
+
+      .address-row {
+        .location-icon {
+          width: 22rpx;
+          height: 22rpx;
+          margin-right: 15rpx;
+        }
+
+        .address {
+          font-size: 20rpx;
+          color: #8a8a8a;
+        }
+      }
+    }
+  }
+
+}

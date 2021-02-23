@@ -12,27 +12,28 @@ const app = new Vue({
 app.$mount();
 
 // 全局接口链接
-let host = "169.254.179.173"
+let host = "172.20.10.3"
 let busBaseUrl = `http://${host}:9090/api/bus`
 let metroBaseUrl = `http://${host}:9091/api/metro`
 Vue.prototype.url = {
     busStationBasicInfo: busBaseUrl + "/query/station/{}",
-    metroStationBasicInfo: metroBaseUrl + "/query/station/{}",
+    metroStationBasicInfo: metroBaseUrl + "/query/station/basic/{}",
     busStationsNear: busBaseUrl + "/query/stations/nearby",
-    metroStationsNear: metroBaseUrl + "/query/stations/nearby",
+    metroStationsNear: metroBaseUrl + "/query/station/nearby",
     busLineDirectionTime: busBaseUrl + "/query/basic/{}",
     metroLineDirectionTime: metroBaseUrl + "/query/schedule/{}",
     metroLineBasicInfo: metroBaseUrl + "/query/basic/{}",
     busLineDirectionStations: busBaseUrl + "/query/stations/{}/{}",
-    metroLineDirectionStations: metroBaseUrl + "/query/stations/{}/{}",
+    metroLineDirectionStations: metroBaseUrl + "/query/station/{}/{}",
     busRealtime: busBaseUrl + "/query/realtime",
     busRealtimeStationLines: busBaseUrl + "/query/realtime/station/{}",
-    metroStationLines: metroBaseUrl + "/query/{}/lines",
+    metroStationLines: metroBaseUrl + "/query/station/{}/lines",
     metroLinesList: metroBaseUrl + "/query/lines",
-    metroLineStationList: metroBaseUrl + "/query/stations/{}",
+    metroLineStationList: metroBaseUrl + "/query/station/{}",
     metroDirectionPolylineUrl: metroBaseUrl + "/query/polyline/{}",
     metroStationWashroomsUrl: metroBaseUrl + "/query/station/{}/washrooms",
-    metroStationLineWashroomsUrl: metroBaseUrl + "/query/station/{}/washrooms/line/{}"
+    metroStationLineWashroomsUrl: metroBaseUrl + "/query/station/{}/washrooms/line/{}",
+    metroStationExitsUrl: metroBaseUrl + "/query/station/{}/exits"
 }
 
 Vue.prototype.txMap = txMap;
