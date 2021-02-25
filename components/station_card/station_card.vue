@@ -9,7 +9,7 @@
           <text class="distance">{{ data.distance }}</text>
         </view>
       </view>
-      <view v-if="type === 'metro'" class="english-name">
+      <view class="english-name">
         {{ data.englishName }}
       </view>
       <view class="lines">
