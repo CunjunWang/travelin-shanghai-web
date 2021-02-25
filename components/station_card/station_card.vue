@@ -1,7 +1,7 @@
 <template>
   <view class="station-container">
     <view class="station-info"
-          @tap="stationDetail(data.stationName)">
+          @tap="stationDetail()">
       <view class="station-distance">
         <text class="station-name">{{ data.stationName }}</text>
         <view class="distance-container">
@@ -23,7 +23,7 @@
         <span v-if="type === 'metro'" class="metro-line" v-for="(l, j) in data.lines" :key="j"
               @tap.stop="directionDetail(l, 'metro')"
               :style="{backgroundColor: '#' + l.lineColor}">
-        {{ buildMetroLineName(l)  }}
+        {{ buildMetroLineName(l) }}
       </span>
       </view>
     </view>
@@ -58,9 +58,21 @@ export default {
         url: `../line_direction_detail/line_direction_detail?name=${line.name}&type=${type}`
       });
     },
-    stationDetail: function (stationName) {
+    stationDetail: function () {
+      let that = this;
+      let station = {
+        stationName: that.data.stationName,
+        englishName: that.data.englishName,
+        stationLat: that.data.stationLat,
+        stationLon: that.data.stationLon,
+        stationStatus: that.data.stationStatus,
+        city: that.data.city,
+        district: that.data.district
+      };
+      console.log(station);
+      station = JSON.stringify(station);
       uni.navigateTo({
-        url: `../station_detail/station_detail?stationName=${stationName}&type=${this.type}`
+        url: `../station_detail/station_detail?type=${this.type}&station=${station}`
       });
     }
   }

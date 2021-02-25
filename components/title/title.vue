@@ -3,23 +3,20 @@
     <view class="title-row">
       <view class="title-block">
         <image v-if="icon !== ''" :src="icon" mode="widthFix" class="icon-big"></image>
-        <span class="title" :style="titleColor !== '' ? `color: #${titleColor};` : ''">
+        <span class="title" :style="data.titleColor !== '' ? `color: #${data.titleColor};` : ''">
           {{ title }}
         </span>
-        <span class="desc">{{ desc }}</span>
+        <span class="desc">{{ data.desc }}</span>
       </view>
-      <view v-if="Object.keys(location).length !== 0 && location.city && location.district"
-            class="location">
+      <view v-if="data.city && data.district" class="location">
         <image src="../../static/location-1.png" mode="widthFix" class="icon"></image>
-        <span class="desc city">{{ location.city }}</span>
-        <span class="desc district">{{ location.district }}</span>
+        <span class="desc city">{{ data.city }}</span>
+        <span class="desc district">{{ data.district }}</span>
       </view>
     </view>
-    <view v-if="Object.keys(location).length !== 0 && location.englishName !== null
-                  && location.englishName !== undefined"
-          class="subtitle"
-          :style="titleColor !== '' ? `color: #${titleColor};` : ''">
-      {{ location.englishName }}
+    <view v-if="data.englishName" class="subtitle"
+          :style="data.titleColor !== '' ? `color: #${data.titleColor};` : ''">
+      {{ data.englishName }}
     </view>
   </view>
 </template>
@@ -31,19 +28,11 @@ export default {
       type: String,
       default: ""
     },
-    titleColor: {
-      type: String,
-      default: ""
-    },
-    desc: {
-      type: String,
-      default: ""
-    },
     icon: {
       type: String,
       default: ""
     },
-    location: {
+    data: {
       type: Object,
       default: {}
     }

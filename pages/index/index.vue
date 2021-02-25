@@ -4,11 +4,12 @@
       <search-bar></search-bar>
     </view>
     <map class="map-container" id="index-map"
-         :scale='15'
+         :scale='14'
          :longitude="curLocation.lon"
          :latitude="curLocation.lat"
          :markers="markers"
-         show-location="true">
+         :show-location="true"
+         :enable-zoom="false">
       <cover-image src="../../static/back-to-cur-location-1.png" mode="widthFix"
                    class="back-icon" @tap.stop="backToCurLocation()">
       </cover-image>

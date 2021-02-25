@@ -2,23 +2,27 @@
   <view class="page">
     <map class="map-container"
          :scale='18'
-         :longitude="latLon.lon"
-         :latitude="latLon.lat"
-         show-location>
+         :longitude="station.stationLon"
+         :latitude="station.stationLat"
+         :show-location="true">
     </map>
     <view class="title-container">
       <title
-          :title="stationName"
+          :title="station.stationName"
           :icon="type === 'bus' ? '../../static/bus-station-1.png' : '../../static/sh-metro-1.png'"
-          :desc="getStationType(type)"
-          :location="stationInfo">
+          :data="{
+            desc: getStationType(type),
+            city: station.city,
+            district: station.district,
+            englishName: station.englishName
+          }">
       </title>
       <view v-if="type === 'metro'" class="subtitle-container">
         <view class="content">
           <image src="../../static/exit-1.png" mode="widthFix" class="icon"></image>
           <text class="text">出入口信息 Exits</text>
         </view>
-        <view class="arrow" @tap.stop="exitDetail(stationName)">
+        <view class="arrow" @tap.stop="exitDetail(station.stationName)">
           <image src="../../static/right-arrow-1.png" mode="widthFix" class="icon"></image>
         </view>
       </view>
@@ -29,7 +33,7 @@
             {{ type === 'metro' ? '公交' : '地铁' }}换乘信息 {{ type === 'metro' ? 'Bus ' : 'Metro ' }}Transfers
           </text>
         </view>
-        <view class="arrow" @tap.stop="transferDetail(stationName)">
+        <view class="arrow" @tap.stop="transferDetail(station.stationName)">
           <image src="../../static/right-arrow-1.png" mode="widthFix" class="icon"></image>
         </view>
       </view>
@@ -43,14 +47,14 @@
         <bus-station-line
             v-if="type === 'bus'"
             :data="l"
-            :station-name="stationName"
+            :station-name="station.stationName"
             :type="type"
             @update-line="onLineUpdate($event, i)">
         </bus-station-line>
         <metro-line-card
             v-if="type === 'metro'"
             :line="l"
-            :station-name="stationName"
+            :station-name="station.stationName"
             :show-station-list="false"
             :show-washroom-list="true"
             @toggle-washroom-list="onToggleWashroomList($event, i)">
@@ -78,49 +82,28 @@ export default {
   },
   data() {
     return {
-      lines: [],
       type: "",
-      stationName: "",
-      latLon: {},
-      stationInfo: {},
+      lines: [],
+      station: {},
       washrooms: {}
     }
   },
   onLoad: function (data) {
     let that = this;
-    that.stationName = data.stationName;
     that.type = data.type;
-    let infoUrl, linesUrl;
-    if (that.type === constant.TRAVEL_TYPE_BUS) {
-      infoUrl = that.url.bus.stationBasicInfo.format(that.stationName);
-      linesUrl = that.url.bus.realtimeStationLines.format(that.stationName);
-    } else if (that.type === constant.TRAVEL_TYPE_METRO) {
-      infoUrl = that.url.metro.stationBasicInfo.format(that.stationName);
-      linesUrl = that.url.metro.stationLines.format(that.stationName);
-    }
+    that.station = JSON.parse(data.station);
+    let stationName = that.station.stationName;
+    let linesUrl;
+    if (that.type === constant.TRAVEL_TYPE_BUS)
+      linesUrl = that.url.bus.realtimeStationLines.format(stationName);
+    else if (that.type === constant.TRAVEL_TYPE_METRO)
+      linesUrl = that.url.metro.stationLines.format(stationName);
     that.ajax(linesUrl, constant.HTTP_METHOD_GET, null, function (res) {
       that.lines = res.data.list;
       if (that.type === constant.TRAVEL_TYPE_BUS)
         for (let l of that.lines)
           l.realtimeLoading = false;
     });
-    that.ajax(infoUrl, constant.HTTP_METHOD_GET, null, function (res) {
-      that.stationInfo = res.data.result;
-      that.latLon = {
-        lat: that.stationInfo.lat,
-        lon: that.stationInfo.lon
-      }
-      if (!that.latLon.lat || !that.latLon.lon) {
-        uni.getLocation({
-          type: constant.LOCATION_TYPE_GCJ02,
-          success: function (resp) {
-            that.latLon.lat = resp.latitude;
-            that.latLon.lon = resp.longitude;
-          }
-        });
-      }
-    });
-
   },
   methods: {
     onLineUpdate: function (e, i) {
@@ -136,7 +119,7 @@ export default {
         return '公交站';
       else if (t === 'metro') {
         let s = '地铁站';
-        let status = that.stationInfo.status;
+        let status = that.station.stationStatus;
         if (status === 1)
           return `${s}(建设中)`;
         else if (status === 2)
