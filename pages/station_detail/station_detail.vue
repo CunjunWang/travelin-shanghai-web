@@ -1,10 +1,13 @@
 <template>
   <view class="page">
     <map class="map-container"
-         :scale='18'
+         :scale='16'
          :longitude="station.stationLon"
          :latitude="station.stationLat"
-         :show-location="true">
+         :markers="markers"
+         :show-location="true"
+         :enable-zoom="false"
+         :enable-scroll="false">
     </map>
     <view class="title-container">
       <title
@@ -84,6 +87,7 @@ export default {
     return {
       type: "",
       lines: [],
+      markers: [],
       station: {},
       washrooms: {}
     }
@@ -104,6 +108,16 @@ export default {
         for (let l of that.lines)
           l.realtimeLoading = false;
     });
+    let stationSuffix = that.type === constant.TRAVEL_TYPE_BUS ? '-公交站' : '-地铁站';
+    let marker = {
+      title: stationName + stationSuffix,
+      latitude: that.station.stationLat,
+      longitude: that.station.stationLon,
+      iconPath: '../../static/location-2.png',
+      width: 40,
+      height: 40
+    }
+    that.markers.push(marker);
   },
   methods: {
     onLineUpdate: function (e, i) {
