@@ -3,12 +3,15 @@
     <view class="search">
       <search-bar></search-bar>
     </view>
-    <map class="map-container"
+    <map class="map-container" id="index-map"
          :scale='15'
          :longitude="curLocation.lon"
          :latitude="curLocation.lat"
          :markers="markers"
          show-location="true">
+      <cover-image src="../../static/back-to-cur-location-1.png" mode="widthFix"
+                   class="back-icon" @tap.stop="backToCurLocation()">
+      </cover-image>
     </map>
     <view class="title-container">
       <title
@@ -104,7 +107,12 @@ export default {
       }
     });
   },
-  methods: {}
+  methods: {
+    backToCurLocation: function () {
+      let mapCtx = uni.createMapContext("index-map");
+      mapCtx.moveToLocation();
+    }
+  }
 }
 </script>
 
