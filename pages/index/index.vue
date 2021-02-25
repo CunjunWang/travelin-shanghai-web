@@ -4,10 +4,11 @@
       <search-bar></search-bar>
     </view>
     <map class="map-container"
-         :scale='16'
+         :scale='15'
          :longitude="curLocation.lon"
          :latitude="curLocation.lat"
-         show-location>
+         :markers="markers"
+         show-location="true">
     </map>
     <view class="title-container">
       <title
@@ -58,6 +59,7 @@ export default {
       keyword: "",
       buses: [],
       metros: [],
+      markers: [],
       curLocation: {}
     }
   },
@@ -73,10 +75,32 @@ export default {
         let metroUrl = `${that.url.metro.nearbyStations}?curLat=${lat}&curLon=${lon}`;
         that.ajax(busUrl, constant.HTTP_METHOD_GET, null, function (resp) {
           that.buses = resp.data.list;
-        })
+          for (let b of that.buses) {
+            let marker = {
+              title: b.stationName + "-公交站",
+              latitude: b.stationLat,
+              longitude: b.stationLon,
+              iconPath: '../../static/location-2.png',
+              width: 25,
+              height: 25
+            }
+            that.markers.push(marker);
+          }
+        });
         that.ajax(metroUrl, constant.HTTP_METHOD_GET, null, function (resp) {
           that.metros = resp.data.list;
-        })
+          for (let m of that.metros) {
+            let marker = {
+              title: m.stationName + "-地铁站",
+              latitude: m.stationLat,
+              longitude: m.stationLon,
+              iconPath: '../../static/location-2.png',
+              width: 25,
+              height: 25
+            }
+            that.markers.push(marker);
+          }
+        });
       }
     });
   },
