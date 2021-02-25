@@ -12,7 +12,7 @@ const app = new Vue({
 app.$mount();
 
 // 全局接口链接
-let host = "172.20.10.3"
+let host = "192.168.1.3"
 let busBaseUrl = `http://${host}:9090/api/bus`
 let metroBaseUrl = `http://${host}:9091/api/metro`
 Vue.prototype.url = {
@@ -33,7 +33,8 @@ Vue.prototype.url = {
     metroDirectionPolylineUrl: metroBaseUrl + "/query/polyline/{}",
     metroStationWashroomsUrl: metroBaseUrl + "/query/station/{}/washrooms",
     metroStationLineWashroomsUrl: metroBaseUrl + "/query/station/{}/washrooms/line/{}",
-    metroStationExitsUrl: metroBaseUrl + "/query/station/{}/exits"
+    metroStationExitsUrl: metroBaseUrl + "/query/station/{}/exits",
+    metroTransferToBusUrl: metroBaseUrl + "/query/transfer/bus"
 }
 
 Vue.prototype.txMap = txMap;

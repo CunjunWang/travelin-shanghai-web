@@ -13,12 +13,23 @@
           :desc="getStationType(type)"
           :location="stationInfo">
       </title>
-      <view v-if="type === 'metro'" class="exit-container">
+      <view v-if="type === 'metro'" class="subtitle-container">
         <view class="content">
           <image src="../../static/exit-1.png" mode="widthFix" class="icon"></image>
           <text class="text">出入口信息 Exits</text>
         </view>
         <view class="arrow" @tap.stop="exitDetail(stationName)">
+          <image src="../../static/right-arrow-1.png" mode="widthFix" class="icon"></image>
+        </view>
+      </view>
+      <view v-if="type === 'metro'" class="subtitle-container">
+        <view class="content">
+          <image src="../../static/exit-1.png" mode="widthFix" class="icon"></image>
+          <text class="text">
+            {{ type === 'metro' ? '公交' : '地铁' }}换乘信息 {{ type === 'metro' ? 'Bus ' : 'Metro ' }}Transfers
+          </text>
+        </view>
+        <view class="arrow" @tap.stop="transferDetail(stationName)">
           <image src="../../static/right-arrow-1.png" mode="widthFix" class="icon"></image>
         </view>
       </view>
@@ -45,9 +56,6 @@
             @toggle-washroom-list="onToggleWashroomList($event, i)">
         </metro-line-card>
       </view>
-    </view>
-    <view class="bus-transfer-container">
-      TODO: {{ type === 'metro' ? '公交' : '地铁' }} 换乘信息
     </view>
   </view>
 </template>
@@ -144,6 +152,13 @@ export default {
       let that = this;
       uni.navigateTo({
         url: `../exit/exit?stationName=${stationName}&stationInfo=${JSON.stringify(that.stationInfo)}
+              &latLon=${JSON.stringify(that.latLon)}`
+      });
+    },
+    transferDetail: function (stationName) {
+      let that = this;
+      uni.navigateTo({
+        url: `../transfer/transfer?stationName=${stationName}&stationInfo=${JSON.stringify(that.stationInfo)}
               &latLon=${JSON.stringify(that.latLon)}`
       });
     }

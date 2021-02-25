@@ -57,7 +57,16 @@
         "enablePullDownRefresh": false
       }
     }
-  ],
+      ,{
+            "path" : "pages/transfer/transfer",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "换乘详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
   "tabBar": {
     "list": [
       {
