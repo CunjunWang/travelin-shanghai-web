@@ -1,7 +1,6 @@
 <template>
   <view class="page">
-    <map class="map-container"
-         :scale='16'
+    <map class="map-container" :scale='16'
          :longitude="station.stationLon"
          :latitude="station.stationLat"
          :markers="markers"
@@ -10,22 +9,21 @@
          :enable-scroll="false">
     </map>
     <view class="title-container">
-      <title
-          :title="station.stationName"
-          :icon="type === 'bus' ? '../../static/bus-station-1.png' : '../../static/sh-metro-1.png'"
-          :data="{
-            desc: getStationType(type),
-            city: station.city,
-            district: station.district,
-            englishName: station.englishName
-          }">
+      <title :title="station.stationName"
+             :icon="type === 'bus' ? '../../static/bus-station-1.png' : '../../static/sh-metro-1.png'"
+             :data="{
+               desc: getStationType(type),
+               city: station.city,
+               district: station.district,
+               englishName: station.englishName
+             }">
       </title>
       <view v-if="type === 'metro'" class="subtitle-container">
         <view class="content">
           <image src="../../static/exit-1.png" mode="widthFix" class="icon"></image>
           <text class="text">出入口信息 Exits</text>
         </view>
-        <view class="arrow" @tap.stop="exitDetail(station.stationName)">
+        <view class="arrow" @tap.stop="exitDetail()">
           <image src="../../static/right-arrow-1.png" mode="widthFix" class="icon"></image>
         </view>
       </view>
@@ -36,7 +34,7 @@
             {{ type === 'metro' ? '公交' : '地铁' }}换乘信息 {{ type === 'metro' ? 'Bus ' : 'Metro ' }}Transfers
           </text>
         </view>
-        <view class="arrow" @tap.stop="transferDetail(station.stationName)">
+        <view class="arrow" @tap.stop="transferDetail()">
           <image src="../../static/right-arrow-1.png" mode="widthFix" class="icon"></image>
         </view>
       </view>
@@ -49,9 +47,8 @@
       <view v-for="(l, i) in lines" :key="i">
         <bus-station-line
             v-if="type === 'bus'"
-            :data="l"
+            :type="type" :data="l"
             :station-name="station.stationName"
-            :type="type"
             @update-line="onLineUpdate($event, i)">
         </bus-station-line>
         <metro-line-card
@@ -143,18 +140,16 @@ export default {
       } else
         return null;
     },
-    exitDetail: function (stationName) {
+    exitDetail: function () {
       let that = this;
       uni.navigateTo({
-        url: `../exit/exit?stationName=${stationName}&stationInfo=${JSON.stringify(that.stationInfo)}
-              &latLon=${JSON.stringify(that.latLon)}`
+        url: `../exit/exit?station=${JSON.stringify(that.station)}`
       });
     },
-    transferDetail: function (stationName) {
+    transferDetail: function () {
       let that = this;
       uni.navigateTo({
-        url: `../transfer/transfer?stationName=${stationName}&stationInfo=${JSON.stringify(that.stationInfo)}
-              &latLon=${JSON.stringify(that.latLon)}`
+        url: `../transfer/transfer?station=${JSON.stringify(that.station)}`
       });
     }
   }

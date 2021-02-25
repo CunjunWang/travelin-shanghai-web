@@ -1,18 +1,20 @@
 <template>
   <view class="page">
-    <map class="map-container"
-         :scale='18'
-         :longitude="latLon.lon"
-         :latitude="latLon.lat"
+    <map class="map-container" :scale='16'
+         :longitude="station.stationLon"
+         :latitude="station.stationLat"
          :markers="markers"
-         show-location>
+         :show-location="true">
     </map>
     <view class="title-container">
-      <title
-          :title="station"
-          :icon="'../../static/sh-metro-1.png'"
-          :desc="'出入口信息'"
-          :location="stationInfo">
+      <title :title="station.stationName"
+             :icon="'../../static/sh-metro-1.png'"
+             :data="{
+               desc: '出入口信息',
+               city: station.city,
+               district: station.district,
+               englishName: station.englishName + ' Exits'
+             }">
       </title>
     </view>
     <view class="exits-container">
@@ -43,26 +45,21 @@ import {constant} from "../../common/constant";
 export default {
   data() {
     return {
-      station: "",
+      station: {},
       exits: {},
-      stationInfo: {},
-      latLon: {},
       markers: [],
     }
   },
   onLoad: function (d) {
     let that = this;
-    that.station = d.stationName;
-    that.stationInfo = JSON.parse(d.stationInfo);
-    that.latLon = JSON.parse(d.latLon);
-    let url = that.url.metro.stationExits.format(that.station);
+    that.station = JSON.parse(d.station);
+    let url = that.url.metro.stationExits.format(that.station.stationName);
     that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
       that.exits = res.data.result;
-    })
+    });
   },
   methods: {
     addMarker: function (item) {
-      console.log(item);
       let that = this;
       that.latLon = {
         lat: item.itemLat,

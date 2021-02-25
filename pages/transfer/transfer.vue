@@ -1,6 +1,6 @@
 <template>
   <view>
-    {{ station }} 公交换乘信息
+    {{ station.stationName }} 公交换乘信息
   </view>
 </template>
 
@@ -8,16 +8,12 @@
 export default {
   data() {
     return {
-      station: "",
-      stationInfo: {},
-      latLon: {}
+      station: {},
     }
   },
   onLoad: function (d) {
     let that = this;
-    that.station = d.stationName;
-    that.stationInfo = JSON.parse(d.stationInfo);
-    that.latLon = JSON.parse(d.latLon);
+    that.station = JSON.parse(d.station);
   },
   methods: {}
 }
