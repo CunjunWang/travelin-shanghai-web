@@ -1,26 +1,26 @@
 <template>
   <view class="station-container">
-    <view v-for="(d, i) in data" :key="i" class="station-info"
-          @tap="stationDetail(d.stationName)">
+    <view class="station-info"
+          @tap="stationDetail(data.stationName)">
       <view class="station-distance">
-        <text class="station-name">{{ d.stationName }}</text>
+        <text class="station-name">{{ data.stationName }}</text>
         <view class="distance-container">
           <image src="../../static/walk-1.png" mode="widthFix" class="distance-icon"></image>
-          <text class="distance">{{ d.distance }}</text>
+          <text class="distance">{{ data.distance }}</text>
         </view>
       </view>
       <view v-if="type === 'metro'" class="english-name">
-        {{ d.englishName }}
+        {{ data.englishName }}
       </view>
       <view class="lines">
         <image v-if="type === 'bus'" src="../../static/bus-1.png" mode="widthFix" class="icon"></image>
         <image v-if="type === 'metro'" src="../../static/metro-1.png" mode="widthFix" class="icon"></image>
         <text class="desc">本站线路:</text>
-        <div v-if="type === 'bus'" class="bus-line" v-for="(l, j) in d.lines" :key="j"
+        <div v-if="type === 'bus'" class="bus-line" v-for="(l, j) in data.lines" :key="j"
              @tap.stop="directionDetail(l, 'bus')">
           {{ l.name }}
         </div>
-        <span v-if="type === 'metro'" class="metro-line" v-for="(l, j) in d.lines" :key="j"
+        <span v-if="type === 'metro'" class="metro-line" v-for="(l, j) in data.lines" :key="j"
               @tap.stop="directionDetail(l, 'metro')"
               :style="{backgroundColor: '#' + l.lineColor}">
         {{ buildMetroLineName(l)  }}
@@ -33,13 +33,13 @@
 <script>
 export default {
   props: {
-    data: {
-      type: Array,
-      default: []
-    },
     type: {
       type: String,
       default: ""
+    },
+    data: {
+      type: Object,
+      default: {}
     }
   },
   methods: {
@@ -68,5 +68,5 @@ export default {
 </script>
 
 <style lang="less">
-@import url("station.less");
+@import url("station_card.less");
 </style>

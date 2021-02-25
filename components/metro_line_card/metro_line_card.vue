@@ -143,7 +143,7 @@ export default {
 
       if (l.stationsShow) {
         l.stationsLoading = true;
-        let url = `${that.url.metroLineStationList.format(l.name)}?origin=${l.origin}&dest=${l.dest}`;
+        let url = `${that.url.metro.lineStationList.format(l.name)}?origin=${l.origin}&dest=${l.dest}`;
         that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
           that.stations = res.data.list;
           l.stationsLoading = false;
@@ -159,7 +159,7 @@ export default {
 
       if (l.washroomShow) {
         l.washroomsLoading = true;
-        let washroomsUrl = that.url.metroStationLineWashroomsUrl.format(that.stationName, l.name);
+        let washroomsUrl = that.url.metro.stationLineWashrooms.format(that.stationName, l.name);
         that.ajax(washroomsUrl, constant.HTTP_METHOD_GET, null, function (res) {
           that.washrooms = res.data.list;
           l.washroomsLoading = false;

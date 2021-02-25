@@ -65,7 +65,6 @@ import {constant} from "common/constant";
 import Title from "../../components/title/title";
 import Subtitle from "../../components/subtitle/subtitle";
 import Loading from "../../components/loading/loading";
-import TravelMap from "../../components/travel_map/travel_map"
 import BusStationLine from "../../components/bus_station_line/bus_station_line";
 import MetroLineCard from "../../components/metro_line_card/metro_line_card";
 
@@ -73,7 +72,6 @@ export default {
   components: {
     Title,
     Subtitle,
-    TravelMap,
     Loading,
     BusStationLine,
     MetroLineCard,
@@ -94,11 +92,11 @@ export default {
     that.type = data.type;
     let infoUrl, linesUrl;
     if (that.type === constant.TRAVEL_TYPE_BUS) {
-      infoUrl = that.url.busStationBasicInfo.format(that.stationName);
-      linesUrl = that.url.busRealtimeStationLines.format(that.stationName);
+      infoUrl = that.url.bus.stationBasicInfo.format(that.stationName);
+      linesUrl = that.url.bus.realtimeStationLines.format(that.stationName);
     } else if (that.type === constant.TRAVEL_TYPE_METRO) {
-      infoUrl = that.url.metroStationBasicInfo.format(that.stationName);
-      linesUrl = that.url.metroStationLines.format(that.stationName);
+      infoUrl = that.url.metro.stationBasicInfo.format(that.stationName);
+      linesUrl = that.url.metro.stationLines.format(that.stationName);
     }
     that.ajax(linesUrl, constant.HTTP_METHOD_GET, null, function (res) {
       that.lines = res.data.list;

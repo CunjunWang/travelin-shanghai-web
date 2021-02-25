@@ -54,7 +54,7 @@ export default {
       this.$emit("update-line", this.line);
 
       let l = this.line;
-      let url = this.url.busRealtime + `?routeName=${l.name}&direction=${l.direction}&station=${l.stationSeq}`
+      let url = this.url.bus.realtime + `?routeName=${l.name}&direction=${l.direction}&station=${l.stationSeq}`
       let that = this;
       this.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
         let r = {};

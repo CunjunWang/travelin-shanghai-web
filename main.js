@@ -16,25 +16,28 @@ let host = "192.168.1.3"
 let busBaseUrl = `http://${host}:9090/api/bus`
 let metroBaseUrl = `http://${host}:9091/api/metro`
 Vue.prototype.url = {
-    busStationBasicInfo: busBaseUrl + "/query/station/{}",
-    metroStationBasicInfo: metroBaseUrl + "/query/station/basic/{}",
-    busStationsNear: busBaseUrl + "/query/stations/nearby",
-    metroStationsNear: metroBaseUrl + "/query/station/nearby",
-    busLineDirectionTime: busBaseUrl + "/query/basic/{}",
-    metroLineDirectionTime: metroBaseUrl + "/query/schedule/{}",
-    metroLineBasicInfo: metroBaseUrl + "/query/basic/{}",
-    busLineDirectionStations: busBaseUrl + "/query/stations/{}/{}",
-    metroLineDirectionStations: metroBaseUrl + "/query/station/{}/{}",
-    busRealtime: busBaseUrl + "/query/realtime",
-    busRealtimeStationLines: busBaseUrl + "/query/realtime/station/{}",
-    metroStationLines: metroBaseUrl + "/query/station/{}/lines",
-    metroLinesList: metroBaseUrl + "/query/lines",
-    metroLineStationList: metroBaseUrl + "/query/station/{}",
-    metroDirectionPolylineUrl: metroBaseUrl + "/query/polyline/{}",
-    metroStationWashroomsUrl: metroBaseUrl + "/query/station/{}/washrooms",
-    metroStationLineWashroomsUrl: metroBaseUrl + "/query/station/{}/washrooms/line/{}",
-    metroStationExitsUrl: metroBaseUrl + "/query/station/{}/exits",
-    metroTransferToBusUrl: metroBaseUrl + "/query/transfer/bus"
+    bus: {
+        nearbyStations: busBaseUrl + "/query/station/nearby",
+        stationBasicInfo: busBaseUrl + "/query/station/{}",
+        lineDirectionTime: busBaseUrl + "/query/basic/{}",
+        lineDirectionStations: busBaseUrl + "/query/stations/{}/{}",
+        realtime: busBaseUrl + "/query/realtime",
+        realtimeStationLines: busBaseUrl + "/query/realtime/station/{}",
+    },
+    metro: {
+        nearbyStations: metroBaseUrl + "/query/station/nearby",
+        stationBasicInfo: metroBaseUrl + "/query/station/basic/{}",
+        lineBasicInfo: metroBaseUrl + "/query/basic/{}",
+        lineDirectionTime: metroBaseUrl + "/query/schedule/{}",
+        lineDirectionStations: metroBaseUrl + "/query/station/{}/{}",
+        stationLines: metroBaseUrl + "/query/station/{}/lines",
+        lineList: metroBaseUrl + "/query/lines",
+        lineStationList: metroBaseUrl + "/query/station/{}",
+        directionPolyline: metroBaseUrl + "/query/polyline/{}",
+        stationLineWashrooms: metroBaseUrl + "/query/station/{}/washrooms/line/{}",
+        stationExits: metroBaseUrl + "/query/station/{}/exits",
+        transferToBus: metroBaseUrl + "/query/transfer/bus"
+    }
 }
 
 Vue.prototype.txMap = txMap;

@@ -34,7 +34,7 @@ export default {
   },
   onLoad: function () {
     let that = this;
-    that.ajax(that.url.metroLinesList, constant.HTTP_METHOD_GET, null, function (res) {
+    that.ajax(that.url.metro.lineList, constant.HTTP_METHOD_GET, null, function (res) {
       console.log(res.data.list);
       let lines = [];
       for (let l of res.data.list) {

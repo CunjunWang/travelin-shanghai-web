@@ -55,7 +55,7 @@ export default {
     that.station = d.stationName;
     that.stationInfo = JSON.parse(d.stationInfo);
     that.latLon = JSON.parse(d.latLon);
-    let url = that.url.metroStationExitsUrl.format(that.station);
+    let url = that.url.metro.stationExits.format(that.station);
     that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
       that.exits = res.data.result;
     })

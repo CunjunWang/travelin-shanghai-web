@@ -70,9 +70,9 @@ export default {
     that.data = JSON.parse(data.data);
     let url
     if (that.type === constant.TRAVEL_TYPE_BUS)
-      url = that.url.busLineDirectionStations.format(that.name, that.data.direction);
+      url = that.url.bus.lineDirectionStations.format(that.name, that.data.direction);
     else if (that.type === constant.TRAVEL_TYPE_METRO)
-      url = that.url.metroLineDirectionStations.format(that.name, that.data.direction) +
+      url = that.url.metro.lineDirectionStations.format(that.name, that.data.direction) +
           `?origin=${that.data.origin}&dest=${that.data.dest}`;
     that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
       that.stations = res.data.list;
@@ -110,7 +110,7 @@ export default {
       // 如果当前点击打开了实时信息行 再去请求接口
       if (s.realtimeShow) {
         that.realtimeLoading = true;
-        let url = that.url.busRealtime + `?routeName=${s.busName}&direction=${s.direction}&station=${s.stationSeq}`
+        let url = that.url.bus.realtime + `?routeName=${s.busName}&direction=${s.direction}&station=${s.stationSeq}`
         that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
           let r = {};
           Object.assign(r, res.data.result);

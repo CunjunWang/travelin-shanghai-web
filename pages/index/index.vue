@@ -5,29 +5,36 @@
     </view>
     <map class="map-container"
          :scale='16'
-         :longitude="location.lon"
-         :latitude="location.lat"
+         :longitude="curLocation.lon"
+         :latitude="curLocation.lat"
          show-location>
     </map>
-    <view class="info-container">
+    <view class="title-container">
       <title
           :title="'附近的公交站:'"
           :icon="'../../static/bus-station-1.png'">
       </title>
     </view>
-    <loading class="loading-block"
-             v-if="buses.length === 0"
-             :title="'附近的公交站列表载入中'">
-    </loading>
-    <station v-else :data="buses" :type="'bus'"></station>
-    <view class="info-container">
+    <view class="station-list">
+      <loading class="loading-block" v-if="buses.length === 0"
+               :title="'附近的公交站列表载入中'"></loading>
+      <station-card v-else v-for="(b, i) in buses"
+                    :key="i" :type="'bus'" :data="b">
+      </station-card>
+    </view>
+    <view class="title-container">
       <title
           :title="'附近的地铁站:'"
           :icon="'../../static/sh-metro-1.png'">
       </title>
     </view>
-    <loading v-if="metros.length === 0" :title="'附近的地铁站列表载入中'"></loading>
-    <station v-else :data="metros" :type="'metro'"></station>
+    <view class="station-list">
+      <loading class="loading-block" v-if="metros.length === 0"
+               :title="'附近的地铁站列表载入中'"></loading>
+      <station-card v-else v-for="(m, i) in metros"
+                    :key="i" :data="m" :type="'metro'">
+      </station-card>
+    </view>
   </view>
 </template>
 
@@ -35,25 +42,23 @@
 import {constant} from "common/constant";
 
 import SearchBar from "../../components/search_bar/search_bar";
-import TravelMap from "../../components/travel_map/travel_map";
 import Loading from "../../components/loading/loading";
 import Title from "../../components/title/title";
-import Station from "../../components/station/station";
+import StationCard from "../../components/station_card/station_card";
 
 export default {
   components: {
-    TravelMap,
     SearchBar,
     Loading,
     Title,
-    Station
+    StationCard
   },
   data() {
     return {
       keyword: "",
       buses: [],
       metros: [],
-      location: {}
+      curLocation: {}
     }
   },
   onLoad: function () {
@@ -63,9 +68,9 @@ export default {
       success: function (resp) {
         let lat = resp.latitude;
         let lon = resp.longitude;
-        that.location = {lat, lon};
-        let busUrl = `${that.url.busStationsNear}?curLat=${lat}&curLon=${lon}`;
-        let metroUrl = `${that.url.metroStationsNear}?curLat=${lat}&curLon=${lon}`;
+        that.curLocation = {lat, lon};
+        let busUrl = `${that.url.bus.nearbyStations}?curLat=${lat}&curLon=${lon}`;
+        let metroUrl = `${that.url.metro.nearbyStations}?curLat=${lat}&curLon=${lon}`;
         that.ajax(busUrl, constant.HTTP_METHOD_GET, null, function (resp) {
           that.buses = resp.data.list;
         })

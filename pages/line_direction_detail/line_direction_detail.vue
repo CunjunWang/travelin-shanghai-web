@@ -83,9 +83,9 @@ export default {
 
     let url;
     if (type === constant.TRAVEL_TYPE_BUS) {
-      url = that.url.busLineDirectionTime.format(name);
+      url = that.url.bus.lineDirectionTime.format(name);
     } else if (type === constant.TRAVEL_TYPE_METRO)
-      url = that.url.metroLineDirectionTime.format(name);
+      url = that.url.metro.lineDirectionTime.format(name);
     that.ajax(url, constant.HTTP_METHOD_GET, null, function (resp) {
       let dir = [];
       for (let ldt of resp.data.result) {
@@ -99,7 +99,7 @@ export default {
     });
 
     if (type === constant.TRAVEL_TYPE_METRO) {
-      url = that.url.metroLineBasicInfo.format(name);
+      url = that.url.metro.lineBasicInfo.format(name);
       that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
         // color: "6c6602" line: "14号线" lineEnglishName: "Line 14" status: 1
         that.line = res.data.result;
@@ -118,7 +118,7 @@ export default {
       let that = this;
       if (that.line.status !== 0)
         return;
-      let url = `${that.url.metroDirectionPolylineUrl.format(that.name)}?origin=${d.origin}&dest=${d.dest}`
+      let url = `${that.url.metro.directionPolyline.format(that.name)}?origin=${d.origin}&dest=${d.dest}`
       that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
         let data = res.data.result;
         that.polyline = [
