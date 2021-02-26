@@ -80,7 +80,14 @@ export default {
       type: "",
       lines: [],
       markers: [],
-      station: {},
+      station: {
+        stationName: "",
+        englishName: "",
+        stationLon: "",
+        stationLat: "",
+        city: "",
+        district: ""
+      },
       washrooms: {}
     }
   },

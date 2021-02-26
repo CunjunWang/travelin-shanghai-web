@@ -4,7 +4,7 @@
     <view class="line-and-direction">
       <text class="line-name">{{ lineName }}</text>
       <text class="line-direction"
-            @tap.stop="lineDirectionDetail()">{{ data.direction }}
+            @tap.stop="lineDirectionStations()">{{ data.direction }}
       </text>
     </view>
     <view class="direction-detail">
@@ -66,7 +66,7 @@ export default {
     return {}
   },
   methods: {
-    lineDirectionDetail: function () {
+    lineDirectionStations: function () {
       let that = this;
       let data = JSON.stringify(that.data);
       uni.navigateTo({

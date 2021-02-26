@@ -52,8 +52,15 @@ export default {
   data() {
     return {
       type: "",
-      line: {},
-      curLocation: {},
+      line: {
+        lineName: "",
+        lineEnglishName: "",
+        lineColor: ""
+      },
+      curLocation: {
+        lon: "",
+        lat: ""
+      },
       scale: 16,
       directions: [],
       polyline: [],
@@ -118,7 +125,7 @@ export default {
           {
             points: JSON.parse(data.polyline),
             color: data.color,
-            width: 6,
+            width: 4,
             borderColor: '#000',
             borderWidth: 1
           }

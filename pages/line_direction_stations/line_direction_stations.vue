@@ -7,19 +7,19 @@
     </view>
     <view class="title">站点列表</view>
     <view class="station-list" v-if="stations.length !== 0">
-      <view class="station-container" v-for="(s, i) in stations" @tap="stationDetail(s.stationName)">
+      <view class="station-container" v-for="(s, i) in stations" @tap="stationDetail(s)">
         <view class="row station-row">
           <view class="station-info">
             <text class="station-seq">{{ s.stationSeq }}.</text>
-            <text class="station-name">{{ buildStationName(s.stationName, s.status) }}</text>
+            <text class="station-name">{{ buildNameByStatus(s.stationName, s.status) }}</text>
             <text class="english-name">{{ s.stationEnglishName }}</text>
           </view>
           <view class="realtime" v-if="type === 'bus'" @tap.stop="realtimeInfo(s, i)">实时</view>
           <view class="transfer" v-if="type === 'metro'">
             <span v-for="(t, j) in s.transfers" class="transfer-line"
                   :key="j" :style="{backgroundColor: t.lineColor}"
-                  @tap.stop="directionDetail(t.lineName, 'metro')">
-              {{ buildStationName(t.lineName.replace("号线", ""), t.status) }}
+                  @tap.stop="lineDirectionDetail(t, 'metro')">
+              {{ buildNameByStatus(t.lineName.replace("号线", ""), t.lineStatus) }}
             </span>
           </view>
         </view>
@@ -53,7 +53,11 @@ export default {
     return {
       type: "",
       lineName: "",
-      data: {},
+      data: {
+        direction: "",
+        origin: "",
+        dest: ""
+      },
       realtimeData: {},
       stations: [],
       realtimeLoading: false,
@@ -78,25 +82,35 @@ export default {
     });
   },
   methods: {
-    buildStationName: function (name, status) {
+    stationDetail: function (s) {
+      console.log(s);
+      let that = this;
+      let station = {
+        stationName: s.stationName,
+        englishName: s.stationEnglishName,
+        stationLon: s.lon,
+        stationLat: s.lat,
+        city: s.city,
+        district: s.district
+      };
+      uni.navigateTo({
+        url: `../station_detail/station_detail?type=${that.type}&station=${JSON.stringify(station)}`
+      });
+    },
+    buildNameByStatus: function (name, status) {
       let that = this;
       if (that.type === 'bus')
         return name;
       if (status === 1)
-        return name + '(建设中)';
+        return name + '(建)';
       else if (status === 2)
-        return name + '(规划中)';
+        return name + '(规)';
       else
         return name;
     },
-    stationDetail: function (stationName) {
+    lineDirectionDetail: function (line, type) {
       uni.navigateTo({
-        url: `../station_detail/station_detail?stationName=${stationName}&type=${this.type}`
-      });
-    },
-    directionDetail: function (line, type) {
-      uni.navigateTo({
-        url: `../line_direction_detail/line_direction_detail?name=${line}&type=${type}`
+        url: `../line_direction_detail/line_direction_detail?type=${type}&line=${JSON.stringify(line)}`
       });
     },
     realtimeInfo: function (s, i) {
