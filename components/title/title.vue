@@ -3,7 +3,7 @@
     <view class="title-row">
       <view class="title-block">
         <image v-if="icon !== ''" :src="icon" mode="widthFix" class="icon-big"></image>
-        <span class="title" :style="data.titleColor !== '' ? `color: #${data.titleColor};` : ''">
+        <span class="title" :style="data.titleColor !== '' ? `color: ${data.titleColor}` : ''">
           {{ title }}
         </span>
         <span class="desc">{{ data.desc }}</span>
@@ -15,7 +15,7 @@
       </view>
     </view>
     <view v-if="data.englishName" class="subtitle"
-          :style="data.titleColor !== '' ? `color: #${data.titleColor};` : ''">
+          :style="data.titleColor !== '' ? `color: ${data.titleColor}` : ''">
       {{ data.englishName }}
     </view>
   </view>

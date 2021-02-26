@@ -1,32 +1,28 @@
 <template>
   <view class="page">
     <map class="map-container"
-         :longitude="lon"
-         :latitude="lat"
+         :longitude="curLocation.lon"
+         :latitude="curLocation.lat"
          :scale='scale'
          :polyline="polyline"
          :include-points="includePoints"
-         show-location>
+         :show-location="true">
     </map>
     <view class="title-container">
-      <title
-          :icon="type === 'bus' ? '../../static/line-1.png' : '../../static/sh-metro-1.png'"
-          :title="buildLineName()"
-          :title-color="line.color"
-          :desc="'线路详情' + (line.status !== 0 ? '' : '(点击卡片查看走向)')"
-          :location="line">
+      <title :title="buildLineName()"
+             :icon="type === 'bus' ? '../../static/line-1.png' : '../../static/sh-metro-1.png'"
+             :data="{
+               desc: buildLineDesc(),
+               titleColor: line.lineColor,
+               englishName: line.lineEnglishName
+             }">
       </title>
     </view>
     <view class="direction-container">
-      <loading v-if="directions.length === 0"
-               :title="'方向信息载入中...'">
-      </loading>
+      <loading v-if="directions.length === 0" :title="'方向信息载入中...'"></loading>
       <view v-for="(d, i) in directions" :key="i">
-        <direction :name="name"
-                   :type="type"
-                   :data="d"
-                   :border="true"
-                   :station-active="true"
+        <direction :name="line.lineName" :type="type" :data="d"
+                   :border="true" :station-active="true"
                    @tap="showRoute(d)">
         </direction>
       </view>
@@ -55,11 +51,9 @@ export default {
   },
   data() {
     return {
-      name: "",
       type: "",
-      lat: "",
-      lon: "",
       line: {},
+      curLocation: {},
       scale: 16,
       directions: [],
       polyline: [],
@@ -68,24 +62,24 @@ export default {
   },
   onLoad: function (data) {
     let that = this;
-    let name = data.name;
-    let type = data.type;
-    that.name = name;
-    that.type = type;
+    that.line = JSON.parse(data.line);
+    that.type = data.type;
+    let lineName = that.line.lineName;
+    let type = that.type;
 
     uni.getLocation({
       type: constant.LOCATION_TYPE_GCJ02,
       success: function (resp) {
-        that.lat = resp.latitude;
-        that.lon = resp.longitude;
+        that.curLocation.lat = resp.latitude;
+        that.curLocation.lon = resp.longitude;
       }
     });
 
     let url;
-    if (type === constant.TRAVEL_TYPE_BUS) {
-      url = that.url.bus.lineDirectionTime.format(name);
-    } else if (type === constant.TRAVEL_TYPE_METRO)
-      url = that.url.metro.lineDirectionTime.format(name);
+    if (type === constant.TRAVEL_TYPE_BUS)
+      url = that.url.bus.lineDirectionTime.format(lineName);
+    else if (type === constant.TRAVEL_TYPE_METRO)
+      url = that.url.metro.lineDirectionTime.format(lineName);
     that.ajax(url, constant.HTTP_METHOD_GET, null, function (resp) {
       let dir = [];
       for (let ldt of resp.data.result) {
@@ -97,22 +91,19 @@ export default {
       }
       that.directions = dir;
     });
-
-    if (type === constant.TRAVEL_TYPE_METRO) {
-      url = that.url.metro.lineBasicInfo.format(name);
-      that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
-        // color: "6c6602" line: "14号线" lineEnglishName: "Line 14" status: 1
-        that.line = res.data.result;
-        that.line.englishName = that.line.lineEnglishName;
-      });
-    }
   },
   methods: {
     buildLineName: function () {
       let that = this;
-      let lineName = that.name + (that.line.status === 1 ? '(建设中)' : '');
-      console.log('line: ' + lineName);
-      return lineName;
+      return that.line.lineName + (that.line.lineStatus === 1 ? '(建设中)' : '');
+    },
+    buildLineDesc: function () {
+      let that = this;
+      let status = that.line.lineStatus;
+      let desc = '线路详情';
+      if (status === undefined || status === 0)
+        desc += '(点击卡片查看走向)';
+      return desc;
     },
     showRoute: function (d) {
       let that = this;

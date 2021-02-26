@@ -18,11 +18,11 @@
         <text class="desc">本站线路:</text>
         <div v-if="type === 'bus'" class="bus-line" v-for="(l, j) in data.lines" :key="j"
              @tap.stop="directionDetail(l, 'bus')">
-          {{ l.name }}
+          {{ l.lineName }}
         </div>
         <span v-if="type === 'metro'" class="metro-line" v-for="(l, j) in data.lines" :key="j"
               @tap.stop="directionDetail(l, 'metro')"
-              :style="{backgroundColor: '#' + l.lineColor}">
+              :style="{backgroundColor: l.lineColor}">
         {{ buildMetroLineName(l) }}
       </span>
       </view>
@@ -48,8 +48,8 @@ export default {
   },
   methods: {
     buildMetroLineName: function (l) {
-      let name = l.name;
-      let status = l.status;
+      let name = l.lineName;
+      let status = l.lineStatus;
       if (status === 1)
         return name + '(建)';
       else if (status === 2)
@@ -59,21 +59,16 @@ export default {
     },
     directionDetail: function (line, type) {
       uni.navigateTo({
-        url: `../line_direction_detail/line_direction_detail?name=${line.name}&type=${type}`
+        url: `../line_direction_detail/line_direction_detail?type=${type}&line=${JSON.stringify(line)}`
       });
     },
     stationDetail: function () {
       let that = this;
-      let station = {
-        stationName: that.data.stationName,
-        englishName: that.data.englishName,
-        stationLat: that.data.stationLat,
-        stationLon: that.data.stationLon,
-        stationStatus: that.data.stationStatus,
-        city: that.data.city,
-        district: that.data.district
-      };
-      console.log(station);
+      let station = {};
+      Object.assign(station, that.data);
+      delete station['lines'];
+      delete station['distance'];
+      delete station['pureDistance'];
       station = JSON.stringify(station);
       uni.navigateTo({
         url: `../station_detail/station_detail?type=${this.type}&station=${station}&userLocation=${that.userLocation}`
