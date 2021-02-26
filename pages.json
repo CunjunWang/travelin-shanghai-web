@@ -56,17 +56,15 @@
         "navigationBarTitleText": "出入口详情",
         "enablePullDownRefresh": false
       }
+    },
+    {
+      "path": "pages/transfer/transfer",
+      "style": {
+        "navigationBarTitleText": "换乘详情",
+        "enablePullDownRefresh": false
+      }
     }
-      ,{
-            "path" : "pages/transfer/transfer",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "换乘详情",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+  ],
   "tabBar": {
     "list": [
       {
@@ -79,7 +77,7 @@
         "text": "公交",
         "pagePath": "pages/bus/bus",
         "iconPath": "static/bus-tab.png",
-        "selectedIconPath": "static/bus-tab.png"
+        "selectedIconPath": "static/bus-tab-active.png"
       },
       {
         "text": "地铁",
@@ -91,7 +89,7 @@
         "text": "我的",
         "pagePath": "pages/my/my",
         "iconPath": "static/my-tab.png",
-        "selectedIconPath": "static/my-tab.png"
+        "selectedIconPath": "static/my-tab-active.png"
       }
     ]
   },
