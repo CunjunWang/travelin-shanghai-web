@@ -40,6 +40,10 @@ export default {
     data: {
       type: Object,
       default: {}
+    },
+    userLocation: {
+      type: Object,
+      default: {}
     }
   },
   methods: {
@@ -72,7 +76,7 @@ export default {
       console.log(station);
       station = JSON.stringify(station);
       uni.navigateTo({
-        url: `../station_detail/station_detail?type=${this.type}&station=${station}`
+        url: `../station_detail/station_detail?type=${this.type}&station=${station}&userLocation=${that.userLocation}`
       });
     }
   }

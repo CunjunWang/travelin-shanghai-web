@@ -37,7 +37,8 @@
       <loading class="loading-block" v-if="metros.length === 0"
                :title="'附近的地铁站列表载入中'"></loading>
       <station-card v-else v-for="(m, i) in metros"
-                    :key="i" :data="m" :type="'metro'">
+                    :key="i" :data="m" :type="'metro'"
+                    :user-location="curLocation">
       </station-card>
     </view>
   </view>

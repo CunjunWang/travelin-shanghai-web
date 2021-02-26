@@ -11,17 +11,13 @@
         </text>
       </view>
       <view class="desc-block">
-        <text v-if="showWashroomList"
-              class="washrooms underline"
-              @tap.stop="toggleWashroomList()">
+        <text v-if="showWashroomList" class="washrooms underline" @tap.stop="toggleWashroomList()">
           {{ line.washroomShow ? '收起' : '洗手间' }}
         </text>
-        <text class="detail underline"
-              @tap.stop="directionDetail(line.name)">
+        <text class="detail underline" @tap.stop="directionDetail(line.name)">
           线路详情
         </text>
-        <text v-if="showStationList && line.status === 0"
-              class="stations underline"
+        <text v-if="showStationList && line.status === 0" class="stations underline"
               @tap.stop="toggleStationList()">
           {{ line.stationsShow ? '收起' : '站点列表' }}
         </text>
@@ -39,18 +35,15 @@
         <text class="direction dest">{{ line.destEnglish }}</text>
       </view>
     </view>
-    <view class="stations-block" v-if="line.stationsShow">
-      <loading :title="`${line.name}站点列表载入中...`"
-               v-if="line.stationsLoading">
-      </loading>
+    <!--    <view class="stations-block" v-if="line.stationsShow">-->
+    <scroll-view class="stations-block" scroll-y="true" v-if="line.stationsShow">
+      <loading v-if="line.stationsLoading" :title="`${line.name}站点列表载入中...`"></loading>
       <view v-else class="stations-container">
         <view v-for="(s, j) in stations" :key="j" class="station-item">
           <view class="info-row">
             <view class="seq-and-name">
               <text class="station-seq">{{ j + 1 }}.</text>
-              <text class="station-name" @tap.stop="stationDetail(s.stationName)">
-                {{ s.stationName }}
-              </text>
+              <text class="station-name" @tap.stop="stationDetail(s)">{{ s.stationName }}</text>
             </view>
             <view class="location">
               <image src="../../static/location-1.png" mode="widthFix" class="location-icon"></image>
@@ -58,22 +51,19 @@
               <text class="district"> {{ s.district }}</text>
             </view>
           </view>
-          <view class="station-english-row">
-            {{ s.stationEnglishName }}
-          </view>
+          <view class="station-english-row">{{ s.englishName }}</view>
         </view>
       </view>
-    </view>
+    </scroll-view>
+    <!--    </view>-->
     <view class="washrooms-block" v-if="line.washroomShow">
-      <loading :title="`${line.name}洗手间信息载入中...`"
-               v-if="line.washroomsLoading">
-      </loading>
+      <loading v-if="line.washroomsLoading" :title="`${line.name}洗手间信息载入中...`"></loading>
       <view v-else class="washrooms-container">
         <view class="subtitle">
           <text class="content">图例:</text>
           <text class="position both">付费区外</text>
           <text class="position in">付费区内</text>
-          <text class="position no">无卫生设施</text>
+          <text class="position no">站内无卫生设施</text>
         </view>
         <view v-for="(w, j) in washrooms" :key="j" class="washroom-item">
           <image :src="getIconPath(w)" mode="widthFix" class="icon"></image>
@@ -129,9 +119,10 @@ export default {
         url: `../line_direction_detail/line_direction_detail?name=${line}&type=metro`
       });
     },
-    stationDetail: function (stationName) {
+    stationDetail: function (station) {
+      station = JSON.stringify(station);
       uni.navigateTo({
-        url: `../station_detail/station_detail?stationName=${stationName}&type=metro`
+        url: `../station_detail/station_detail?type=metro&station=${station}`
       });
     },
     toggleStationList: function () {

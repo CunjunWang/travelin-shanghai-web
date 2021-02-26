@@ -4,9 +4,7 @@
       <search-bar></search-bar>
     </view>
     <view class="lines-container">
-      <metro-line-card v-for="(l, i) in lines" :key="i"
-                       :line="l"
-                       :type="'metro'"
+      <metro-line-card v-for="(l, i) in lines" :key="i" :line="l"
                        :show-station-list="true"
                        @toggle-station-list="onToggleStationList($event, i)">
       </metro-line-card>
@@ -35,7 +33,6 @@ export default {
   onLoad: function () {
     let that = this;
     that.ajax(that.url.metro.lineList, constant.HTTP_METHOD_GET, null, function (res) {
-      console.log(res.data.list);
       let lines = [];
       for (let l of res.data.list) {
         l.stationsShow = false;
