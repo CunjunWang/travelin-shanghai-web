@@ -3,10 +3,10 @@
     <view class="info-row">
       <view class="line-name">
         <image src="../../static/sh-metro-1.png" mode="widthFix" class="icon"></image>
-        <text class="name" :style="{color: '#' + line.color + ';'}">
+        <text class="name" :style="{color: line.color}">
           {{ line.name + (line.status === 1 ? '(建设中)' : '') }}
         </text>
-        <text class="english-name" :style="{color: '#' + line.color + ';'}">
+        <text class="english-name" :style="{color: line.color}">
           {{ line.englishName }}
         </text>
       </view>
@@ -14,7 +14,7 @@
         <text v-if="showWashroomList" class="washrooms underline" @tap.stop="toggleWashroomList()">
           {{ line.washroomShow ? '收起' : '洗手间' }}
         </text>
-        <text class="detail underline" @tap.stop="directionDetail(line.name)">
+        <text class="detail underline" @tap.stop="lineDirectionDetail()">
           线路详情
         </text>
         <text v-if="showStationList && line.status === 0" class="stations underline"
@@ -114,15 +114,20 @@ export default {
       this.line.stationsShow = false;
   },
   methods: {
-    directionDetail: function (line) {
+    lineDirectionDetail: function () {
+      let that = this;
+      let line = {
+        lineName: that.line.name,
+        lineColor: that.line.color,
+        lineEnglishName: that.line.englishName
+      };
       uni.navigateTo({
-        url: `../line_direction_detail/line_direction_detail?name=${line}&type=metro`
+        url: `../line_direction_detail/line_direction_detail?type=metro&line=${JSON.stringify(line)}`
       });
     },
     stationDetail: function (station) {
-      station = JSON.stringify(station);
       uni.navigateTo({
-        url: `../station_detail/station_detail?type=metro&station=${station}`
+        url: `../station_detail/station_detail?type=metro&station=${JSON.stringify(station)}`
       });
     },
     toggleStationList: function () {

@@ -21,7 +21,7 @@
     <view class="direction-container">
       <loading v-if="directions.length === 0" :title="'方向信息载入中...'"></loading>
       <view v-for="(d, i) in directions" :key="i">
-        <direction :name="line.lineName" :type="type" :data="d"
+        <direction :line-name="line.lineName" :type="type" :data="d"
                    :border="true" :station-active="true"
                    @tap="showRoute(d)">
         </direction>
@@ -107,15 +107,17 @@ export default {
     },
     showRoute: function (d) {
       let that = this;
-      if (that.line.status !== 0)
+      console.log(d);
+      console.log(that.line);
+      if (that.line.lineStatus !== 0)
         return;
-      let url = `${that.url.metro.directionPolyline.format(that.name)}?origin=${d.origin}&dest=${d.dest}`
+      let url = `${that.url.metro.directionPolyline.format(d.name)}?origin=${d.origin}&dest=${d.dest}`
       that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
         let data = res.data.result;
         that.polyline = [
           {
             points: JSON.parse(data.polyline),
-            color: `#${data.color}`,
+            color: data.color,
             width: 6,
             borderColor: '#000',
             borderWidth: 1

@@ -4,7 +4,7 @@
       <view class="line-direction">
         <image src="../../static/bus-1.png" mode="widthFix" class="icon"></image>
         <text class="line-name">{{ data.name }}</text>
-        <text class="direction">开往:</text>
+        <text class="direction">开往: </text>
         <text :class="['direction', underline(data.dest)]"
               @tap="stationDetail(data.dest)">{{ data.dest }}
         </text>
@@ -73,10 +73,20 @@ export default {
       return this.stationName !== dest ? 'underline' : '';
     },
     stationDetail: function (stationName) {
-      if (this.stationName !== stationName)
+      let that = this;
+      let url;
+      if (that.type === constant.TRAVEL_TYPE_BUS)
+        url = that.url.bus.stationBasicInfo.format(stationName);
+      else
+        url = that.url.metro.stationBasicInfo.format(stationName);
+      that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
+        let result = res.data.result;
+        let station = {}
+        Object.assign(station, result);
         uni.navigateTo({
-          url: `../station_detail/station_detail?stationName=${stationName}&type=${this.type}`
+          url: `../station_detail/station_detail?type=${that.type}&station=${JSON.stringify(station)}`
         });
+      });
     },
   },
 }

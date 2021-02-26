@@ -11,12 +11,7 @@
     <view class="title-container">
       <title :title="station.stationName"
              :icon="type === 'bus' ? '../../static/bus-station-1.png' : '../../static/sh-metro-1.png'"
-             :data="{
-               desc: getStationType(type),
-               city: station.city,
-               district: station.district,
-               englishName: station.englishName
-             }">
+             :data="buildTitleData()">
       </title>
       <view v-if="type === 'metro'" class="subtitle-container">
         <view class="content">
@@ -139,6 +134,15 @@ export default {
           return s;
       } else
         return null;
+    },
+    buildTitleData: function () {
+      let that = this;
+      return {
+        desc: that.getStationType(that.type),
+        city: that.station.city,
+        district: that.station.district,
+        englishName: that.station.englishName
+      }
     },
     exitDetail: function () {
       let that = this;

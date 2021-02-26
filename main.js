@@ -13,13 +13,13 @@ app.$mount();
 
 // 全局接口链接
 // let host = "172.16.18.231";
-let host = "192.168.1.3";
+let host = "172.20.10.3";
 let busBaseUrl = `http://${host}:9090/api/bus`;
 let metroBaseUrl = `http://${host}:9091/api/metro`;
 Vue.prototype.url = {
     bus: {
         nearbyStations: busBaseUrl + "/query/station/nearby",
-        stationBasicInfo: busBaseUrl + "/query/station/{}",
+        stationBasicInfo: busBaseUrl + "/query/station/basic/{}",
         lineDirectionTime: busBaseUrl + "/query/basic/{}",
         lineDirectionStations: busBaseUrl + "/query/stations/{}/{}",
         realtime: busBaseUrl + "/query/realtime",

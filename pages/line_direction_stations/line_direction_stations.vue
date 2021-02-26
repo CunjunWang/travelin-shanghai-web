@@ -1,11 +1,8 @@
 <template>
   <view class="page">
     <view class="direction-container">
-      <direction :name="name"
-                 :type="type"
-                 :data="data"
-                 :border="false"
-                 :station-active="false">
+      <direction :line-name="lineName" :type="type" :data="data"
+                 :border="false" :station-active="false">
       </direction>
     </view>
     <view class="title">站点列表</view>
@@ -20,7 +17,7 @@
           <view class="realtime" v-if="type === 'bus'" @tap.stop="realtimeInfo(s, i)">实时</view>
           <view class="transfer" v-if="type === 'metro'">
             <span v-for="(t, j) in s.transfers" class="transfer-line"
-                  :key="j" :style="{backgroundColor: `#${t.lineColor}`}"
+                  :key="j" :style="{backgroundColor: t.lineColor}"
                   @tap.stop="directionDetail(t.lineName, 'metro')">
               {{ buildStationName(t.lineName.replace("号线", ""), t.status) }}
             </span>
@@ -33,9 +30,8 @@
           <span class="desc district">{{ s.district }}</span>
         </view>
         <view class="row realtime-row" v-if="s.realtimeShow">
-          <realtime-card
-              :loading="realtimeLoading"
-              :data="realtimeData">
+          <realtime-card :loading="realtimeLoading"
+                         :data="realtimeData">
           </realtime-card>
         </view>
       </view>
@@ -55,8 +51,8 @@ export default {
   },
   data() {
     return {
-      name: "",
       type: "",
+      lineName: "",
       data: {},
       realtimeData: {},
       stations: [],
@@ -65,21 +61,20 @@ export default {
   },
   onLoad: function (data) {
     let that = this;
-    that.name = data.name;
     that.type = data.type;
+    that.lineName = data.lineName;
     that.data = JSON.parse(data.data);
     let url
     if (that.type === constant.TRAVEL_TYPE_BUS)
-      url = that.url.bus.lineDirectionStations.format(that.name, that.data.direction);
+      url = that.url.bus.lineDirectionStations.format(that.lineName, that.data.direction);
     else if (that.type === constant.TRAVEL_TYPE_METRO)
-      url = that.url.metro.lineDirectionStations.format(that.name, that.data.direction) +
+      url = that.url.metro.lineDirectionStations.format(that.lineName, that.data.direction) +
           `?origin=${that.data.origin}&dest=${that.data.dest}`;
     that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
       that.stations = res.data.list;
       if (that.type === constant.TRAVEL_TYPE_BUS)
         for (let s of that.stations)
           s.realtimeShow = false;
-      console.log(that.stations);
     });
   },
   methods: {
