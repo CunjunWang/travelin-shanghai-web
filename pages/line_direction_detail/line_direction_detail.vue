@@ -114,8 +114,6 @@ export default {
     },
     showRoute: function (d) {
       let that = this;
-      console.log(d);
-      console.log(that.line);
       if (that.line.lineStatus !== 0)
         return;
       let url = `${that.url.metro.directionPolyline.format(d.name)}?origin=${d.origin}&dest=${d.dest}`

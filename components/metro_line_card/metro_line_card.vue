@@ -119,7 +119,8 @@ export default {
       let line = {
         lineName: that.line.name,
         lineColor: that.line.color,
-        lineEnglishName: that.line.englishName
+        lineEnglishName: that.line.englishName,
+        lineStatus: that.line.status
       };
       uni.navigateTo({
         url: `../line_direction_detail/line_direction_detail?type=metro&line=${JSON.stringify(line)}`
