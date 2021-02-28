@@ -39,7 +39,12 @@ export default {
     },
     data: {
       type: Object,
-      default: {}
+      default: {
+        stationName: "",
+        englishName: "",
+        distance: 0,
+        lines: []
+      }
     },
     userLocation: {
       type: Object,

@@ -22,7 +22,7 @@
           <image src="../../static/right-arrow-1.png" mode="widthFix" class="icon"></image>
         </view>
       </view>
-      <view v-if="type === 'metro'" class="subtitle-container">
+      <view class="subtitle-container">
         <view class="content">
           <image src="../../static/exit-1.png" mode="widthFix" class="icon"></image>
           <text class="text">
@@ -160,7 +160,7 @@ export default {
     transferDetail: function () {
       let that = this;
       uni.navigateTo({
-        url: `../transfer/transfer?station=${JSON.stringify(that.station)}`
+        url: `../transfer/transfer?type=${that.type}&station=${JSON.stringify(that.station)}`
       });
     }
   }

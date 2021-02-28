@@ -12,8 +12,7 @@ const app = new Vue({
 app.$mount();
 
 // 全局接口链接
-// let host = "172.16.18.231";
-let host = "172.20.10.3";
+let host = "172.16.18.231";
 let busBaseUrl = `http://${host}:9090/api/bus`;
 let metroBaseUrl = `http://${host}:9091/api/metro`;
 Vue.prototype.url = {
@@ -24,6 +23,7 @@ Vue.prototype.url = {
         lineDirectionStations: busBaseUrl + "/query/stations/{}/{}",
         realtime: busBaseUrl + "/query/realtime",
         realtimeStationLines: busBaseUrl + "/query/realtime/station/{}",
+        transferToMetro: busBaseUrl + "/query/transfer/metro"
     },
     metro: {
         nearbyStations: metroBaseUrl + "/query/station/nearby",
