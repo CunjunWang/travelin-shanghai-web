@@ -71,6 +71,10 @@ export default {
           stationName: stationData.stationName,
           englishName: stationData.englishName,
           distance: stationData.distance,
+          stationLat: stationData.stationLat,
+          stationLon: stationData.stationLon,
+          city: stationData.city,
+          district: stationData.district,
           lines: stationData.transfers
         }
         that.transfers.push(t);

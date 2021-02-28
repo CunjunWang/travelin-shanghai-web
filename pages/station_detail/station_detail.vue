@@ -24,7 +24,7 @@
       </view>
       <view class="subtitle-container">
         <view class="content">
-          <image src="../../static/exit-1.png" mode="widthFix" class="icon"></image>
+          <image src="../../static/transfer-2.png" mode="widthFix" class="icon"></image>
           <text class="text">
             {{ type === 'metro' ? '公交' : '地铁' }}换乘信息 {{ type === 'metro' ? 'Bus ' : 'Metro ' }}Transfers
           </text>
