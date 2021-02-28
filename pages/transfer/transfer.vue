@@ -14,21 +14,24 @@
              :data="buildTitleData()">
       </title>
     </view>
-    <view class="transfer-container">
+    <view v-if="transfers.length !== 0" class="transfer-container">
       <view v-for="(t, i) in transfers" :key="i">
         <station-card :type="type === 'bus' ? 'metro' : 'bus'" :data="t"></station-card>
       </view>
     </view>
+    <empty v-else :message="`该站周围500米内暂无${type === 'bus' ? '地铁' : '公交'}站`"></empty>
   </view>
 </template>
 
 <script>
 import StationCard from '../../components/station_card/station_card';
+import Empty from '../../components/empty/empty';
 import {constant} from "../../common/constant";
 
 export default {
   components: {
     StationCard,
+    Empty
   },
   data() {
     return {
@@ -101,8 +104,10 @@ export default {
     buildTitleData: function () {
       let that = this;
       return {
-        desc: `${that.type === 'bus' ? '公交站' : '地铁站'}-${that.type === 'bus' ? '地铁' : '公交'}换乘信息`,
-        englishName: that.station.englishName
+        desc: `${that.type === 'bus' ? '公交站' : '地铁站'}-${that.type === 'bus' ? '地铁' : '公交'}换乘`,
+        englishName: that.station.englishName,
+        city: that.station.city,
+        district: that.station.district
       }
     }
   }
