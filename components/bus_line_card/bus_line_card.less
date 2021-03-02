@@ -1,0 +1,114 @@
+@import url("../../style.less");
+
+
+.line-info-container {
+  padding: 10rpx;
+  border-radius: 5rpx;
+  margin-bottom: 5rpx;
+  border: solid 3rpx #808080;
+  background-color: #fff;
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    vertical-align: center;
+
+    .name-tag-row {
+      .icon {
+        width: 32rpx;
+        height: 32rpx;
+        margin-right: 15rpx;
+        vertical-align: -10%;
+      }
+
+      .name {
+        font-size: 32rpx;
+        font-weight: bold;
+        margin-right: 10rpx;
+      }
+    }
+
+    .tags-block {
+      display: inline-block;
+      font-size: 24rpx;
+      color: #ffffff;
+
+      .tag {
+        margin-left: 10rpx;
+        padding: 3rpx;
+        border-radius: 8rpx;
+      }
+
+      .night {
+        background-color: #10aeff;
+      }
+
+      .busy {
+        background-color: #e64340;
+      }
+
+      .realtime {
+        background-color: #39af08;
+      }
+
+      .district-bus {
+        background-color: #ffdd00;
+      }
+    }
+
+    .desc-block {
+      font-size: 22rpx;
+      color: #808080;
+      margin-top: 5rpx;
+      margin-right: 10rpx;
+
+      .underline {
+        text-decoration: underline;
+      }
+
+      .detail {
+        margin-right: 10rpx;
+      }
+    }
+  }
+
+  .english-name-row {
+    margin-bottom: 10rpx;
+    margin-left: 45rpx;
+
+    .english-name {
+      font-size: 24rpx;
+    }
+  }
+
+  .direction-block {
+    font-size: 22rpx;
+    color: #808080;
+
+    .chinese-row {
+      margin-bottom: 5rpx;
+
+      .origin {
+        margin-right: 10rpx;
+      }
+
+      .dest {
+        margin-left: 10rpx;
+      }
+    }
+
+    .english-row {
+      font-size: 20rpx;
+      color: #808080;
+
+      .origin {
+        margin-right: 10rpx;
+      }
+
+      .dest {
+        margin-left: 10rpx;
+      }
+    }
+  }
+}
+
