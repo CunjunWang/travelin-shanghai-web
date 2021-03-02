@@ -16,7 +16,8 @@
     </view>
     <view v-if="transfers.length !== 0" class="transfer-container">
       <view v-for="(t, i) in transfers" :key="i">
-        <station-card :type="type === 'bus' ? 'metro' : 'bus'" :data="t"></station-card>
+        <station-card :type="type === 'bus' ? 'metro' : 'bus'" :data="t"
+                      :show-distance="true"></station-card>
       </view>
     </view>
     <empty v-else :message="`该站周围500米内暂无${type === 'bus' ? '地铁' : '公交'}站`"></empty>

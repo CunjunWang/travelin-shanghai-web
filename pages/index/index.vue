@@ -24,7 +24,8 @@
       <loading class="loading-block" v-if="buses.length === 0"
                :title="'附近的公交站列表载入中'"></loading>
       <station-card v-else v-for="(b, i) in buses"
-                    :key="i" :type="'bus'" :data="b">
+                    :key="i" :type="'bus'" :data="b"
+                    :show-distance="true">
       </station-card>
     </view>
     <view class="title-container">
@@ -38,7 +39,8 @@
                :title="'附近的地铁站列表载入中'"></loading>
       <station-card v-else v-for="(m, i) in metros"
                     :key="i" :data="m" :type="'metro'"
-                    :user-location="curLocation">
+                    :user-location="curLocation"
+                    :show-distance="true">
       </station-card>
     </view>
   </view>

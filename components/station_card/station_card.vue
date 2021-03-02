@@ -2,17 +2,22 @@
   <view class="station-container">
     <view class="station-info"
           @tap="stationDetail()">
-      <view class="station-distance">
+      <view class="station-distance-location">
         <text class="station-name">{{ data.stationName }}</text>
-        <view class="distance-container">
+        <view v-if="showDistance" class="distance-container">
           <image src="../../static/walk-1.png" mode="widthFix" class="distance-icon"></image>
           <text class="distance">{{ data.distance }}</text>
+        </view>
+        <view v-if="showLocation" class="location">
+          <image src="../../static/location-1.png" mode="widthFix" class="icon"></image>
+          <span class="desc city">{{ data.city }}</span>
+          <span class="desc district">{{ data.district }}</span>
         </view>
       </view>
       <view class="english-name">
         {{ data.englishName }}
       </view>
-      <view class="lines">
+      <view v-if="data.lines && data.lines.length !== 0" class="lines">
         <image v-if="type === 'bus'" src="../../static/bus-1.png" mode="widthFix" class="icon"></image>
         <image v-if="type === 'metro'" src="../../static/metro-1.png" mode="widthFix" class="icon"></image>
         <text class="desc">本站线路:</text>
@@ -49,6 +54,14 @@ export default {
     userLocation: {
       type: Object,
       default: {}
+    },
+    showLocation: {
+      type: Boolean,
+      default: false
+    },
+    showDistance: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

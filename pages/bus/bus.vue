@@ -1,32 +1,32 @@
 <template>
   <view class="page">
     <view class="tab-container">
-      <text :class="['nav', getActive('lines')]"
-            @tap="changeMode('lines')">线路查询
-      </text>
-      <text :class="['nav', getActive('stations')]"
-            @tap="changeMode('stations')">站点查询
-      </text>
+      <view :class="['tab-item', getActive('lines')]"
+            @tap="changeMode('lines')">
+        <image src="../../static/line-1.png" mode="widthFix" class="icon"></image>
+        <text class="nav">线路查询</text>
+      </view>
+      <view :class="['tab-item', getActive('stations')]"
+            @tap="changeMode('stations')">
+        <image src="../../static/bus-station-1.png" mode="widthFix" class="icon"></image>
+        <text class="nav">站点查询</text>
+      </view>
     </view>
     <view class="search-bar">
       <search-bar :placeholder="buildSearchPlaceHolder()"
-                  v-model="keyword"
-                  @keyword="onKeywordChange($event)">
+                  v-model="keyword" @keyword="onKeywordChange($event)">
       </search-bar>
     </view>
     <view v-if="mode === 'lines'" class="data-container bus-lines-container">
       <view class="lines-container">
-        <bus-line-card v-for="(l, i) in lines"
-                       :key="i" :line="l">
-        </bus-line-card>
+        <bus-line-card v-for="(l, i) in lines" :key="i" :line="l"></bus-line-card>
       </view>
     </view>
     <view v-if="mode === 'stations'" class="data-container bus-stations-container">
       <view class="stations-container">
-        <!-- TODO -->
-        <view v-for="(s, i) in stations" :key="i">
-          {{ s.stationName }}
-        </view>
+        <station-card v-for="(s, i) in stations"
+                      :key="i" :type="'bus'" :data="s">
+        </station-card>
       </view>
     </view>
   </view>
@@ -35,12 +35,14 @@
 <script>
 import SearchBar from "../../components/search_bar/search_bar";
 import BusLineCard from "../../components/bus_line_card/bus_line_card";
+import StationCard from "../../components/station_card/station_card";
 import {constant} from "../../common/constant";
 
 export default {
   components: {
     SearchBar,
-    BusLineCard
+    BusLineCard,
+    StationCard
   },
   data() {
     return {
@@ -137,7 +139,7 @@ export default {
         if (ref.pageNum > 1)
           uni.showToast({
             icon: 'none',
-            title: `又加载了${ref.pageSize}条数据'`
+            title: `又加载了${ref.pageSize}条数据`
           });
       });
     },

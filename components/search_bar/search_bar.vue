@@ -25,17 +25,17 @@ export default {
   created() {
     this.$watch('keyword', debounce((newQuery) => {
       this.$emit('keyword', newQuery)
-    }, 200))
+    }, 200));
   },
   methods: {
     clear() {
-      this.query = ''
+      this.keyword = ''
     },
-    setQuery(query) {
-      this.query = query
+    setQuery(keyword) {
+      this.keyword = keyword
     },
     blur() {
-      this.$refs.query.blur()
+      this.$refs.keyword.blur()
     }
   }
 }
