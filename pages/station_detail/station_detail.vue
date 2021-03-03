@@ -13,23 +13,23 @@
              :icon="type === 'bus' ? '../../static/bus-station-1.png' : '../../static/sh-metro-1.png'"
              :data="buildTitleData()">
       </title>
-      <view v-if="type === 'metro'" class="subtitle-container">
+      <view v-if="type === 'metro'" class="subtitle-container" @tap.stop="exitDetail()">
         <view class="content">
           <image src="../../static/exit-1.png" mode="widthFix" class="icon"></image>
           <text class="text">出入口信息 Exits</text>
         </view>
-        <view class="arrow" @tap.stop="exitDetail()">
+        <view class="arrow">
           <image src="../../static/right-arrow-1.png" mode="widthFix" class="icon"></image>
         </view>
       </view>
-      <view class="subtitle-container">
+      <view class="subtitle-container" @tap.stop="transferDetail()">
         <view class="content">
           <image src="../../static/transfer-2.png" mode="widthFix" class="icon"></image>
           <text class="text">
             {{ type === 'metro' ? '公交' : '地铁' }}换乘信息 {{ type === 'metro' ? 'Bus ' : 'Metro ' }}Transfers
           </text>
         </view>
-        <view class="arrow" @tap.stop="transferDetail()">
+        <view class="arrow">
           <image src="../../static/right-arrow-1.png" mode="widthFix" class="icon"></image>
         </view>
       </view>
