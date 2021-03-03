@@ -11,34 +11,37 @@
                    class="back-icon" @tap.stop="backToCurLocation()">
       </cover-image>
     </map>
-    <view class="title-container">
-      <title
-          :title="'附近的公交站:'"
-          :icon="'../../static/bus-station-1.png'">
-      </title>
-    </view>
-    <view class="station-list">
-      <loading class="loading-block" v-if="buses.length === 0"
-               :title="'附近的公交站列表载入中'"></loading>
-      <station-card v-else v-for="(b, i) in buses"
-                    :key="i" :type="'bus'" :data="b"
-                    :show-distance="true">
-      </station-card>
-    </view>
-    <view class="title-container">
-      <title
-          :title="'附近的地铁站:'"
-          :icon="'../../static/sh-metro-1.png'">
-      </title>
-    </view>
-    <view class="station-list">
-      <loading class="loading-block" v-if="metros.length === 0"
-               :title="'附近的地铁站列表载入中'"></loading>
-      <station-card v-else v-for="(m, i) in metros"
-                    :key="i" :data="m" :type="'metro'"
-                    :user-location="curLocation"
-                    :show-distance="true">
-      </station-card>
+    <view class="stations-container"
+          @touchstart="start" @touchend="end">
+      <view class="tab-container">
+        <view :class="['tab-item', getActive('metros')]"
+              @tap="changeMode('metros')">
+          <image src="../../static/sh-metro-1.png" mode="widthFix" class="icon"></image>
+          <text class="nav">附近的地铁站</text>
+        </view>
+        <view :class="['tab-item', getActive('buses')]"
+              @tap="changeMode('buses')">
+          <image src="../../static/bus-station-1.png" mode="widthFix" class="icon"></image>
+          <text class="nav">附近的公交站</text>
+        </view>
+      </view>
+      <view v-if="mode === 'metros'" class="station-list">
+        <loading class="loading-block" v-if="metros.length === 0"
+                 :title="'附近的地铁站列表载入中'"></loading>
+        <station-card v-else v-for="(m, i) in metros"
+                      :key="i" :data="m" :type="'metro'"
+                      :user-location="curLocation"
+                      :show-distance="true">
+        </station-card>
+      </view>
+      <view v-if="mode === 'buses'" class="station-list">
+        <loading class="loading-block" v-if="buses.length === 0"
+                 :title="'附近的公交站列表载入中'"></loading>
+        <station-card v-else v-for="(b, i) in buses"
+                      :key="i" :type="'bus'" :data="b"
+                      :show-distance="true">
+        </station-card>
+      </view>
     </view>
   </view>
 </template>
@@ -59,6 +62,8 @@ export default {
   },
   data() {
     return {
+      mode: 'metros',
+      touchStart: {},
       keyword: "",
       buses: [],
       metros: [],
@@ -111,6 +116,31 @@ export default {
     backToCurLocation: function () {
       let mapCtx = uni.createMapContext("index-map");
       mapCtx.moveToLocation();
+    },
+    changeMode: function (mode) {
+      let that = this;
+      that.mode = mode;
+    },
+    getActive: function (activeMode) {
+      let that = this;
+      if (that.mode === activeMode)
+        return 'tab-active';
+      return '';
+    },
+    start(e) {
+      this.touchStart.clientX = e.changedTouches[0].clientX;
+      this.touchStart.clientY = e.changedTouches[0].clientY;
+    },
+    end(e) {
+      const subX = e.changedTouches[0].clientX - this.touchStart.clientX;
+      const subY = e.changedTouches[0].clientY - this.touchStart.clientY;
+      if (subX > 200) {
+        if (this.mode !== 'metros')
+          this.changeMode('metros');
+      } else if (subX < -200) {
+        if (this.mode !== 'buses')
+          this.changeMode('buses');
+      }
     }
   }
 }

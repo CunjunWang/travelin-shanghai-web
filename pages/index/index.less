@@ -20,9 +20,46 @@
   height: 50rpx;
 }
 
-.title-container {
-  position: sticky;
-  top: 400rpx;
+.stations-container {
+
+  .tab-container {
+    position: sticky;
+    top: 400rpx;
+    display: flex;
+    justify-content: space-between;
+    height: 50rpx;
+    background-color: #fff;
+    padding: 5rpx;
+
+    .tab-item {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      .icon {
+        width: 30rpx;
+        height: 30rpx;
+        margin-right: 10rpx;
+      }
+
+      .nav {
+        padding: 5rpx;
+        font-size: 28rpx;
+        display: grid;
+        text-align: center;
+        vertical-align: center;
+      }
+    }
+
+    .tab-active {
+      font-size: 28rpx;
+      font-weight: bold;
+      background-color: #c9c9c9;
+    }
+  }
+
 }
 
 .station-list {
