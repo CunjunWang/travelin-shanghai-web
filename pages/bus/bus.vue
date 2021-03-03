@@ -17,16 +17,19 @@
                   v-model="keyword" @keyword="onKeywordChange($event)">
       </search-bar>
     </view>
-    <view v-if="mode === 'lines'" class="data-container bus-lines-container">
-      <view class="lines-container">
-        <bus-line-card v-for="(l, i) in lines" :key="i" :line="l"></bus-line-card>
+    <view class="data-container" @touchstart="start" @touchend="end">
+      <view v-if="mode === 'lines'" class="data-container bus-lines-container">
+        <view class="lines-container">
+          <bus-line-card v-for="(l, i) in lines" :key="i" :line="l"></bus-line-card>
+        </view>
       </view>
-    </view>
-    <view v-if="mode === 'stations'" class="data-container bus-stations-container">
-      <view class="stations-container">
-        <station-card v-for="(s, i) in stations"
-                      :key="i" :type="'bus'" :data="s">
-        </station-card>
+      <view v-if="mode === 'stations'" class="data-container bus-stations-container">
+        <view class="stations-container">
+          <station-card v-for="(s, i) in stations"
+                        :key="i" :type="'bus'" :data="s"
+                        :show-location="true">
+          </station-card>
+        </view>
       </view>
     </view>
   </view>
@@ -46,6 +49,7 @@ export default {
   },
   data() {
     return {
+      touchStart: {},
       mode: 'lines',
       pageNum: 1,
       pageSize: 10,
@@ -153,6 +157,21 @@ export default {
       uni.pageScrollTo({
         scrollTop: '0'
       });
+    },
+    start(e) {
+      this.touchStart.clientX = e.changedTouches[0].clientX;
+      this.touchStart.clientY = e.changedTouches[0].clientY;
+    },
+    end(e) {
+      const subX = e.changedTouches[0].clientX - this.touchStart.clientX;
+      const subY = e.changedTouches[0].clientY - this.touchStart.clientY;
+      if (subX > 200) {
+        if (this.mode !== 'lines')
+          this.changeMode('lines');
+      } else if (subX < -200) {
+        if (this.mode !== 'stations')
+          this.changeMode('stations');
+      }
     }
   }
 }

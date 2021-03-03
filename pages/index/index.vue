@@ -1,8 +1,5 @@
 <template>
   <view class="page">
-    <view class="search">
-      <search-bar></search-bar>
-    </view>
     <map class="map-container" id="index-map"
          :scale='14'
          :longitude="curLocation.lon"
@@ -56,7 +53,6 @@ import StationCard from "../../components/station_card/station_card";
 
 export default {
   components: {
-    SearchBar,
     Loading,
     Title,
     StationCard
