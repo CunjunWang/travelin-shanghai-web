@@ -41,7 +41,9 @@ Vue.prototype.url = {
         directionPolyline: metroBaseUrl + "/query/polyline/{}",
         stationLineWashrooms: metroBaseUrl + "/query/station/{}/washrooms/line/{}",
         stationExits: metroBaseUrl + "/query/station/{}/exits",
-        transferToBus: metroBaseUrl + "/query/transfer/bus"
+        transferToBus: metroBaseUrl + "/query/transfer/bus",
+        stationList: metroBaseUrl + "/query/station/list/pagination",
+        stationListByKeyword: metroBaseUrl + "/query/station/list/keyword"
     }
 };
 

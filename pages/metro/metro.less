@@ -4,12 +4,87 @@
   background-color: @backgroundColor;
 }
 
-.search-bar {
+.tab-container {
   position: sticky;
   top: 0;
-  margin-bottom: 5rpx;
+  display: flex;
+  justify-content: space-between;
+  height: 50rpx;
+  background-color: #fff;
+  padding: 5rpx;
+
+  .tab-item {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .icon {
+      width: 30rpx;
+      height: 30rpx;
+      margin-right: 10rpx;
+    }
+
+    .nav {
+      padding: 5rpx;
+      font-size: 28rpx;
+      display: grid;
+      text-align: center;
+      vertical-align: center;
+    }
+  }
+
+  .tab-active {
+    font-size: 28rpx;
+    font-weight: bold;
+    background-color: #c9c9c9;
+  }
 }
 
-.lines-container {
-  padding: 5rpx;
+.search-bar {
+  position: sticky;
+  top: 50rpx;
 }
+//
+//.metro-stations-container {
+//  display: grid;
+//  grid-template-columns: 30% 68%;
+//
+//  .lines-list-container {
+//    padding: 5rpx;
+//    position: sticky;
+//    top: 120rpx;
+//    height: 100%;
+//
+//    .line-brief-block {
+//      display: grid;
+//      grid-template-rows: 50% 50%;
+//      text-align: center;
+//      align-items: center;
+//      padding: 10rpx;
+//
+//      &:not(:last-child) {
+//        border-bottom: solid 1rpx #808080;
+//      }
+//
+//      .line-name {
+//        font-size: 26rpx;
+//        font-weight: bold;
+//      }
+//
+//      .line-english-name {
+//        font-size: 22rpx;
+//      }
+//    }
+//  }
+//
+//  .stations-list-container {
+//    position: sticky;
+//    top: 120rpx;
+//    margin-left: 5rpx;
+//    padding: 10rpx;
+//    background-color: #fff;
+//  }
+//
+//}
