@@ -48,11 +48,14 @@
 
 <script>
 import {constant} from "common/constant";
+import {secret} from "../../common/secret";
 
-import SearchBar from "../../components/search_bar/search_bar";
 import Loading from "../../components/loading/loading";
 import Title from "../../components/title/title";
 import StationCard from "../../components/station_card/station_card";
+
+let QQMapWx = require('../../libs/qqmap-wx-jssdk.min')
+let qqMapSdk;
 
 export default {
   components: {
@@ -72,41 +75,80 @@ export default {
     }
   },
   onLoad: function () {
+    qqMapSdk = new QQMapWx({
+      key: secret.WX_MAP_KEY
+    });
+
     let that = this;
     uni.getLocation({
       type: constant.LOCATION_TYPE_GCJ02,
       success: function (resp) {
         let lat = resp.latitude;
         let lon = resp.longitude;
-        that.curLocation = {lat, lon};
-        let busUrl = `${that.url.bus.nearbyStations}?curLat=${lat}&curLon=${lon}`;
-        let metroUrl = `${that.url.metro.nearbyStations}?curLat=${lat}&curLon=${lon}`;
-        that.ajax(busUrl, constant.HTTP_METHOD_GET, null, function (resp) {
-          that.buses = resp.data.list;
-          for (let b of that.buses) {
-            let marker = {
-              title: b.stationName + "-公交站",
-              latitude: b.stationLat,
-              longitude: b.stationLon,
-              iconPath: '../../static/location-2.png',
-              width: 25,
-              height: 25
-            }
-            that.markers.push(marker);
-          }
-        });
-        that.ajax(metroUrl, constant.HTTP_METHOD_GET, null, function (resp) {
-          that.metros = resp.data.list;
-          for (let m of that.metros) {
-            let marker = {
-              title: m.stationName + "-地铁站",
-              latitude: m.stationLat,
-              longitude: m.stationLon,
-              iconPath: '../../static/location-2.png',
-              width: 25,
-              height: 25
-            }
-            that.markers.push(marker);
+
+        qqMapSdk.reverseGeocoder({
+          location: {
+            latitude: resp.latitude,
+            longitude: resp.longitude
+          },
+          success: function (resp) {
+            console.log(resp);
+            let addressComponent = resp.result.address_component;
+            let city = addressComponent.city;
+            if (!city)
+              city = addressComponent.nation;
+            that.ajax(that.url.metadata.getCityList, constant.HTTP_METHOD_GET, null, function (res) {
+              let supportCities = res.data.list;
+              let foundCity = false;
+              for (let c of supportCities) {
+                if (city === c.cityName) {
+                  that.curLocation = {lat, lon};
+                  that.setGlobalCity(city);
+                  foundCity = true;
+                }
+              }
+              if (!foundCity) {
+                uni.showModal({
+                  title: "提示信息",
+                  content: `暂未支持您当前所在位置[${city}], 默认切换到上海市`
+                });
+                lat = 31.228725;
+                lon = 121.475186;
+                that.curLocation = {lat, lon};
+                that.setGlobalCity("上海市");
+              }
+
+              let busUrl = `${that.url.bus.nearbyStations}?curLat=${lat}&curLon=${lon}`;
+              let metroUrl = `${that.url.metro.nearbyStations}?curLat=${lat}&curLon=${lon}`;
+              that.ajax(busUrl, constant.HTTP_METHOD_GET, null, function (resp) {
+                that.buses = resp.data.list;
+                for (let b of that.buses) {
+                  let marker = {
+                    title: b.stationName + "-公交站",
+                    latitude: b.stationLat,
+                    longitude: b.stationLon,
+                    iconPath: '../../static/location-2.png',
+                    width: 25,
+                    height: 25
+                  }
+                  that.markers.push(marker);
+                }
+              });
+              that.ajax(metroUrl, constant.HTTP_METHOD_GET, null, function (resp) {
+                that.metros = resp.data.list;
+                for (let m of that.metros) {
+                  let marker = {
+                    title: m.stationName + "-地铁站",
+                    latitude: m.stationLat,
+                    longitude: m.stationLon,
+                    iconPath: '../../static/location-2.png',
+                    width: 25,
+                    height: 25
+                  }
+                  that.markers.push(marker);
+                }
+              });
+            });
           }
         });
       }

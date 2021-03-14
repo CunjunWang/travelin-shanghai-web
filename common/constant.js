@@ -8,6 +8,7 @@ export const constant = {
     HTTP_METHOD_POST: "POST",
 
     TRAVEL_TYPE_BUS: "bus",
-    TRAVEL_TYPE_METRO: "metro"
+    TRAVEL_TYPE_METRO: "metro",
+    API_PROVIDER_WECHAT: "weixin"
 
 }
