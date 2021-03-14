@@ -49,6 +49,7 @@
 <script>
 import {constant} from "common/constant";
 import {secret} from "../../common/secret";
+import {global} from "../../common/global";
 
 import Loading from "../../components/loading/loading";
 import Title from "../../components/title/title";
@@ -65,6 +66,7 @@ export default {
   },
   data() {
     return {
+      city: global.GLOBAL_CITY,
       mode: 'metros',
       touchStart: {},
       keyword: "",
@@ -74,25 +76,30 @@ export default {
       curLocation: {}
     }
   },
-  onLoad: function () {
+  onLoad: function (data) {
     qqMapSdk = new QQMapWx({
       key: secret.WX_MAP_KEY
     });
-
     let that = this;
+
+    if (data.city && (data.city.cityName !== global.GLOBAL_CITY.cityName)) {
+      let city = JSON.parse(data.city);
+      console.log(`城市已切换到${city.cityName}`);
+      that.initData(city.centerLat, city.centerLon);
+      return;
+    }
+
     uni.getLocation({
       type: constant.LOCATION_TYPE_GCJ02,
       success: function (resp) {
         let lat = resp.latitude;
         let lon = resp.longitude;
-
         qqMapSdk.reverseGeocoder({
           location: {
             latitude: resp.latitude,
             longitude: resp.longitude
           },
           success: function (resp) {
-            console.log(resp);
             let addressComponent = resp.result.address_component;
             let city = addressComponent.city;
             if (!city)
@@ -101,53 +108,34 @@ export default {
               let supportCities = res.data.list;
               let foundCity = false;
               for (let c of supportCities) {
+                // 如果已支持当前城市, 经纬度直接设置成当前位置
                 if (city === c.cityName) {
                   that.curLocation = {lat, lon};
-                  that.setGlobalCity(city);
+                  let cityUrl = `${that.url.metadata.getCityByName}?city=${city}`;
+                  that.ajax(cityUrl, constant.HTTP_METHOD_GET, null, function (res) {
+                    global.GLOBAL_CITY = res.data.result;
+                  });
                   foundCity = true;
+                  break;
                 }
               }
-              if (!foundCity) {
+              if (foundCity)
+                that.initData(lat, lon);
+              else {
+                // 如果当前城市尚未支持, 默认定位上海市
                 uni.showModal({
                   title: "提示信息",
                   content: `暂未支持您当前所在位置[${city}], 默认切换到上海市`
                 });
-                lat = 31.228725;
-                lon = 121.475186;
-                that.curLocation = {lat, lon};
-                that.setGlobalCity("上海市");
+                let cityUrl = `that.url.metadata.getCityByName?city=上海市`;
+                that.ajax(cityUrl, constant.HTTP_METHOD_GET, null, function (res) {
+                  global.GLOBAL_CITY = res.data.result;
+                  lat = res.data.result.centerLat;
+                  lon = res.data.result.centerLon;
+                  that.curLocation = {lat, lon};
+                  that.initData(lat, lon);
+                });
               }
-
-              let busUrl = `${that.url.bus.nearbyStations}?curLat=${lat}&curLon=${lon}`;
-              let metroUrl = `${that.url.metro.nearbyStations}?curLat=${lat}&curLon=${lon}`;
-              that.ajax(busUrl, constant.HTTP_METHOD_GET, null, function (resp) {
-                that.buses = resp.data.list;
-                for (let b of that.buses) {
-                  let marker = {
-                    title: b.stationName + "-公交站",
-                    latitude: b.stationLat,
-                    longitude: b.stationLon,
-                    iconPath: '../../static/location-2.png',
-                    width: 25,
-                    height: 25
-                  }
-                  that.markers.push(marker);
-                }
-              });
-              that.ajax(metroUrl, constant.HTTP_METHOD_GET, null, function (resp) {
-                that.metros = resp.data.list;
-                for (let m of that.metros) {
-                  let marker = {
-                    title: m.stationName + "-地铁站",
-                    latitude: m.stationLat,
-                    longitude: m.stationLon,
-                    iconPath: '../../static/location-2.png',
-                    width: 25,
-                    height: 25
-                  }
-                  that.markers.push(marker);
-                }
-              });
             });
           }
         });
@@ -183,6 +171,39 @@ export default {
         if (this.mode !== 'buses')
           this.changeMode('buses');
       }
+    },
+    initData: function (lat, lon) {
+      let that = this;
+      let busUrl = `${that.url.bus.nearbyStations}?curLat=${lat}&curLon=${lon}`;
+      let metroUrl = `${that.url.metro.nearbyStations}?curLat=${lat}&curLon=${lon}`;
+      that.ajax(busUrl, constant.HTTP_METHOD_GET, null, function (resp) {
+        that.buses = resp.data.list;
+        for (let b of that.buses) {
+          let marker = {
+            title: b.stationName + "-公交站",
+            latitude: b.stationLat,
+            longitude: b.stationLon,
+            iconPath: '../../static/location-2.png',
+            width: 25,
+            height: 25
+          }
+          that.markers.push(marker);
+        }
+      });
+      that.ajax(metroUrl, constant.HTTP_METHOD_GET, null, function (resp) {
+        that.metros = resp.data.list;
+        for (let m of that.metros) {
+          let marker = {
+            title: m.stationName + "-地铁站",
+            latitude: m.stationLat,
+            longitude: m.stationLon,
+            iconPath: '../../static/location-2.png',
+            width: 25,
+            height: 25
+          }
+          that.markers.push(marker);
+        }
+      });
     }
   }
 }

@@ -1,21 +1,8 @@
 <template>
   <view>
     <button open-type="getUserInfo" @tap="login()">登录</button>
-    <view>
-      <view class="change-city">
-        <view class="title">切换城市</view>
-      </view>
-      <picker-view v-if="visible" :indicator-style="indicatorStyle" :value="value" @change="bindChange" class="picker-view">
-        <picker-view-column>
-          <view class="item" v-for="(item,index) in years" :key="index">{{item}}年</view>
-        </picker-view-column>
-        <picker-view-column>
-          <view class="item" v-for="(item,index) in months" :key="index">{{item}}月</view>
-        </picker-view-column>
-        <picker-view-column>
-          <view class="item" v-for="(item,index) in days" :key="index">{{item}}日</view>
-        </picker-view-column>
-      </picker-view>
+    <view class="change-city">
+      <view class="title" @tap="changeCity()">切换城市</view>
     </view>
   </view>
 </template>
@@ -25,18 +12,7 @@ import {constant} from "../../common/constant";
 
 export default {
   data() {
-    return {
-      cities: [
-        {
-          name: '上海市',
-          englishName: 'Shanghai'
-        },
-        {
-          name: '杭州市',
-          englishName: 'Hangzhou'
-        }
-      ]
-    }
+    return {}
   },
   methods: {
     login: function () {
@@ -65,6 +41,11 @@ export default {
             }
           });
         }
+      });
+    },
+    changeCity: function () {
+      uni.navigateTo({
+        url: `../change_city/change_city`
       });
     }
   }

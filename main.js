@@ -12,7 +12,7 @@ const app = new Vue({
 app.$mount();
 
 // 全局接口链接
-let host = "172.20.10.3";
+let host = "169.254.22.111";
 let busBaseUrl = `http://${host}:9090/api/bus`;
 let metroBaseUrl = `http://${host}:9091/api/metro`;
 let metadataBaseUrl = `http://${host}:9093/api/metadata`;
@@ -47,11 +47,10 @@ Vue.prototype.url = {
         stationListByKeyword: metroBaseUrl + "/query/station/list/keyword"
     },
     metadata: {
-        getCityList: metadataBaseUrl + "/city"
+        getCityList: metadataBaseUrl + "/city",
+        getCityByName: metadataBaseUrl + "/city/name"
     }
 };
-
-Vue.prototype.txMap = txMap;
 
 // 全局ajax方法
 Vue.prototype.ajax = function (url, method, data, fun) {
@@ -91,9 +90,3 @@ String.prototype.format = function () {
     });
 };
 
-Vue.prototype.globalCity = '上海市';
-
-Vue.prototype.setGlobalCity = function (chosenCity) {
-    if (chosenCity !== this.globalCity)
-        this.globalCity = chosenCity;
-}
