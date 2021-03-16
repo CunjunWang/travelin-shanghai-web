@@ -78,6 +78,7 @@
 import Loading from "../../components/loading/loading";
 
 import {constant} from "../../common/constant";
+import {global} from "../../common/global";
 
 export default {
   components: {
@@ -140,7 +141,7 @@ export default {
 
       if (l.stationsShow) {
         l.stationsLoading = true;
-        let url = `${that.url.metro.lineStationList.format(l.name)}?origin=${l.origin}&dest=${l.dest}`;
+        let url = `${that.url.metro.lineStationList.format(l.name)}?origin=${l.origin}&dest=${l.dest}&city=${global.GLOBAL_CITY.cityName}`;
         that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
           that.stations = res.data.list;
           l.stationsLoading = false;

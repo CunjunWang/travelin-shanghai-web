@@ -60,6 +60,7 @@ import MetroLineCard from "../../components/metro_line_card/metro_line_card";
 import StationCard from "../../components/station_card/station_card";
 
 import {constant} from "../../common/constant";
+import {global} from "../../common/global";
 
 export default {
   components: {
@@ -82,7 +83,8 @@ export default {
   },
   onLoad: function () {
     let that = this;
-    that.ajax(that.url.metro.lineList, constant.HTTP_METHOD_GET, null, function (res) {
+    let url = `${that.url.metro.lineList}?city=${global.GLOBAL_CITY.cityName}`
+    that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
       let lines = [];
       for (let l of res.data.list) {
         l.stationsShow = false;
@@ -149,9 +151,9 @@ export default {
     loadStationsData: function (ref, keyword) {
       let url;
       if (keyword && keyword !== '')
-        url = `${ref.url.metro.stationListByKeyword}?pageNum=${ref.pageNum}&pageSize=${ref.pageSize}&keyword=${keyword}`;
+        url = `${ref.url.metro.stationListByKeyword}?pageNum=${ref.pageNum}&pageSize=${ref.pageSize}&keyword=${keyword}&city=${global.GLOBAL_CITY.cityName}`;
       else
-        url = `${ref.url.metro.stationList}?pageNum=${ref.pageNum}&pageSize=${ref.pageSize}`;
+        url = `${ref.url.metro.stationList}?pageNum=${ref.pageNum}&pageSize=${ref.pageSize}&city=${global.GLOBAL_CITY.cityName}`;
 
       ref.ajax(url, constant.HTTP_METHOD_GET, null, function (resp) {
         let result = resp.data.list;

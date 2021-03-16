@@ -12,7 +12,7 @@ const app = new Vue({
 app.$mount();
 
 // 全局接口链接
-let host = "169.254.22.111";
+let host = "192.168.1.101";
 let busBaseUrl = `http://${host}:9090/api/bus`;
 let metroBaseUrl = `http://${host}:9091/api/metro`;
 let metadataBaseUrl = `http://${host}:9093/api/metadata`;

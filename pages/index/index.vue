@@ -127,7 +127,7 @@ export default {
                   title: "提示信息",
                   content: `暂未支持您当前所在位置[${city}], 默认切换到上海市`
                 });
-                let cityUrl = `that.url.metadata.getCityByName?city=上海市`;
+                let cityUrl = `${that.url.metadata.getCityByName}?city=上海市`;
                 that.ajax(cityUrl, constant.HTTP_METHOD_GET, null, function (res) {
                   global.GLOBAL_CITY = res.data.result;
                   lat = res.data.result.centerLat;
@@ -174,8 +174,8 @@ export default {
     },
     initData: function (lat, lon) {
       let that = this;
-      let busUrl = `${that.url.bus.nearbyStations}?curLat=${lat}&curLon=${lon}`;
-      let metroUrl = `${that.url.metro.nearbyStations}?curLat=${lat}&curLon=${lon}`;
+      let busUrl = `${that.url.bus.nearbyStations}?curLat=${lat}&curLon=${lon}&city=${global.GLOBAL_CITY.cityName}`;
+      let metroUrl = `${that.url.metro.nearbyStations}?curLat=${lat}&curLon=${lon}&city=${global.GLOBAL_CITY.cityName}`;
       that.ajax(busUrl, constant.HTTP_METHOD_GET, null, function (resp) {
         that.buses = resp.data.list;
         for (let b of that.buses) {

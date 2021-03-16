@@ -33,6 +33,7 @@
 <script>
 import {constant} from "../../common/constant";
 import {secret} from "../../common/secret";
+import {global} from "../../common/global";
 
 import Title from "../../components/title/title"
 import Loading from "../../components/loading/loading"
@@ -86,7 +87,7 @@ export default {
     if (type === constant.TRAVEL_TYPE_BUS)
       url = that.url.bus.lineDirectionTime.format(lineName);
     else if (type === constant.TRAVEL_TYPE_METRO)
-      url = that.url.metro.lineDirectionTime.format(lineName);
+      url = `${that.url.metro.lineDirectionTime.format(lineName)}?city=${global.GLOBAL_CITY.cityName}`;
     that.ajax(url, constant.HTTP_METHOD_GET, null, function (resp) {
       let dir = [];
       for (let ldt of resp.data.result) {
