@@ -192,6 +192,7 @@ export default {
       });
       that.ajax(metroUrl, constant.HTTP_METHOD_GET, null, function (resp) {
         that.metros = resp.data.list;
+        console.log(that.metros);
         for (let m of that.metros) {
           let marker = {
             title: m.stationName + "-地铁站",

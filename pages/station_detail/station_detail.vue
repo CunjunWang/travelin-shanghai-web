@@ -61,6 +61,8 @@
 
 <script>
 import {constant} from "common/constant";
+import {global} from "common/global";
+
 import Title from "../../components/title/title";
 import Subtitle from "../../components/subtitle/subtitle";
 import Loading from "../../components/loading/loading";
@@ -100,7 +102,7 @@ export default {
     if (that.type === constant.TRAVEL_TYPE_BUS)
       linesUrl = that.url.bus.realtimeStationLines.format(stationName);
     else if (that.type === constant.TRAVEL_TYPE_METRO)
-      linesUrl = that.url.metro.stationLines.format(stationName);
+      linesUrl = `${that.url.metro.stationLines.format(stationName)}?city=${global.GLOBAL_CITY.cityName}`;
     that.ajax(linesUrl, constant.HTTP_METHOD_GET, null, function (res) {
       that.lines = res.data.list;
       if (that.type === constant.TRAVEL_TYPE_BUS)

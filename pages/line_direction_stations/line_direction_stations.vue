@@ -41,6 +41,8 @@
 
 <script>
 import {constant} from "common/constant";
+import {global} from "common/global";
+
 import Direction from "../../components/direction/direction"
 import RealtimeCard from "../../components/realtime_card/realtime_card"
 
@@ -73,7 +75,7 @@ export default {
       url = that.url.bus.lineDirectionStations.format(that.lineName, that.data.direction);
     else if (that.type === constant.TRAVEL_TYPE_METRO)
       url = that.url.metro.lineDirectionStations.format(that.lineName, that.data.direction) +
-          `?origin=${that.data.origin}&dest=${that.data.dest}`;
+          `?origin=${that.data.origin}&dest=${that.data.dest}&city=${global.GLOBAL_CITY.cityName}`;
     that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
       that.stations = res.data.list;
       if (that.type === constant.TRAVEL_TYPE_BUS)
