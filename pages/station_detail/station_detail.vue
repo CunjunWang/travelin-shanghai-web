@@ -10,7 +10,7 @@
     </map>
     <view class="title-container">
       <title :title="station.stationName"
-             :icon="type === 'bus' ? '../../static/bus-station-1.png' : '../../static/sh-metro-1.png'"
+             :icon="type === 'bus' ? '../../static/bus-station-1.png' : getMetroIcon()"
              :data="buildTitleData()">
       </title>
       <view v-if="type === 'metro'" class="subtitle-container" @tap.stop="exitDetail()">
@@ -133,7 +133,7 @@ export default {
       if (t === 'bus')
         return '公交站';
       else if (t === 'metro') {
-        let s = '地铁站';
+        let s = '轨交站';
         let status = that.station.stationStatus;
         if (status === 1)
           return `${s}(建设中)`;
@@ -164,6 +164,9 @@ export default {
       uni.navigateTo({
         url: `../transfer/transfer?type=${that.type}&station=${JSON.stringify(that.station)}`
       });
+    },
+    getMetroIcon: function () {
+      return `../../static/${global.GLOBAL_CITY.abbreviation}-metro-1.png`;
     }
   }
 }

@@ -10,7 +10,7 @@
     </map>
     <view class="title-container">
       <title :title="buildLineName()"
-             :icon="type === 'bus' ? '../../static/line-1.png' : '../../static/sh-metro-1.png'"
+             :icon="type === 'bus' ? '../../static/line-1.png' : getMetroIcon()"
              :data="{
                desc: buildLineDesc(),
                titleColor: line.lineColor,
@@ -136,6 +136,9 @@ export default {
         that.includePoints = pts;
       });
     },
+    getMetroIcon: function () {
+      return `../../static/${global.GLOBAL_CITY.abbreviation}-metro-1.png`;
+    }
   }
 }
 </script>

@@ -46,7 +46,6 @@ export default {
   methods: {
     setGlobalCity: function (c) {
       global.GLOBAL_CITY = c;
-      console.log(global.GLOBAL_CITY);
       uni.reLaunch({
         url: `../index/index?city=${JSON.stringify(c)}`
       });

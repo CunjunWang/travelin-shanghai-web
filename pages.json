@@ -4,7 +4,7 @@
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": "上海出行-附近",
+        "navigationBarTitleText": "出行-附近",
         "enablePullDownRefresh": false
       }
     },
@@ -77,8 +77,8 @@
       {
         "text": "附近",
         "pagePath": "pages/index/index",
-        "iconPath": "static/home-tab.png",
-        "selectedIconPath": "static/home-tab-active.png"
+        "iconPath": "static/near-tab.png",
+        "selectedIconPath": "static/near-tab-active.png"
       },
       {
         "text": "公交",
@@ -87,10 +87,8 @@
         "selectedIconPath": "static/bus-tab-active.png"
       },
       {
-        "text": "地铁",
-        "pagePath": "pages/metro/metro",
-        "iconPath": "static/metro-tab.png",
-        "selectedIconPath": "static/metro-tab-active.png"
+        "text": "轨道交通",
+        "pagePath": "pages/metro/metro"
       },
       {
         "text": "我的",

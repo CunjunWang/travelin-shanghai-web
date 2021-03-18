@@ -8,7 +8,7 @@
       </view>
       <view :class="['tab-item', getActive('stations')]"
             @tap="changeMode('stations')">
-        <image src="../../static/sh-metro-1.png" mode="widthFix" class="icon"></image>
+        <image :src="getMetroIcon()" mode="widthFix" class="icon"></image>
         <text class="nav">站点查询</text>
       </view>
     </view>
@@ -193,6 +193,9 @@ export default {
         if (this.mode !== 'stations')
           this.changeMode('stations');
       }
+    },
+    getMetroIcon: function () {
+      return `../../static/${global.GLOBAL_CITY.abbreviation}-metro-1.png`;
     }
   }
 }

@@ -2,7 +2,7 @@
   <view class="line-info-container">
     <view class="info-row">
       <view class="line-name">
-        <image src="../../static/sh-metro-1.png" mode="widthFix" class="icon"></image>
+        <image :src="getMetroIcon()" mode="widthFix" class="icon"></image>
         <text class="name" :style="{color: line.color}">
           {{ line.name + (line.status === 1 ? '(建设中)' : '') }}
         </text>
@@ -166,7 +166,6 @@ export default {
       }
     },
     getIconPath: function (w) {
-      console.log(w);
       let type;
       if (w.type === '普通洗手间')
         type = 'normal'
@@ -189,6 +188,9 @@ export default {
           return '../../static/inability-no-1.png';
       else
         return null;
+    },
+    getMetroIcon: function () {
+      return `../../static/${global.GLOBAL_CITY.abbreviation}-metro-1.png`;
     }
   }
 }

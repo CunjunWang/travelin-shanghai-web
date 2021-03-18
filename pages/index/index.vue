@@ -16,7 +16,7 @@
       <view class="tab-container">
         <view :class="['tab-item', getActive('metros')]"
               @tap="changeMode('metros')">
-          <image src="../../static/sh-metro-1.png" mode="widthFix" class="icon"></image>
+          <image :src="getMetroIcon()" mode="widthFix" class="icon"></image>
           <text class="nav">附近的地铁站</text>
         </view>
         <view :class="['tab-item', getActive('buses')]"
@@ -76,6 +76,16 @@ export default {
       curLocation: {}
     }
   },
+  onShow: function () {
+    uni.setNavigationBarTitle({
+      title: `${global.GLOBAL_CITY.cityName.replace('市', '')}出行-附近`
+    });
+    uni.setTabBarItem({
+      index: 2,
+      iconPath: `static/${global.GLOBAL_CITY.abbreviation}-metro-tab.png`,
+      selectedIconPath: `static/${global.GLOBAL_CITY.abbreviation}-metro-tab-active.png`
+    });
+  },
   onLoad: function (data) {
     qqMapSdk = new QQMapWx({
       key: secret.WX_MAP_KEY
@@ -113,7 +123,16 @@ export default {
                   that.curLocation = {lat, lon};
                   let cityUrl = `${that.url.metadata.getCityByName}?city=${city}`;
                   that.ajax(cityUrl, constant.HTTP_METHOD_GET, null, function (res) {
-                    global.GLOBAL_CITY = res.data.result;
+                    res = res.data.result;
+                    global.GLOBAL_CITY = res;
+                    uni.setTabBarItem({
+                      index: 2,
+                      iconPath: `static/${res.abbreviation}-metro-tab.png`,
+                      selectedIconPath: `static/${res.abbreviation}-metro-tab-active.png`
+                    });
+                    uni.setNavigationBarTitle({
+                      title: `${res.cityName.replace('市', '')}出行-附近`
+                    });
                   });
                   foundCity = true;
                   break;
@@ -205,6 +224,9 @@ export default {
           that.markers.push(marker);
         }
       });
+    },
+    getMetroIcon: function () {
+      return `../../static/${global.GLOBAL_CITY.abbreviation}-metro-1.png`;
     }
   }
 }
