@@ -85,6 +85,8 @@ export default {
       iconPath: `static/${global.GLOBAL_CITY.abbreviation}-metro-tab.png`,
       selectedIconPath: `static/${global.GLOBAL_CITY.abbreviation}-metro-tab-active.png`
     });
+    this.curLocation.lat = global.GLOBAL_CITY.centerLat;
+    this.curLocation.lon = global.GLOBAL_CITY.centerLon;
   },
   onLoad: function (data) {
     qqMapSdk = new QQMapWx({
