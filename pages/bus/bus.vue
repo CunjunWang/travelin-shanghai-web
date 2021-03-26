@@ -40,6 +40,7 @@ import SearchBar from "../../components/search_bar/search_bar";
 import BusLineCard from "../../components/bus_line_card/bus_line_card";
 import StationCard from "../../components/station_card/station_card";
 import {constant} from "../../common/constant";
+import {global} from "../../common/global"
 
 export default {
   components: {
@@ -106,14 +107,14 @@ export default {
       let mode = ref.mode;
       if (keyword && keyword !== '') {
         if (mode === 'lines')
-          url = `${ref.url.bus.lineListByKeyword}?pageNum=${ref.pageNum}&pageSize=${ref.pageSize}&keyword=${keyword}`;
+          url = `${ref.url.bus.lineListByKeyword}?pageNum=${ref.pageNum}&pageSize=${ref.pageSize}&keyword=${keyword}&city=${global.GLOBAL_CITY.cityName}`;
         else if (mode === 'stations')
-          url = `${ref.url.bus.stationListByKeyword}?pageNum=${ref.pageNum}&pageSize=${ref.pageSize}&keyword=${keyword}`;
+          url = `${ref.url.bus.stationListByKeyword}?pageNum=${ref.pageNum}&pageSize=${ref.pageSize}&keyword=${keyword}&city=${global.GLOBAL_CITY.cityName}`;
       } else {
         if (mode === 'lines')
-          url = `${ref.url.bus.lineList}?pageNum=${ref.pageNum}&pageSize=${ref.pageSize}`;
+          url = `${ref.url.bus.lineList}?pageNum=${ref.pageNum}&pageSize=${ref.pageSize}&city=${global.GLOBAL_CITY.cityName}`;
         else if (mode === 'stations')
-          url = `${ref.url.bus.stationList}?pageNum=${ref.pageNum}&pageSize=${ref.pageSize}`;
+          url = `${ref.url.bus.stationList}?pageNum=${ref.pageNum}&pageSize=${ref.pageSize}&city=${global.GLOBAL_CITY.cityName}`;
       }
 
       ref.ajax(url, constant.HTTP_METHOD_GET, null, function (resp) {

@@ -85,7 +85,7 @@ export default {
 
     let url;
     if (type === constant.TRAVEL_TYPE_BUS)
-      url = that.url.bus.lineDirectionTime.format(lineName);
+      url = `${that.url.bus.lineDirectionTime.format(lineName)}?city=${global.GLOBAL_CITY.cityName}`;
     else if (type === constant.TRAVEL_TYPE_METRO)
       url = `${that.url.metro.lineDirectionTime.format(lineName)}?city=${global.GLOBAL_CITY.cityName}`;
     that.ajax(url, constant.HTTP_METHOD_GET, null, function (resp) {

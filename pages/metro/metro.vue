@@ -48,7 +48,7 @@
                         :show-location="true">
           </station-card>
         </view>
-      </view>
+     </view>
     </view>
   </view>
 </template>
