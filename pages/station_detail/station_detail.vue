@@ -100,7 +100,7 @@ export default {
     let stationName = that.station.stationName;
     let linesUrl;
     if (that.type === constant.TRAVEL_TYPE_BUS)
-      linesUrl = that.url.bus.realtimeStationLines.format(stationName);
+      linesUrl = `${that.url.bus.realtimeStationLines.format(stationName)}?city=${global.GLOBAL_CITY.cityName}`;
     else if (that.type === constant.TRAVEL_TYPE_METRO)
       linesUrl = `${that.url.metro.stationLines.format(stationName)}?city=${global.GLOBAL_CITY.cityName}`;
     that.ajax(linesUrl, constant.HTTP_METHOD_GET, null, function (res) {

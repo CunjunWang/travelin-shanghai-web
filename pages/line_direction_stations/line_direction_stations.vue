@@ -12,9 +12,8 @@
           <view class="station-info">
             <text class="station-seq">{{ s.stationSeq }}.</text>
             <text class="station-name">{{ buildNameByStatus(s.stationName, s.status) }}</text>
-            <text class="english-name">{{ s.stationEnglishName }}</text>
           </view>
-          <view class="realtime" v-if="type === 'bus'" @tap.stop="realtimeInfo(s, i)">实时</view>
+          <view class="realtime" v-if="type === 'bus' && s.realtime === 1" @tap.stop="realtimeInfo(s, i)">实时</view>
           <view class="transfer" v-if="type === 'metro'">
             <span v-for="(t, j) in s.transfers" class="transfer-line"
                   :key="j" :style="{backgroundColor: t.lineColor}"
@@ -22,6 +21,9 @@
               {{ buildNameByStatus(t.lineName.replace("号线", ""), t.lineStatus) }}
             </span>
           </view>
+        </view>
+        <view class="row english-row">
+          <text class="english-name">{{ s.stationEnglishName }}</text>
         </view>
         <view class="row location-row"
               v-if="type === 'bus' || (type === 'metro' && s.status === 0)">
@@ -70,14 +72,20 @@ export default {
     that.type = data.type;
     that.lineName = data.lineName;
     that.data = JSON.parse(data.data);
+    console.log(that.lineName);
+    console.log(that.data);
     let url
-    if (that.type === constant.TRAVEL_TYPE_BUS)
-      url = that.url.bus.lineDirectionStations.format(that.lineName, that.data.direction);
-    else if (that.type === constant.TRAVEL_TYPE_METRO)
+    if (that.type === constant.TRAVEL_TYPE_BUS) {
+      url = that.url.bus.lineDirectionStations.format(that.lineName, that.data.direction) +
+          `?city=${global.GLOBAL_CITY.cityName}`;
+      console.log(url);
+    } else if (that.type === constant.TRAVEL_TYPE_METRO)
       url = that.url.metro.lineDirectionStations.format(that.lineName, that.data.direction) +
           `?origin=${that.data.origin}&dest=${that.data.dest}&city=${global.GLOBAL_CITY.cityName}`;
     that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
       that.stations = res.data.list;
+      console.log(res);
+      console.log(that.stations);
       if (that.type === constant.TRAVEL_TYPE_BUS)
         for (let s of that.stations)
           s.realtimeShow = false;

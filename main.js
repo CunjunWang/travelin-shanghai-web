@@ -21,7 +21,7 @@ Vue.prototype.url = {
         nearbyStations: busBaseUrl + "/query/station/nearby",
         stationBasicInfo: busBaseUrl + "/query/station/basic/{}",
         lineDirectionTime: busBaseUrl + "/query/basic/{}",
-        lineDirectionStations: busBaseUrl + "/query/stations/{}/{}",
+        lineDirectionStations: busBaseUrl + "/query/station/{}/{}",
         realtime: busBaseUrl + "/query/realtime",
         realtimeStationLines: busBaseUrl + "/query/realtime/station/{}",
         transferToMetro: busBaseUrl + "/query/transfer/metro",

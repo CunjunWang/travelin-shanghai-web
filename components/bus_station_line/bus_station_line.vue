@@ -4,16 +4,17 @@
       <view class="line-direction">
         <image src="../../static/bus-1.png" mode="widthFix" class="icon"></image>
         <text class="line-name">{{ data.name }}</text>
-        <text class="direction">开往: </text>
+        <text class="direction">开往:</text>
         <text :class="['direction', underline(data.dest)]"
               @tap="stationDetail(data.dest)">{{ data.dest }}
         </text>
       </view>
-      <span class="update" @tap.stop="updateRealtime()">更新</span>
+      <span v-if="data.realtime === 1"
+            class="update" @tap.stop="updateRealtime()">更新</span>
     </view>
-    <realtime-card
-        :loading="data.realtimeLoading"
-        :data="data.realtime">
+    <realtime-card v-if="data.realtime === 1"
+                   :loading="data.realtimeLoading"
+                   :data="data.realtime">
     </realtime-card>
   </view>
 </template>
