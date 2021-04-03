@@ -117,7 +117,7 @@ export default {
       let that = this;
       if (that.line.lineStatus !== 0)
         return;
-      let url = `${that.url.metro.directionPolyline.format(d.name)}?origin=${d.origin}&dest=${d.dest}`
+      let url = `${that.url.metro.directionPolyline.format(d.name)}?origin=${d.origin}&dest=${d.dest}&city=${global.GLOBAL_CITY.cityName}`
       that.ajax(url, constant.HTTP_METHOD_GET, null, function (res) {
         let data = res.data.result;
         that.polyline = [
